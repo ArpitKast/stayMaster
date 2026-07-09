@@ -1,0 +1,739 @@
+/* styles.css */
+@font-face {
+    font-family: Akkurat;
+    src: url('/api/public/Akkurat-Font/Akkurat.ttf') format('truetype');
+    font-display: swap;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+form {
+    /*max-width: 600px;*/
+    margin: auto;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+}
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+.dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+    position: relative;
+    min-height: 150px;
+}
+.dropzone img {
+    max-width: 200px;
+    margin: 10px;
+}
+.dropzone img.delete-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+.dragging {
+    opacity: 0.5;
+}
+.non-editable-image {
+    display: block;
+    margin: auto;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+.table-villas {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-villas thead {
+    background-color: #333;
+    color: #fff;
+}
+.table-villas th, .table-villas td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.table-villas tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.table-villas tbody tr:hover {
+    background-color: #ddd;
+}
+.table-villas .btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 1px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.table-villas .btn:hover {
+    background-color: #45a049;
+}
+.table-villas img.thumbnail {
+    width: 150px; /* Adjust as needed */
+    height: auto;
+    border-radius: 5px;
+}
+
+.add-villa-btn {
+    background-color: #008CBA; /* Blue */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.add-villa-btn:hover {
+    background-color: #007B9A;
+}
+
+.button-container {
+    text-align: left;
+}
+
+/* madhuri styles */
+.col.py-3 {
+    background: #F4F6F8;
+}
+a#navbarDropdown {
+    font-family: Akkurat;
+    font-size: 15px;
+    font-weight: 400;
+    color: #4D4D4D;
+}
+a.dropdown-item {
+    font-family: Akkurat;
+    font-size: 14px;
+    font-weight: 400;
+    color: #4D4D4D;
+
+}
+a.dropdown-item:hover {
+    background-color: #008281;
+    color: #ffffff;
+}
+nav.navbar.navbar-expand-lg.navbar-light.bg-light , .col-auto.col-md-3.col-xl-2.px-sm-2.px-0.bg-light {
+    background-color: #ffffff !important;
+}
+.col-auto.col-md-3.col-xl-2.px-sm-2.px-0.bg-light {
+    border-right: 1.3px solid #CFCFCF;
+}
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    border-bottom: 1.3px solid #cfcfcf;
+}
+.d-sm-inline {
+    font-family: Akkurat !important;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    color: RGBA(8,8,8,.50);
+    width: 115px;
+    height: 38px;
+    top: 114px;
+    left: 56px;
+    gap: 0px;
+    opacity: 0px;
+    
+}
+
+span.ms-1.d-none.d-sm-inline:hover {
+    color: #080808;
+}
+
+
+.dashboard_grid .col .grid {
+    height: 104px;
+    top: 145px;
+    left: 396px;
+    gap: 0px;
+    border-radius: 8px;
+    opacity: 0px;
+    box-shadow: 1px 1px 2px 1px #42424214;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+.dashboard_grid .col .grid1 {
+    height: 70px;
+    vertical-align: middle;
+    text-align: left;
+    padding:10px;
+}
+.dashboard_grid .col .grid .grid_rate , .grid_rate_bestseller {
+    font-family: Akkurat;
+    font-size: 22px;
+    font-weight: 400;
+    text-align: center;
+    color: #008281;
+    vertical-align: middle;
+}
+.grid_rate_bestseller {
+
+    font-size: 14px;
+}
+.dashboard_grid .col .grid .grid_rate .grid_rs {
+    font-size: 15px;
+}
+
+.dashboard_grid .grid_value {
+    color : #444444;
+    font-family: Akkurat;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.dashboard_grid .col .grid br {
+    display: block;
+    margin-bottom: 2px;
+    font-size:2px;
+    line-height: 2px;
+  }
+
+.dashboard_bestseller  {
+    text-align: left;
+    padding: 50px 0 0;
+}
+
+.dashboard_table .table {
+    border: 1.3px solid #cfcfcf;
+}
+
+.dashboard_table .table {
+    border-radius: 8px;
+    opacity: 0px;
+    box-shadow: 1px 1px 2px 1px #42424214;
+    background-color: #ffffff;
+}  
+
+.greenbutton {
+    color: #ffffff;
+    height: 42px;
+    top: 157px;
+    left: 732px;
+    gap: 0px;
+    border-radius: 4px;
+    opacity: 0px;
+    background-color: #008281;
+    border-color: #008281;
+    border: none;
+    box-shadow: 1px 1px 1px 0.5px #42424229;
+    padding: 8px 15px 10px 15px;
+}
+.greybutton {
+    background: #F4F6F8;
+}
+.whitebutton {
+    background: #ffffff;
+}
+.greybutton,.whitebutton {
+    height: 42px;
+    top: 157px;
+    left: 914px;
+    gap: 0px;
+    border-radius: 4px;
+    border: none;
+    opacity: 0px;
+    box-shadow: 1px 1px 1px 0.5px #42424229;
+    padding: 8px 15px 10px 15px;
+}
+.dashboard_table {
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: Akkurat;
+    font-weight: 400;
+}
+.dashboard_buttons {
+    text-align: left;
+    padding: 10px 0 0 10px;
+}
+
+.dashboard_table .greentext {
+    font-size: 15px;
+    color: #008281;  
+}
+.dashboard_table .blacktext {
+    font-size: 12px;
+    color: #444444;
+}
+.dashboard_table .greytext {
+    font-size: 12px;
+    color: #808080;
+}
+.dashboard_table .titletext {
+    font-size: 14px;
+    color: #444444;
+}
+
+.dashboard_table .greentext hr {
+    margin:0px;
+    color: #008281;  
+    opacity: unset;
+}
+.dashboard_table td {
+    vertical-align: top;
+    text-align: left;
+}
+.dashboard_table .date {
+    text-align: center !important;
+    background: #F4F6F8;
+    width: 40px;
+    height: 97px;
+    top: 222px;
+    left: 732px;
+    gap: 0px;
+    border-radius: 3px 0px 0px 0px;
+    opacity: 0px;
+
+}
+.d-flex.flex-column.align-items-center.align-items-sm-start.px-3.pt-2.text-white.min-vh-100 {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+
+.addproperty , .bookingdetails, .servicedetails {
+    font-family: Akkurat;
+    font-weight: 400;
+}
+
+.addproperty .propertyheading {
+    font-family: Akkurat;
+    font-size: 20px;
+    font-weight: 400;
+    color: #222222;
+    text-align: left;
+}
+.propertyadd .propertyheadingblue {
+    font-family: Akkurat;
+    font-size: 16px;
+    font-weight: 400;
+    color: #008281;
+}
+.propertyadd fieldset {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.propertyadd input[type="text"] , .propertyadd select,.propertyadd input[type="number"]{
+    border: 0.7px solid #C3C3C3;
+    border-radius: 2px !important;
+    height: 38px;
+}
+.propertyadd input[type="checkbox"] {
+    border: 0.7px solid #C3C3C3;
+    border-radius: 2px !important;
+}
+.propertyadd label {
+    font-family: Akkurat;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2F2F2F;
+    ; 
+}
+.propertyadd .form-control {
+    font-family: Akkurat;
+    font-size: 14px;
+    font-weight: 400;
+    color: #A5A5A5;
+    border: 0.7px solid #C3C3C3 !important;
+}
+.propertyadd hr { 
+    border: 0.6px solid #C3C3C3;
+}
+.propertyadd input::placeholder, .propertyadd select , .propertyadd input[type="checkbox"], .propertyadd input[type="number"]{
+    color: #A5A5A5;
+    font-size: 14px; 
+    text-transform:capitalize; 
+}
+
+.propertylist , .servicelist, .propertyadd {
+    font-family: Akkurat;
+    font-weight: 400;
+}
+
+.propertylist_table {
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: Akkurat;
+    font-weight: 400;
+    padding: 10px;
+}
+.propertylist h1, .propertyadd h1, .bookingdetails h1 , .servicelist h1{ 
+    font-size: 20px;
+    color: #222222;
+    padding-bottom: 15px;
+}
+.bookingdetails h1{ 
+    padding-top: 5px;
+    padding-bottom: 0px;
+ }
+.propertyadd h1 { 
+    padding-bottom: 0px;
+}
+
+.propertylist tr td, .servicelist tr td {
+    color: #2E2E2E;
+    font-size: 16px;
+}
+.propertylist thead tr td {
+    border-bottom-color: #CFCFCF !important;
+}
+.propertylist .text {
+    color: #656565;
+    font-size: 14px;
+}
+.propertylist .transparant , .propertyadd .transparant, .servicelist .transparant {
+    color: #008281;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #ffffff;
+    border: 1.5px solid #008281;
+    display: inline-block;
+    text-decoration: none;
+    line-height: 22px;
+    box-shadow: 1px 1px 1px 0.5px #42424229;
+    height: 42px;
+    border-radius: 0px;
+    cursor: pointer;
+}
+.propertylist .disabledbutton , .propertyadd .disabledbutton {
+    color: #79BABA;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #ffffff;
+    border: 0.9px solid #99CDCD;
+}
+.disabledtext {
+    color: #2E2E2E73 !important;
+}
+
+.propertyadd .transparant,
+.propertylist .transparant,
+.servicelist .transparant {
+    padding: 8px 30px 10px;
+}
+.propertylist .greenbutton, .propertyadd .greenbutton {
+    border: none;
+    padding: 8px 30px 10px;
+    border-radius: 0px;
+} 
+.propertyadd .brochure-view-btn,
+.propertyadd .brochure-cancel-btn {
+    display: inline-block;
+    text-decoration: none;
+    line-height: 22px;
+}
+.servicelist .greenbutton {
+    padding: 8px 10px;
+    border-radius: 0px;
+}
+.pagination .page-link {
+    color: #008281;
+    border-color: #99CDCD;
+}
+.pagination .page-item.active .page-link {
+    background-color: #008281;
+    border-color: #008281;
+    color: #ffffff;
+}
+.pagination .page-item.disabled .page-link {
+    color: #99CDCD;
+    background-color: #ffffff;
+    border-color: #CFCFCF;
+}
+.pagination .page-link:hover,
+.pagination .page-link:focus {
+    color: #ffffff;
+    background-color: #008281;
+    border-color: #008281;
+}
+.formcontainer {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+.propertyadd .headingsection {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.propertyadd .form-group input.checkbox { 
+    width: auto;
+}
+.bookingdetail1 {
+    background: #ffffff;
+    box-shadow: 1px 1px 4px 1px #42424214;
+    border-radius: 10px;
+    padding: 15px 10px;
+    margin: 0px !important;
+}
+.bookingdetails .titlehead {
+    font-size: 14px;
+    color: #252525;
+}
+.bookingdetails .titletext {
+    font-size: 14px;
+    color: #787878;
+    padding-left: 15px;
+}
+.bookingdetail1 td {
+    padding-bottom: 8px;
+}
+.bookingdetail2 {
+    background: #ffffff;
+    box-shadow: 1px 1px 4px 1px #42424214;
+    border-radius: 10px;
+    padding: 10px;
+    height: 235px;
+}
+.logindetails {
+    background: #ffffff;
+    box-shadow: 1px 1px 4px 1px #42424214;
+    border-radius: 10px;
+    padding: 10px;
+    height: 335px;
+}
+.chartbox {
+    background: #ffffff;
+    box-shadow: 1px 1px 4px 1px #42424214;
+    border-radius: 10px;
+    padding: 10px;
+    /*height: 335px;*/
+}
+img.borderimg {
+    border: 1px solid #008281;
+    padding: 7px;
+}
+.input-group.bookingsearch{
+    display: ruby;
+}
+.bookingtabs .nav-link {
+    color: #22222280;
+}
+.bookingtabs .nav-tabs .nav-link.active {
+    color: #222222;
+    background-color: transparent;
+}
+.bookingtabs .tab-content {
+    padding-top: 0rem !important;
+}
+.menu-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    object-fit: contain;
+}
+.servicelist .propertylist_table button {
+    padding: 8px 10px;
+}
+.bookingdetails.servicedetails .titletext {
+    padding-left: 0px;
+}
+.servicedetails .serviceimg img{
+    width: 100%; 
+    height: 100%;
+}
+.servicedetails p {
+color: #2E2E2E;
+font-size: 16px;
+padding: 15px 0px;
+}
+.servicedetails .titlehead, .servicedetails .titletext {
+    font-size: 16px;
+}
+.servicedetails h2 {
+    color: #2E2E2E;
+    font-size: 20px;
+}
+.servicedetails .titlegreen {
+    color: #008281;
+}
+
+.browse p {
+    color: #A5A5A5;
+    font-size: 14px;
+}
+
+/* Bootstrap 5 CSS and icons included */
+:root {
+    --colorPrimaryNormal: #00b3bb;
+    --colorPrimaryDark: #00979f;
+    --colorPrimaryGlare: #00cdd7;
+    --colorPrimaryHalf: #80d9dd;
+    --colorPrimaryQuarter: #bfecee;
+    --colorPrimaryEighth: #dff5f7;
+    --colorPrimaryPale: #f3f5f7;
+    --colorPrimarySeparator: #f3f5f7;
+    --colorPrimaryOutline: #dff5f7;
+    --colorButtonNormal: #00b3bb;
+    --colorButtonHover: #00cdd7;
+    --colorLinkNormal: #00979f;
+    --colorLinkHover: #00cdd7;
+  }
+  
+  .upload_dropZone {
+    color: #0f3c4b;
+    background-color: var(--colorPrimaryPale, #c8dadf);
+    outline: 2px dashed var(--colorPrimaryHalf, #c1ddef);
+    outline-offset: -12px;
+    transition:
+      outline-offset 0.2s ease-out,
+      outline-color 0.3s ease-in-out,
+      background-color 0.2s ease-out;
+  }
+  .upload_dropZone.highlight {
+    outline-offset: -4px;
+    outline-color: var(--colorPrimaryNormal, #008281);
+    background-color: var(--colorPrimaryEighth, #c8dadf);
+  }
+  .upload_svg {
+    fill: var(--colorPrimaryNormal, #008281);
+
+  }
+  .btn-upload {
+    color: #fff;
+    background-color: var(--colorPrimaryNormal);
+  }
+  .btn-upload:hover,
+  .btn-upload:focus {
+    color: #fff;
+    background-color: var(--colorPrimaryGlare);
+  }
+  .upload_img {
+    width: calc(33.333% - (2rem / 3));
+    object-fit: contain;
+  }
+  .dashboard .nav-pills .nav-link.active {
+    color: #ffffff;
+    height: 42px;
+    top: 157px;
+    left: 732px;
+    gap: 0px;
+    border-radius: 4px;
+    opacity: 0px;
+    background-color: #008281;
+    border-color: #008281;
+    border: none;
+    box-shadow: 1px 1px 1px 0.5px #42424229;
+    padding: 8px 15px 10px 15px;
+  }
+
+  .dashboard .nav-pills .nav-link {
+    height: 42px;
+    top: 157px;
+    left: 732px;
+    gap: 0px;
+    border-radius: 4px;
+    opacity: 0px;
+    margin-left: 10px;
+    background-color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 1px 1px 1px 0.5px #42424229;
+    padding: 8px 15px 10px 15px;
+    border: none;
+  }
+  .ratesbutton .btn.btn-secondary.btn-lg.dropdown-toggle {
+    color: #929292;
+    background-color: #ffffff;
+    border: 0.8px solid #A1A1A1;
+    font-family: Akkurat;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 0px;;
+  }
+  .reserved-date span {
+    background-color: #C19A6B !important; /* Red for reserved */
+    color: white !important;
+    border-radius: 0;
+}
+.maintenance-date td {
+    background-color: #708090 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.maintenance-date a {
+    background-color: #708090 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.maintenance-date span {
+    background-color: #708090 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.owners-date td {
+    background-color: #5F9EA0 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.owners-date a {
+    background-color: #5F9EA0 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.owners-date span {
+    background-color: #5F9EA0 !important; /* Yellow for maintenance */
+    color: black !important;
+    border-radius: 0;
+}
+.start-range span {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.end-range span {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+.start-range a {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.end-range a {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+.ui-datepicker-highlight-range a {
+    background-color: #007bff !important; /* Professional blue */
+    color: white !important;
+    /*border-radius: 50%;*/
+}
+.highlight-range-start a {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+.highlight-range-end a {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.dropdown-toggle::after{
+    position: absolute;
+    top: 18px;
+    right: -8px;
+}

@@ -1,0 +1,424 @@
+<%- include("../layout/header",{ title: 'Service Request'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Service Request</h1></div>
+    </div>
+    <div class="formcontainer"> 
+        <h1 class="propertyheadingblue">Status: <%=currentStatus%></h1>
+        <hr>
+        <form id="serviceRequestEdit" method="POST" enctype="multipart/form-data" action="">
+            <input type="hidden" name="id" value="<%=serviceRequest.id%>"/>
+            <% if(serviceRequest.status == 1){%>
+            <div class="row form-row">
+                <div class="form-group col-md-2">
+                    <button type="button" id="approve-button" class="btn btn-primary btn-sm status-button" value="3">Approve Service Request</button>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-md-6">
+                        <input type="text" name="reject_reason" id="reject-reason" size="30" value="" placeholder="Reject Reason"/>
+                        <button type="button" id="reject-button" class="btn btn-danger btn-sm status-button" value="2">Reject Service Request</button>
+                </div>
+            </div>
+            <%}%>
+            <% if(serviceRequest.status == 3){%>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <button type="button" id="complete-button" class="btn btn-success btn-sm status-button" value="4">Complete Service Request</button>
+                </div>
+            </div>
+            <%}%>
+            <br>
+            <h1 class="propertyheadingblue">Property Details</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <select class="form-control selectpicker" name="property_id" id="property_id" required>
+                        <option value="">Select Property</option>
+                        <% properties.forEach(property => { %>
+                            <% if(serviceRequest.property_id == property.id) {%>
+                                <option value="<%= property.id %>" selected><%= property.listing_name %></option>
+                            <% }else{ %>
+                                <option value="<%= property.id %>"><%= property.listing_name %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-8">
+                    <div data-mdb-input-init class="form-outline">
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Description (upto 120 words)" required><%=serviceRequest.description%></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <label>Upload Pictures <span class="error" id="display-picture-error">This field is required.</span></label>
+                    <div class="dropzone" id="display-picture-dropzone"><h4>Upload Picture</h4></div>
+                </div>
+            </div>
+            <br>
+            <!-- Hosts Information -->
+            <h1 class="propertyheadingblue">Owner Details</h1>
+            <div id="hostsInfo">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="propertylist_table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td scope="col">Select</td>
+                                        <td scope="col">Name</td>
+                                        <td scope="col">Email</td>
+                                        <td scope="col">Phone</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% propertyHosts.forEach(propertyHost => { %>
+                                    <tr>
+                                    <% if(selectedHostsIds.includes(propertyHost.id)) {%>
+                                        <td><input type="checkbox" class="hostCheckbox" name="hostIds" value="<%=propertyHost.id%>" checked></td>
+                                    <% }else{ %>
+                                        <td><input type="checkbox" class="hostCheckbox" name="hostIds" value="<%=propertyHost.id%>"></td>
+                                    <% } %>
+                                        <td><%=propertyHost.firstname%> <%=propertyHost.lastname%></td>
+                                        <td><%=propertyHost.email%></td>
+                                        <td><%=propertyHost.phone%></td>
+                                    </tr>
+                                <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h1 class="propertyheadingblue">Other Details</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <input type="number" name="amount" value="<%=serviceRequest.amount%>" placeholder="Amount" required>     
+                </div>
+                <div class="form-group col-md-4">
+                    <select class="form-control selectpicker" name="service_incharge" id="service_incharge" required>
+                        <option value="">Select Service Incharge</option>
+                        <% staffs.forEach(staff => { %>
+                            <% if(serviceRequest.service_incharge == staff.id) {%>
+                                <option value="<%= staff.id %>" selected><%= staff.name%> (<%=staff.phone%>)</option>
+                            <% }else{ %>
+                                <option value="<%= staff.id %>"><%= staff.name%> (<%=staff.phone%>)</option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <br><br>
+            <input type="hidden" name="files" id="displayFiles"/>
+            <div class="row headingsection">
+                <div class="col-sm-12">
+                    <!--<input type="submit" id="submitButton" class="greenbutton" value="Send Request"/>&nbsp;&nbsp;-->
+                    <button type="button" class="greenbutton" id="upload-button">Save Request</button>&nbsp;&nbsp;
+                    <a href="/admin/services"><button type="button" class="transparant">Discard</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadButton = document.getElementById('upload-button');
+        const approveButton = document.getElementById('approve-button');
+        const rejectButton = document.getElementById('reject-button');
+        const completeButton = document.getElementById('complete-button');
+        const rejectReason = document.getElementById('reject-reason');
+        const editServiceRequestForm = document.getElementById('serviceRequestEdit');
+        const displayPictureDropzone = document.getElementById('display-picture-dropzone');
+        const displayPictureError = document.getElementById('display-picture-error');
+        //let displayPictureFile = null;
+
+        $('.status-button').click(
+            async function(){
+                
+                try {
+                    var status = this.value;
+                    const formData = new FormData(editServiceRequestForm);
+                    formData.append('status', status);
+                    if(status == 2 && rejectReason.value == ''){
+                        alert("please enter a reject reason");
+                        return;
+                    }
+                    //formData.append('reject_reason', rejectReason.value);
+                    $('.status-button').disabled=true;
+                    // Send formData to backend
+                const response = await fetch('/admin/service/updateStatus', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to save Service request:', response.json());
+                    $('.status-button').disabled=false;
+                    throw new Error('Failed to upload Service request');
+                }
+
+                const result = await response.json();
+                if(result.success){
+                    window.location.href = `/admin/services/${result.flash}`;
+                }else{
+                    alert(result.error);
+                    $('.status-button').disabled=false;
+                }
+                    
+                } catch (error) {
+                    console.error('Error saving request:', error);
+                    alert('Failed to change status');
+                }
+                
+            }
+        )
+        uploadButton.addEventListener('click', async () => {
+            if (!editServiceRequestForm.checkValidity()) {
+                editServiceRequestForm.reportValidity();
+                return;
+            }
+            const selectedHosts = $('.hostCheckbox:checked').length;
+            if (selectedHosts === 0) {
+                event.preventDefault();
+                alert('Please select at least one host.');
+                return;
+            }
+            try {
+                uploadButton.disabled=true;
+                const formData = new FormData(editServiceRequestForm);
+                /*const displayPictureFiles = document.getElementById('display-picture-dropzone').querySelectorAll('img:not(.delete-icon)');
+                // Add display picture to formData
+                if (displayPictureFiles.length > 0) {
+                    displayPictureFiles.forEach((img, index) => {
+                        formData.append(`photos_${index}`, img.file);
+                    });
+                }*/
+
+                // Send formData to backend
+                const response = await fetch('/admin/service/save', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to save Service request:', response.json());
+                    uploadButton.disabled=false;
+                    throw new Error('Failed to upload Service request');
+                }
+
+                const result = await response.json();
+                if(result.success){
+                    window.location.href = `/admin/services/${result.flash}`;
+                }else{
+                    alert(result.error);
+                    uploadButton.disabled=false;
+                }
+
+
+                /*const result = await response.json();
+                console.log('Request saved successfully:', result);
+                uploadButton.disabled=false;
+                alert('Request saved successfully');*/
+            } catch (error) {
+                console.error('Error saving request:', error);
+                alert('Failed to upload Service request');
+            }
+        });
+        displayPictureDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#e0e0e0';
+        });
+
+        displayPictureDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#fff';
+            
+            const files = Array.from(e.dataTransfer.files);
+            handleFiles(files);
+        });
+        
+        displayPictureDropzone.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = (e) => {
+                const files = Array.from(e.target.files);
+                handleFiles(files);
+            };
+            input.click();
+        });
+
+        const photos = <%- JSON.stringify(mediaFiles) %>;
+        if(photos){
+            photos.forEach(imgSrc => {
+                const imgContainer = createImageContainer(imgSrc['url'],imgSrc['id']);
+                displayPictureDropzone.appendChild(imgContainer);
+            });
+        }
+
+        function handleFiles(files) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    console.log(file);
+                    const reader = new FileReader();
+                    reader.onload = async () => {
+                        var newId = await uploadImageToDatabase(file);
+                        const imgContainer = createImageContainer(reader.result,newId);
+                        displayPictureDropzone.appendChild(imgContainer);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function createImageContainer(src,id=null) {
+            const imgContainer = document.createElement('div');
+            imgContainer.style.position = 'relative';
+            imgContainer.style.display = 'inline-block';
+            //imgContainer.draggable = true;
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.id = id;
+            imgContainer.appendChild(img);
+
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = '/api/public/delete_icon.jpg'; // Provide URL for delete icon
+            deleteIcon.classList.add('delete-icon');
+            imgContainer.appendChild(deleteIcon);
+
+            deleteIcon.addEventListener('click', async () => {
+                // Delete category image from the database
+                await deleteImage(id);
+                imgContainer.remove();
+            });
+
+            imgContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const draggingElement = document.querySelector('.dragging');
+                if (draggingElement !== imgContainer) {
+                    const bounding = imgContainer.getBoundingClientRect();
+                    const offset = bounding.y + (bounding.height / 2);
+                    if (e.clientY - offset > 0) {
+                        imgContainer.style['border-bottom'] = '2px solid blue';
+                        imgContainer.style['border-top'] = '';
+                    } else {
+                        imgContainer.style['border-top'] = '2px solid blue';
+                        imgContainer.style['border-bottom'] = '';
+                    }
+                }
+            });
+
+            imgContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const draggingElement = document.querySelector('.dragging');
+                if (draggingElement !== imgContainer) {
+                    const bounding = imgContainer.getBoundingClientRect();
+                    const offset = bounding.y + (bounding.height / 2);
+                    if (e.clientY - offset > 0) {
+                        imgContainer.style['border-bottom'] = '';
+                        imgContainer.insertAdjacentElement('afterend', draggingElement);
+                    } else {
+                        imgContainer.style['border-top'] = '';
+                        imgContainer.insertAdjacentElement('beforebegin', draggingElement);
+                    }
+                }
+            });
+            return imgContainer;
+        }
+
+        async function deleteImage(id) {
+            await fetch(`/admin/service/delete-image`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id:id }),
+            });
+        }
+
+        async function uploadImageToDatabase(file) {
+            // Implement API call to upload image to the database
+            const serviceRequestId = <%=serviceRequest.id%>;
+            const formData = new FormData(editServiceRequestForm);
+            formData.append('file', file);
+            formData.append('serviceRequestId',serviceRequestId);
+            const response = await fetch(`/admin/service/upload-image`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (!response.ok) {
+                console.log('Failed to upload photo:', response.json())
+                throw new Error('Failed to upload photo');
+            }
+            const result = await response.json();
+            return result.newId;
+        }
+    });
+    $(document).ready(function() {
+        // Handle property selection
+        $('#property_id').change(function() {
+            const propertyId = $(this).val();
+            $('#hostsInfo').empty();
+
+            // Disable submit button initially
+            $('#submitButton').prop('disabled', true);
+
+            // Clear hosts if no property is selected
+            if (!propertyId) {
+                $('#hostsInfo').html('<p>Select a property to view hosts.</p>');
+                return;
+            }
+
+            // Fetch hosts via AJAX
+            $.ajax({
+                url: `/admin/hosts/${propertyId}`,
+                method: 'GET',
+                success: function(response) {
+                    const hosts = response.hosts;
+                    if (hosts.length > 0) {
+                        let hostsHtml = `<div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="propertylist_table">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <td scope="col">Select</td>
+                                                                <td scope="col">Name</td>
+                                                                <td scope="col">Email</td>
+                                                                <td scope="col">Phone</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>`;
+                        hosts.forEach(host => {
+                            hostsHtml += '<tr>';
+                                hostsHtml += `<td><input type="checkbox" class="hostCheckbox" name="hostIds" value="${host.id}" checked></td>`;
+                                hostsHtml += `<td>${host.firstname} ${host.lastname}</td>`;
+                                hostsHtml += `<td>${host.email}</td>`;
+                                hostsHtml += `<td>${host.phone}</td>`;
+                            hostsHtml += '</tr>';
+                        });                
+                        hostsHtml +=   `</tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>`;
+                        $('#hostsInfo').html(hostsHtml);
+                        $('#submitButton').prop('disabled', false);
+                    } else {
+                        $('#hostsInfo').html('<p>No hosts available for this property.</p>');
+                    }
+                },
+                error: function() {
+                    $('#hostsInfo').html('<p>Error fetching hosts information. Please try again.</p>');
+                }
+            });
+        });
+    });
+</script>
+
+<%- include("../layout/footer") %>

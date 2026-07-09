@@ -1,0 +1,206 @@
+<%- include("../layout/header",{ title: 'Brochure Management'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-6"><h1>Brochure Management</h1></div>
+        <div class="col-sm-6" style="text-align: right;">
+            <button type="button" class="greenbutton" data-bs-toggle="modal" data-bs-target="#brochureModal">Add / Replace Brochure</button>
+        </div>
+    </div>
+    <% if (flash && flash.length) { %>
+        <div class="alert alert-info"><%= flash %></div>
+    <% } %>
+    <div class="formcontainer">
+        <form method="GET" action="/admin/brochures/" class="row g-2 align-items-center" style="margin-bottom: 16px;">
+            <div class="col-sm-6 col-md-4">
+                <input type="text" class="form-control" name="search" placeholder="Search by property name" value="<%= search || '' %>">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="greenbutton">Search</button>
+            </div>
+            <% if (search && search.length) { %>
+                <div class="col-auto">
+                    <a href="/admin/brochures/" class="transparant" style="text-decoration:none; padding: 6px 12px; display:inline-block;">Clear</a>
+                </div>
+            <% } %>
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Brochure</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (brochures && brochures.length) { %>
+                <% brochures.forEach(item => { %>
+                    <tr>
+                        <td>
+                            <strong><%= item.listing_name %></strong>
+                            <% if (item.internal_name) { %>
+                                <div class="text-muted" style="font-size: 12px;"><%= item.internal_name %></div>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (item.brochure_url) { %>
+                                <a class="greenbutton brochure-view-btn" href="<%= item.brochure_url %>" target="_blank">View PDF</a>
+                            <% } else { %>
+                                <button class="transparant" type="button" disabled>No brochure</button>
+                            <% } %>
+                        </td>
+                        <td>
+                            <button
+                                type="button"
+                                class="greenbutton brochure-edit-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#brochureModal"
+                                data-property-id="<%= item.id %>"
+                            >
+                                Upload / Replace
+                            </button>
+                        </td>
+                    </tr>
+                <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3">No properties found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <% if (pagination) { %>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="text-muted">Showing <%= pagination.startIndex %> - <%= pagination.endIndex %> of <%= pagination.total %></span>
+                <% if (pagination.totalPages > 1) { %>
+                    <nav aria-label="Brochure pagination">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item <%= pagination.hasPrev ? '' : 'disabled' %>">
+                                <a class="page-link" href="/admin/brochures/?page=<%= pagination.page - 1 %><%= pagination.query %>">Prev</a>
+                            </li>
+                            <% pagination.pages.forEach((pageNum) => { %>
+                                <li class="page-item <%= pageNum === pagination.page ? 'active' : '' %>">
+                                    <a class="page-link" href="/admin/brochures/?page=<%= pageNum %><%= pagination.query %>"><%= pageNum %></a>
+                                </li>
+                            <% }) %>
+                            <li class="page-item <%= pagination.hasNext ? '' : 'disabled' %>">
+                                <a class="page-link" href="/admin/brochures/?page=<%= pagination.page + 1 %><%= pagination.query %>">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<div class="modal fade" id="brochureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="brochure-form">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Brochure</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Property</label>
+                        <select class="form-control" name="property_id" id="brochure-property" required>
+                            <option value="">Select Property</option>
+                            <% properties.forEach(property => { %>
+                                <option value="<%= property.id %>"><%= property.listing_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Brochure (PDF)</label>
+                        <input class="form-control" type="file" name="brochure" id="brochure-file" accept="application/pdf" required>
+                    </div>
+                    <div id="brochure-error" class="text-danger" style="display:none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="transparant brochure-cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="greenbutton" id="brochure-submit-btn">
+                        <span class="brochure-submit-label">Upload</span>
+                        <span class="brochure-submit-loading" style="display:none;">Uploading...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('brochureModal');
+        const propertySelect = document.getElementById('brochure-property');
+        const form = document.getElementById('brochure-form');
+        const errorDiv = document.getElementById('brochure-error');
+        const fileInput = document.getElementById('brochure-file');
+        const submitBtn = document.getElementById('brochure-submit-btn');
+        const submitLabel = submitBtn?.querySelector('.brochure-submit-label');
+        const submitLoading = submitBtn?.querySelector('.brochure-submit-loading');
+
+        const setLoading = (isLoading) => {
+            if (!submitBtn) return;
+            submitBtn.disabled = isLoading;
+            if (submitLabel && submitLoading) {
+                submitLabel.style.display = isLoading ? 'none' : 'inline';
+                submitLoading.style.display = isLoading ? 'inline' : 'none';
+            }
+        };
+
+        modal.addEventListener('show.bs.modal', (event) => {
+            const trigger = event.relatedTarget;
+            const propertyId = trigger?.getAttribute('data-property-id');
+            if (propertyId) {
+                propertySelect.value = propertyId;
+            } else {
+                propertySelect.value = '';
+            }
+            fileInput.value = '';
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
+            setLoading(false);
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
+
+            if (!propertySelect.value) {
+                errorDiv.textContent = 'Please select a property.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            if (!fileInput.files.length) {
+                errorDiv.textContent = 'Please select a PDF file.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            setLoading(true);
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('/admin/brochures/upload', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                const result = await response.json();
+                if (!result.success) {
+                    errorDiv.textContent = result.error || 'Upload failed.';
+                    errorDiv.style.display = 'block';
+                    setLoading(false);
+                    return;
+                }
+                window.location.href = '/admin/brochures/' + encodeURIComponent(result.flash || '');
+            } catch (error) {
+                errorDiv.textContent = 'Upload failed. Please try again.';
+                errorDiv.style.display = 'block';
+                setLoading(false);
+            }
+        });
+    });
+</script>
+<%- include("../layout/footer") %>

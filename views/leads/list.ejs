@@ -1,0 +1,182 @@
+<%- include("../layout/header",{ title: 'Leads'}) %>
+
+<div class="propertylist">
+    <% const isBrochure = leadSource === 'brochure'; %>
+    <div class="row">
+        <div class="col-sm-6"><h1><%= isBrochure ? 'Brochure Leads' : 'Form Leads' %></h1></div>
+        <div class="col-sm-6 text-end">
+            <button type="button" class="greenbutton" id="downloadLeadsExcel">Download Excel</button>
+        </div>
+    </div>
+    <div class="propertylist_table mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td scope="col">Name</td>
+                    <td scope="col">Phone</td>
+                    <td scope="col">Email</td>
+                    <% if (!isBrochure) { %>
+                        <td scope="col">Check In</td>
+                        <td scope="col">Check Out</td>
+                    <% } %>
+                    <td scope="col">Preferred Property</td>
+                    <td scope="col">Source</td>
+                    <td scope="col">Created</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (leads && leads.length) { %>
+                    <% leads.forEach((lead) => { %>
+                        <tr>
+                            <td scope="col"><span class="text"><%= lead.name %></span></td>
+                            <td scope="col"><span class="text"><%= [lead.country_code, lead.phone].filter(Boolean).join(' ') %></span></td>
+                            <td scope="col"><span class="text"><%= lead.email %></span></td>
+                            <% if (!isBrochure) { %>
+                                <td scope="col"><span class="text"><%= lead.check_in %></span></td>
+                                <td scope="col"><span class="text"><%= lead.check_out %></span></td>
+                            <% } %>
+                            <td scope="col"><span class="text"><%= lead.preferred_property %></span></td>
+                            <td scope="col"><span class="text"><%= lead.lead_source %></span></td>
+                            <td scope="col"><span class="text"><%= lead.created_at %></span></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="<%= isBrochure ? 6 : 8 %>">No leads found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% if (pagination && pagination.totalPages > 1) { %>
+        <div class="row align-items-center mt-3">
+            <div class="col-sm-6">
+                <span class="text-muted">Showing <%= pagination.startIndex %> - <%= pagination.endIndex %> of <%= pagination.total %></span>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="Leads pagination">
+                    <ul class="pagination justify-content-end mb-0">
+                        <li class="page-item <%= pagination.hasPrev ? '' : 'disabled' %>">
+                            <a class="page-link" href="/admin/leads/?page=<%= pagination.page - 1 %><%= pagination.query %>">Prev</a>
+                        </li>
+                        <% pagination.pages.forEach((pageNum) => { %>
+                            <li class="page-item <%= pageNum === pagination.page ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/leads/?page=<%= pageNum %><%= pagination.query %>"><%= pageNum %></a>
+                            </li>
+                        <% }) %>
+                        <li class="page-item <%= pagination.hasNext ? '' : 'disabled' %>">
+                            <a class="page-link" href="/admin/leads/?page=<%= pagination.page + 1 %><%= pagination.query %>">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    (function() {
+        const button = document.getElementById('downloadLeadsExcel');
+        if (button) {
+            button.addEventListener('click', async () => {
+                try {
+                    const params = new URLSearchParams(window.location.search);
+                    const source = params.get('source') || 'form';
+                    const response = await fetch(`/admin/leads/export?source=${encodeURIComponent(source)}&t=${Date.now()}`, {
+                        cache: 'no-store'
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch leads');
+                    }
+                    const result = await response.json();
+                    const rows = result?.data?.leads || [];
+                    const csv = buildCsv(rows, source);
+                    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+                    download(csv, `leads-${timestamp}.csv`, 'text/csv;charset=utf-8;');
+                } catch (error) {
+                    console.error('Lead export failed', error);
+                    alert('Failed to download leads');
+                }
+            });
+        }
+
+        const escapeCell = (value) => {
+            const text = value == null ? '' : String(value);
+            const needsQuotes = /[",\n]/.test(text);
+            const escaped = text.replace(/"/g, '""');
+            return needsQuotes ? `"${escaped}"` : escaped;
+        };
+
+        const buildCsv = (rows, source) => {
+            const header = source === 'brochure'
+                ? [
+                    'Name',
+                    'Country Code',
+                    'Phone',
+                    'Email',
+                    'Preferred Property',
+                    'Lead Source',
+                    'Created'
+                ]
+                : [
+                    'Name',
+                    'Country Code',
+                    'Phone',
+                    'Email',
+                    'Message',
+                    'Check In',
+                    'Check Out',
+                    'Guests',
+                    'Rooms',
+                    'Preferred Property',
+                    'Lead Source',
+                    'Created'
+                ];
+            const lines = [header.join(',')];
+            rows.forEach((lead) => {
+                if (source === 'brochure') {
+                    lines.push([
+                        escapeCell(lead.name),
+                        escapeCell(lead.country_code),
+                        escapeCell(lead.phone),
+                        escapeCell(lead.email),
+                        escapeCell(lead.preferred_property),
+                        escapeCell(lead.lead_source),
+                        escapeCell(lead.created_at)
+                    ].join(','));
+                } else {
+                    lines.push([
+                        escapeCell(lead.name),
+                        escapeCell(lead.country_code),
+                        escapeCell(lead.phone),
+                        escapeCell(lead.email),
+                        escapeCell(lead.message),
+                        escapeCell(lead.check_in),
+                        escapeCell(lead.check_out),
+                        escapeCell(lead.guests),
+                        escapeCell(lead.rooms),
+                        escapeCell(lead.preferred_property),
+                        escapeCell(lead.lead_source),
+                        escapeCell(lead.created_at)
+                    ].join(','));
+                }
+            });
+            return lines.join('\n');
+        };
+
+        const download = (content, filename, mime) => {
+            const blob = new Blob([content], { type: mime });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        };
+
+    })();
+</script>
+
+<%- include("../layout/footer") %>

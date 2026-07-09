@@ -1,0 +1,759 @@
+<%- include("../layout/header",{ title: 'Live Booking Information'}) %>
+
+<style>
+    .filter-section {
+        margin-bottom: 20px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .filter-section .accordion-item {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+    .filter-section .accordion-button {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+        border: none;
+        box-shadow: none;
+    }
+    .filter-section .accordion-button:not(.collapsed) {
+        background: #e9ecef;
+        color: #495057;
+    }
+    .filter-section .accordion-body {
+        background: #fff;
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+    .filter-section .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100%;
+        max-width: 100%;
+    }
+    .filter-section .row > [class*="col-"] {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        box-sizing: border-box;
+    }
+    .filter-section .form-label {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+    .filter-section .form-control,
+    .filter-section .form-select {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .filter-btn-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    html, body {
+        overflow-x: hidden !important;
+        height: 100%;
+    }
+    .container-fluid .row .col {
+        overflow-x: hidden !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .propertylist {
+        overflow-x: hidden !important;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+        margin: 0;
+    }
+    .propertylist > .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100%;
+        max-width: 100%;
+    }
+    .propertylist > .row > .col-sm-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .table-wrapper {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        max-width: 100%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: calc(100vh - 450px);
+        min-height: 800px;
+        width: 100%;
+        max-width: 100%;
+        position: relative;
+        box-sizing: border-box;
+    }
+    .table {
+        font-size: 0.875rem;
+        min-width: 2000px;
+        margin-bottom: 0;
+    }
+    .table thead th {
+        position: sticky;
+        top: 0;
+        background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+        z-index: 10;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+        color: #495057;
+        padding: 12px 8px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+    .table tbody tr {
+        transition: background-color 0.2s;
+    }
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    .table tbody td {
+        padding: 10px 8px;
+        vertical-align: middle;
+    }
+    .pagination-info {
+        padding: 12px 15px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+    .filter-btn-group {
+        margin-top: 15px;
+    }
+    .json-field {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .sync-button {
+        margin-left: 10px;
+    }
+    .manual-sync-section {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #0066cc;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .manual-sync-section .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+</style>
+
+<div class="propertylist">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Live Booking Information</h1>
+            <p class="text-muted">Real-time booking data synced from Ezee PMS (Updated every 30 minutes)</p>
+        </div>
+    </div>
+
+    <!-- Manual Sync Section -->
+    <div class="manual-sync-section">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <strong>No data in table?</strong> The cron job runs every 30 minutes. Click the button to sync data immediately.
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="button" class="btn btn-primary" id="manualSyncBtn" onclick="triggerManualSync()">
+                    <i class="fas fa-sync-alt"></i> Sync Data Now
+                </button>
+                <span id="syncStatus" class="ms-2"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters Section with Accordion -->
+    <div class="filter-section mb-4">
+        <div class="accordion" id="filtersAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="filtersHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filtersCollapse" aria-expanded="false" aria-controls="filtersCollapse">
+                        <i class="fas fa-filter me-2"></i> Filters
+                    </button>
+                </h2>
+                <div id="filtersCollapse" class="accordion-collapse collapse" aria-labelledby="filtersHeading" data-bs-parent="#filtersAccordion">
+                    <div class="accordion-body">
+                        <form method="GET" action="/admin/liveBookingInfo/" id="filterForm">
+                            <div class="row g-3">
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Reservation No</label>
+                                    <input type="text" class="form-control" name="ReservationNo" value="<%= filters.ReservationNo || '' %>" placeholder="Search reservation number">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Booking Status</label>
+                                    <select class="form-select" name="BookingStatus">
+                                        <option value="">All Statuses</option>
+                                        <% if (statuses && statuses.length > 0) { %>
+                                            <% statuses.forEach(status => { %>
+                                                <option value="<%= status %>" <%= filters.BookingStatus === status ? 'selected' : '' %>><%= status %></option>
+                                            <% }); %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Guest Name</label>
+                                    <input type="text" class="form-control" name="GuestName" value="<%= filters.GuestName || '' %>" placeholder="Guest name">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="text" class="form-control" name="Email" value="<%= filters.Email || '' %>" placeholder="Email address">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Mobile</label>
+                                    <input type="text" class="form-control" name="Mobile" value="<%= filters.Mobile || '' %>" placeholder="Mobile number">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Source</label>
+                                    <select class="form-select" name="Source">
+                                        <option value="">All Sources</option>
+                                        <% if (sources && sources.length > 0) { %>
+                                            <% sources.forEach(source => { %>
+                                                <option value="<%= source %>" <%= filters.Source === source ? 'selected' : '' %>><%= source %></option>
+                                            <% }); %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Room</label>
+                                    <input type="text" class="form-control" name="Room" value="<%= filters.Room || '' %>" placeholder="Room name">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Arrival Date From</label>
+                                    <input type="date" class="form-control" name="ArrivalDateFrom" value="<%= filters.ArrivalDateFrom || '' %>">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Arrival Date To</label>
+                                    <input type="date" class="form-control" name="ArrivalDateTo" value="<%= filters.ArrivalDateTo || '' %>">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Departure Date From</label>
+                                    <input type="date" class="form-control" name="DepartureDateFrom" value="<%= filters.DepartureDateFrom || '' %>">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-semibold">Departure Date To</label>
+                                    <input type="date" class="form-control" name="DepartureDateTo" value="<%= filters.DepartureDateTo || '' %>">
+                                </div>
+                            </div>
+                            <div class="filter-btn-group mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>Apply Filters
+                                </button>
+                                <a href="/admin/liveBookingInfo/" class="btn btn-secondary">
+                                    <i class="fas fa-times me-2"></i>Clear Filters
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <% if (statistics) { %>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="alert alert-info d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                    <i class="fas fa-calendar-check me-2"></i>
+                    <strong>Total Bookings:</strong> <span class="badge bg-primary ms-1"><%= statistics.total || 0 %></span>
+                    <span class="mx-2">|</span>
+                    <strong>Date Range:</strong> <span class="badge bg-secondary ms-1"><%= statistics.dateRange.earliest || 'N/A' %> to <%= statistics.dateRange.latest || 'N/A' %></span>
+                </div>
+                <div class="text-muted small mt-2 mt-md-0">
+                    <i class="fas fa-sync-alt me-1"></i>Auto-refreshes every 30 seconds
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+    <!-- Pagination Info -->
+    <div class="pagination-info d-flex justify-content-between align-items-center mb-3">
+        <div class="text-muted">
+            <i class="fas fa-list me-2"></i>
+            Showing <strong><%= pagination.count || bookings.length %></strong> of <strong><%= pagination.total %></strong> bookings | 
+            Page <strong><%= pagination.currentPage %></strong> of <strong><%= pagination.totalPages %></strong>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-wrapper">
+        <div class="table-container">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Reservation No</th>
+                        <th>Voucher No</th>
+                        <th>Booking Status</th>
+                        <th>Source</th>
+                        <th>Room</th>
+                        <th>Room Short Code</th>
+                        <th>Guest Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Salutation</th>
+                        <th>Mobile</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>Adult</th>
+                        <th>Child</th>
+                        <th>No Of Guest</th>
+                        <th>Reservation Date</th>
+                        <th>Arrival Date</th>
+                        <th>Departure Date</th>
+                        <th>No Of Nights</th>
+                        <th>Total Exclusive Tax</th>
+                        <th>Total Tax</th>
+                        <th>Total Inclusive Tax</th>
+                        <th>Other Revenue Exclusive Tax</th>
+                        <th>Other Revenue Inclusive Tax</th>
+                        <th>TA Commission</th>
+                        <th>Due Amount</th>
+                        <th>Deposit</th>
+                        <th>Status</th>
+                        <th>Transaction Status</th>
+                        <th>Folio No</th>
+                        <th>Reservation Guarantee</th>
+                        <th>Cancel Date</th>
+                        <th>Created DateTime</th>
+                        <th>Sync Date</th>
+                        <th>Base Rate Exclusive Tax</th>
+                        <th>Base Rate Inclusive Tax</th>
+                        <th>Extra Charges</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (bookings && bookings.length > 0) { %>
+                        <% const startIndex = (pagination.currentPage - 1) * pagination.limit; %>
+                        <% bookings.forEach((booking, index) => { %>
+                            <tr>
+                                <td><%= startIndex + index + 1 %></td>
+                                <td><%= booking.ReservationNo || '-' %></td>
+                                <td><%= booking.VoucherNo || '-' %></td>
+                                <td>
+                                    <% 
+                                        const status = booking.BookingStatus || '-';
+                                        let badgeClass = 'bg-secondary';
+                                        if (status.toLowerCase().includes('confirm') || status.toLowerCase().includes('active')) {
+                                            badgeClass = 'bg-success';
+                                        } else if (status.toLowerCase().includes('void') || status.toLowerCase().includes('cancel')) {
+                                            badgeClass = 'bg-danger';
+                                        } else if (status.toLowerCase().includes('check')) {
+                                            badgeClass = 'bg-info';
+                                        }
+                                    %>
+                                    <span class="badge <%= badgeClass %>"><%= status %></span>
+                                </td>
+                                <td><%= booking.Source || '-' %></td>
+                                <td><%= booking.Room || '-' %></td>
+                                <td><%= booking.RoomShortCode || '-' %></td>
+                                <td><%= booking.GuestName || '-' %></td>
+                                <td><%= booking.FirstName || '-' %></td>
+                                <td><%= booking.LastName || '-' %></td>
+                                <td><%= booking.Salutation || '-' %></td>
+                                <td><%= booking.Mobile || '-' %></td>
+                                <td><%= booking.Phone || '-' %></td>
+                                <td><%= booking.Email || '-' %></td>
+                                <td class="json-field" title="<%= booking.Address || '' %>"><%= booking.Address || '-' %></td>
+                                <td><%= booking.Country || '-' %></td>
+                                <td><%= booking.Adult || '-' %></td>
+                                <td><%= booking.Child || '-' %></td>
+                                <td><%= booking.NoOfGuest || '-' %></td>
+                                <td><%= booking.ReservationDate || '-' %></td>
+                                <td><%= booking.ArrivalDate || '-' %></td>
+                                <td><%= booking.DepartureDate || '-' %></td>
+                                <td><%= booking.NoOfNights || '-' %></td>
+                                <td><%= booking.TotalExclusivTax ? parseFloat(booking.TotalExclusivTax).toFixed(2) : '-' %></td>
+                                <td><%= booking.TotalTax ? parseFloat(booking.TotalTax).toFixed(2) : '-' %></td>
+                                <td><%= booking.TotalInclusiveTax ? parseFloat(booking.TotalInclusiveTax).toFixed(2) : '-' %></td>
+                                <td><%= booking.OtherRevenueExclusiveTax ? parseFloat(booking.OtherRevenueExclusiveTax).toFixed(2) : '-' %></td>
+                                <td><%= booking.OtherRevenueInclusiveTax ? parseFloat(booking.OtherRevenueInclusiveTax).toFixed(2) : '-' %></td>
+                                <td><%= booking.TACommision ? parseFloat(booking.TACommision).toFixed(2) : '-' %></td>
+                                <td><%= booking.DueAmount ? parseFloat(booking.DueAmount).toFixed(2) : '-' %></td>
+                                <td><%= booking.Deposit ? parseFloat(booking.Deposit).toFixed(2) : '-' %></td>
+                                <td><%= booking.Status || '-' %></td>
+                                <td><%= booking.TransactionStatus || '-' %></td>
+                                <td><%= booking.FolioNo || '-' %></td>
+                                <td><%= booking.ReservationGuarantee || '-' %></td>
+                                <td><%= booking.CancelDate || '-' %></td>
+                                <td><%= booking.Createdatetime || '-' %></td>
+                                <td><%= booking.SyncDate || '-' %></td>
+                                <td class="json-field" title="<%= typeof booking.BaseRateExclusiveTax === 'object' ? JSON.stringify(booking.BaseRateExclusiveTax) : (booking.BaseRateExclusiveTax || '') %>">
+                                    <%= typeof booking.BaseRateExclusiveTax === 'object' ? JSON.stringify(booking.BaseRateExclusiveTax) : (booking.BaseRateExclusiveTax || '-') %>
+                                </td>
+                                <td class="json-field" title="<%= typeof booking.BaseRateInclusiveTax === 'object' ? JSON.stringify(booking.BaseRateInclusiveTax) : (booking.BaseRateInclusiveTax || '') %>">
+                                    <%= typeof booking.BaseRateInclusiveTax === 'object' ? JSON.stringify(booking.BaseRateInclusiveTax) : (booking.BaseRateInclusiveTax || '-') %>
+                                </td>
+                                <td class="json-field" title="<%= typeof booking.ExtraCharges === 'object' ? JSON.stringify(booking.ExtraCharges) : (booking.ExtraCharges || '') %>">
+                                    <%= typeof booking.ExtraCharges === 'object' ? JSON.stringify(booking.ExtraCharges) : (booking.ExtraCharges || '-') %>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="43" class="text-center">No bookings found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <% if (pagination.totalPages > 1) { %>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <% if (pagination.currentPage > 1) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<%= pagination.currentPage - 1 %><%= Object.keys(filters).length > 0 ? '&' + new URLSearchParams(filters).toString() : '' %>">Previous</a>
+                </li>
+            <% } %>
+            
+            <% 
+                let startPage = Math.max(1, pagination.currentPage - 2);
+                let endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
+                
+                if (startPage > 1) { %>
+                    <li class="page-item"><a class="page-link" href="?page=1<%= Object.keys(filters).length > 0 ? '&' + new URLSearchParams(filters).toString() : '' %>">1</a></li>
+                    <% if (startPage > 2) { %>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <% } %>
+                <% }
+                
+                for (let i = startPage; i <= endPage; i++) { %>
+                    <li class="page-item <%= i === pagination.currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %><%= Object.keys(filters).length > 0 ? '&' + new URLSearchParams(filters).toString() : '' %>"><%= i %></a>
+                    </li>
+                <% }
+                
+                if (endPage < pagination.totalPages) { %>
+                    <% if (endPage < pagination.totalPages - 1) { %>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <% } %>
+                    <li class="page-item"><a class="page-link" href="?page=<%= pagination.totalPages %><%= Object.keys(filters).length > 0 ? '&' + new URLSearchParams(filters).toString() : '' %>"><%= pagination.totalPages %></a></li>
+                <% }
+            %>
+            
+            <% if (pagination.currentPage < pagination.totalPages) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<%= pagination.currentPage + 1 %><%= Object.keys(filters).length > 0 ? '&' + new URLSearchParams(filters).toString() : '' %>">Next</a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+    <% } %>
+</div>
+
+<script>
+    // Auto-refresh table data every 30 seconds
+    let autoRefreshInterval = null;
+    let isRefreshing = false;
+    let lastRefreshTime = 0;
+    const REFRESH_COOLDOWN = 30000; // 30 seconds minimum between refreshes
+
+    function refreshTableData() {
+        // Prevent multiple simultaneous refreshes
+        if (isRefreshing) {
+            console.log('Refresh already in progress, skipping...');
+            return;
+        }
+        
+        // Cooldown check
+        const now = Date.now();
+        if (now - lastRefreshTime < REFRESH_COOLDOWN) {
+            console.log('Refresh cooldown active, skipping...');
+            return;
+        }
+        
+        isRefreshing = true;
+        lastRefreshTime = now;
+
+        // Get current filter values from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get('page') || 1;
+        
+        // Build query string with current filters
+        let queryString = `?page=${currentPage}`;
+        <% if (filters.ReservationNo) { %>queryString += '&ReservationNo=<%= filters.ReservationNo %>';<% } %>
+        <% if (filters.BookingStatus) { %>queryString += '&BookingStatus=<%= filters.BookingStatus %>';<% } %>
+        <% if (filters.GuestName) { %>queryString += '&GuestName=<%= filters.GuestName %>';<% } %>
+        <% if (filters.Email) { %>queryString += '&Email=<%= filters.Email %>';<% } %>
+        <% if (filters.Mobile) { %>queryString += '&Mobile=<%= filters.Mobile %>';<% } %>
+        <% if (filters.Source) { %>queryString += '&Source=<%= filters.Source %>';<% } %>
+        <% if (filters.Room) { %>queryString += '&Room=<%= filters.Room %>';<% } %>
+        <% if (filters.ArrivalDateFrom) { %>queryString += '&ArrivalDateFrom=<%= filters.ArrivalDateFrom %>';<% } %>
+        <% if (filters.ArrivalDateTo) { %>queryString += '&ArrivalDateTo=<%= filters.ArrivalDateTo %>';<% } %>
+        <% if (filters.DepartureDateFrom) { %>queryString += '&DepartureDateFrom=<%= filters.DepartureDateFrom %>';<% } %>
+        <% if (filters.DepartureDateTo) { %>queryString += '&DepartureDateTo=<%= filters.DepartureDateTo %>';<% } %>
+
+        // Fetch updated data via AJAX
+        fetch(`/admin/api/liveBookingInfo/bookings${queryString}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data) {
+                    updateTable(data.data);
+                    updatePagination(data.pagination);
+                    updateStatistics();
+                } else {
+                    console.error('Refresh failed:', data);
+                }
+                isRefreshing = false;
+            })
+            .catch(error => {
+                console.error('Error refreshing data:', error);
+                isRefreshing = false;
+            });
+    }
+
+    function updateTable(bookings) {
+        const tbody = document.querySelector('.table tbody');
+        if (!tbody) return;
+
+        if (bookings.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="43" class="text-center">No bookings found</td></tr>';
+            return;
+        }
+
+        // Get current page from URL to calculate Sr. No.
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = parseInt(urlParams.get('page')) || 1;
+        const limit = 50;
+        const startIndex = (currentPage - 1) * limit;
+
+        tbody.innerHTML = bookings.map((booking, index) => {
+            const formatDate = (date) => date || '-';
+            const formatNumber = (num) => num ? parseFloat(num).toFixed(2) : '-';
+            const formatJson = (json) => {
+                if (!json) return '-';
+                const str = typeof json === 'object' ? JSON.stringify(json) : json;
+                return `<span class="json-field" title="${str}">${str.length > 50 ? str.substring(0, 50) + '...' : str}</span>`;
+            };
+
+            return `
+                <tr>
+                    <td>${startIndex + index + 1}</td>
+                    <td>${formatDate(booking.ReservationNo)}</td>
+                    <td>${formatDate(booking.VoucherNo)}</td>
+                    <td>
+                        ${(() => {
+                            const status = formatDate(booking.BookingStatus);
+                            const statusLower = status.toLowerCase();
+                            let badgeClass = 'bg-secondary';
+                            if (statusLower.includes('confirm') || statusLower.includes('active')) {
+                                badgeClass = 'bg-success';
+                            } else if (statusLower.includes('void') || statusLower.includes('cancel')) {
+                                badgeClass = 'bg-danger';
+                            } else if (statusLower.includes('check')) {
+                                badgeClass = 'bg-info';
+                            }
+                            return `<span class="badge ${badgeClass}">${status}</span>`;
+                        })()}
+                    </td>
+                    <td>${formatDate(booking.Source)}</td>
+                    <td>${formatDate(booking.Room)}</td>
+                    <td>${formatDate(booking.RoomShortCode)}</td>
+                    <td>${formatDate(booking.GuestName)}</td>
+                    <td>${formatDate(booking.FirstName)}</td>
+                    <td>${formatDate(booking.LastName)}</td>
+                    <td>${formatDate(booking.Salutation)}</td>
+                    <td>${formatDate(booking.Mobile)}</td>
+                    <td>${formatDate(booking.Phone)}</td>
+                    <td>${formatDate(booking.Email)}</td>
+                    <td class="json-field" title="${booking.Address || ''}">${formatDate(booking.Address)}</td>
+                    <td>${formatDate(booking.Country)}</td>
+                    <td>${formatDate(booking.Adult)}</td>
+                    <td>${formatDate(booking.Child)}</td>
+                    <td>${formatDate(booking.NoOfGuest)}</td>
+                    <td>${formatDate(booking.ReservationDate)}</td>
+                    <td>${formatDate(booking.ArrivalDate)}</td>
+                    <td>${formatDate(booking.DepartureDate)}</td>
+                    <td>${formatDate(booking.NoOfNights)}</td>
+                    <td>${formatNumber(booking.TotalExclusivTax)}</td>
+                    <td>${formatNumber(booking.TotalTax)}</td>
+                    <td>${formatNumber(booking.TotalInclusiveTax)}</td>
+                    <td>${formatNumber(booking.OtherRevenueExclusiveTax)}</td>
+                    <td>${formatNumber(booking.OtherRevenueInclusiveTax)}</td>
+                    <td>${formatNumber(booking.TACommision)}</td>
+                    <td>${formatNumber(booking.DueAmount)}</td>
+                    <td>${formatNumber(booking.Deposit)}</td>
+                    <td>${formatDate(booking.Status)}</td>
+                    <td>${formatDate(booking.TransactionStatus)}</td>
+                    <td>${formatDate(booking.FolioNo)}</td>
+                    <td>${formatDate(booking.ReservationGuarantee)}</td>
+                    <td>${formatDate(booking.CancelDate)}</td>
+                    <td>${formatDate(booking.Createdatetime)}</td>
+                    <td>${formatDate(booking.SyncDate)}</td>
+                    <td>${formatJson(booking.BaseRateExclusiveTax)}</td>
+                    <td>${formatJson(booking.BaseRateInclusiveTax)}</td>
+                    <td>${formatJson(booking.ExtraCharges)}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function updatePagination(pagination) {
+        const paginationInfo = document.querySelector('.pagination-info');
+        if (paginationInfo && pagination) {
+            const count = pagination.count || pagination.data?.length || 0;
+            const total = pagination.total || 0;
+            const currentPage = pagination.currentPage || 1;
+            const totalPages = pagination.totalPages || 1;
+            paginationInfo.textContent = `Showing ${count} of ${total} bookings | Page ${currentPage} of ${totalPages}`;
+        }
+    }
+
+    function updateStatistics() {
+        fetch('/admin/api/liveBookingInfo/statistics')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data) {
+                    const stats = data.data;
+                    const alertDiv = document.querySelector('.alert-info');
+                    if (alertDiv) {
+                        alertDiv.innerHTML = `
+                            <strong>Total Bookings:</strong> ${stats.total || 0} | 
+                            <strong>Date Range:</strong> ${stats.dateRange.earliest || 'N/A'} to ${stats.dateRange.latest || 'N/A'}
+                        `;
+                    }
+                }
+            })
+            .catch(error => console.error('Error updating statistics:', error));
+    }
+
+    // Manual sync function
+    function triggerManualSync() {
+        const btn = document.getElementById('manualSyncBtn');
+        const status = document.getElementById('syncStatus');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Syncing...';
+        status.innerHTML = '<span class="text-info">Syncing data from Ezee API...</span>';
+        
+        fetch('/admin/api/liveBookingInfo/sync', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                status.innerHTML = '<span class="text-success">✓ ' + data.message + '</span>';
+                // Refresh table data after sync
+                setTimeout(() => {
+                    refreshTableData();
+                    updateStatistics();
+                }, 2000);
+            } else {
+                status.innerHTML = '<span class="text-danger">✗ Error: ' + (data.error || 'Sync failed') + '</span>';
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sync-alt"></i> Sync Data Now';
+            
+            // Clear status after 5 seconds
+            setTimeout(() => {
+                status.innerHTML = '';
+            }, 5000);
+        })
+        .catch(error => {
+            console.error('Sync error:', error);
+            status.innerHTML = '<span class="text-danger">✗ Sync failed. Check console for details.</span>';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sync-alt"></i> Sync Data Now';
+            
+            setTimeout(() => {
+                status.innerHTML = '';
+            }, 5000);
+        });
+    }
+
+    // Start auto-refresh when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Clear any existing interval first
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = null;
+        }
+        
+        // Initial refresh after 30 seconds, then refresh every 30 seconds
+        setTimeout(() => {
+            refreshTableData();
+            // Then refresh every 30 seconds
+            autoRefreshInterval = setInterval(refreshTableData, 30000);
+        }, 30000);
+
+        // Show refresh indicator
+        const refreshIndicator = document.createElement('div');
+        refreshIndicator.id = 'refresh-indicator';
+        refreshIndicator.style.cssText = 'position: fixed; top: 10px; right: 10px; background: #28a745; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; z-index: 9999; display: none;';
+        refreshIndicator.textContent = '🔄 Refreshing...';
+        document.body.appendChild(refreshIndicator);
+
+        // Update indicator on refresh
+        const originalRefreshFunction = refreshTableData;
+        refreshTableData = function() {
+            refreshIndicator.style.display = 'block';
+            originalRefreshFunction();
+            setTimeout(() => {
+                refreshIndicator.style.display = 'none';
+            }, 2000);
+        };
+    });
+
+    // Stop auto-refresh when page is hidden
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+        } else {
+            if (!autoRefreshInterval) {
+                autoRefreshInterval = setInterval(refreshTableData, 15000);
+            }
+        }
+    });
+</script>
+
+<%- include("../layout/footer") %>
+

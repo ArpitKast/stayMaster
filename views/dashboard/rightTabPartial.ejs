@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table">
+            <thead></thead>
+            <tbody>
+                <% stats.forEach(booking =>{%>
+                    <tr>
+                        <td scope="col"><div class="date"><span class="greentext"><%-booking.start%><br><hr><%-booking.end%></span></div></td>
+                        <td scope="col"><span class="greentext"><%=booking.guest%></span><br><span class="blacktext"><%=booking.guests%> Guests  |  <%=booking.nights%> Nights</span><br><span class="greytext">Room</span><br><span class="titletext"><%=booking.roomName%></span></td>
+                        <td scope="col"><span class="greytext">Voucher No.</span><br><span class="titletext"><%=booking.voucherNo%></span><br><span class="greytext">Rate Type</span><br><span class="titletext"><%=booking.packageName%></span></td>
+                        <td scope="col"><span class="greytext">ADR</span><br><span class="titletext"><%=booking.adr%></span></td>
+                    </tr>
+                <%});%>
+            </tbody>
+        </table>
+    </div>
+</div>

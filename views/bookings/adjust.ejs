@@ -1,0 +1,98 @@
+<%- include("../layout/header",{ title: 'bookingdetails'}) %>
+
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Booking - Adjust Prices</h1></div>
+    </div>
+    <div class="formcontainer">
+        <h1 class="propertyheadingblue">Booking Details</h1>
+        <hr>
+        <div class="row bookingdetail1">
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Name :</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Mobile: </span></td>
+                        <td scope="col"><span class="titletext"><%=booking.phone%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Email: </span></td>
+                        <td scope="col"><span class="titletext"><%=booking.email%></span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Res Date:</span></td>
+                        <td scope="col"><span class="titletext">&nbsp;</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Arrival: </span></td>
+                        <td scope="col"><span class="titletext"><%=booking.start%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Departure: </span></td>
+                        <td scope="col"><span class="titletext"><%=booking.end%></span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Booking No:</span></td>
+                        <td scope="col"><span class="titletext">#<%=booking.uniqueId%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Booking Status: </span></td>
+                        <td scope="col"><span class="titletext"><%=booking.currentStatus%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Payment: </span></td>
+                        <td scope="col"><span class="titletext">&nbsp;</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br><br>
+        <h1 class="propertyheadingblue">Review Prices</h1>
+        <hr>
+        <form id="useredit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="booking-id" value="<%=booking.id%>"/>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <label for="">Booking Amount</label>
+                    <input type="number" name="totalAmountBeforeTax" value="<%=booking.totalAmountBeforeTax%>" placeholder="0.00">     
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="">GST Amount</label>
+                    <input type="number" name="totalTax" value="<%=booking.totalTax%>" placeholder="0.00">     
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="">OTA Commision</label>
+                    <input type="number" name="taCommision" value="<%=booking.taCommision%>" placeholder="0.00">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="">TDS Amount</label>
+                    <input type="number" name="tds" value="" placeholder="0.00">
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <label for="">Total Earnings</label>
+                    <input type="number" name="taCommision" value="<%=(booking.totalAmountBeforeTax + booking.totalTax - booking.taCommision - 0).toFixed(2)%>" placeholder="0.00">
+                </div>
+            </div>
+            <div class="row headingsection">
+                <div class="col-sm-12">
+                    <button type="button" class="greenbutton" id="upload-button">Save</button>&nbsp;&nbsp;
+                    <a href="/admin/manageBookings"><button type="button" class="transparant">Discard</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include("../layout/footer") %>

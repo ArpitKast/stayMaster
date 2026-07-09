@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Property Listing</title>
+		<!--<link rel="stylesheet" href="/styles.css">-->
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            form {
+                /*max-width: 600px;*/
+                margin: auto;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-group label {
+                display: block;
+            }
+            .form-group input, .form-group textarea {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+            }
+            .dropzone {
+                border: 2px dashed #ccc;
+                border-radius: 10px;
+                padding: 20px;
+                text-align: center;
+                cursor: pointer;
+                margin-bottom: 15px;
+                position: relative;
+                min-height: 150px;
+            }
+            .dropzone img {
+                max-width: 200px;
+                margin: 10px;
+            }
+            .dropzone img.delete-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                width: 20px;
+                height: 20px;
+            }
+            .dragging {
+                opacity: 0.5;
+            }
+            .non-editable-image {
+                display: block;
+                margin: auto;
+                max-width: 300px;
+                margin-bottom: 15px;
+            }
+
+            .thumb {
+                width: 75px; /* Adjust as needed */
+                height: 75px;
+                border-radius: 5px;
+            }
+        </style>
+	</head>
+
+
+
+    <%- include("layout/header",{ title: 'List Properties'}) %>
+    <div class="propertylist">
+        <div class="row">
+            <div class="col-sm-6"><h1>Property Management</h1></div>
+            <div class="col-sm-6" style="text-align: right;"><a href="/api/properties/add"><button type="button" class="greenbutton"> + Add Property</button></a></div>
+        </div>
+        
+        <!-- Filters Section -->
+        <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="col-sm-12">
+                <div class="filters-container" style="background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6;">
+                    <h4 style="margin-bottom: 15px; color: #495057;">Filters</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="searchFilter" style="font-weight: 500; margin-bottom: 5px; display: block;">Search Property</label>
+                            <input type="text" id="searchFilter" class="form-control" placeholder="Search by name, location, or slug..." style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="typeFilter" style="font-weight: 500; margin-bottom: 5px; display: block;">Property Type</label>
+                            <select id="typeFilter" class="form-control" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="">All Types</option>
+                                <option value="Villa">Villa</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Condo">Condo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="locationFilter" style="font-weight: 500; margin-bottom: 5px; display: block;">Location</label>
+                            <select id="locationFilter" class="form-control" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="">All Locations</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Delhi">Delhi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="guestsFilter" style="font-weight: 500; margin-bottom: 5px; display: block;">Min Guests</label>
+                            <select id="guestsFilter" class="form-control" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="">Any</option>
+                                <option value="1">1+ Guests</option>
+                                <option value="2">2+ Guests</option>
+                                <option value="4">4+ Guests</option>
+                                <option value="6">6+ Guests</option>
+                                <option value="8">8+ Guests</option>
+                                <option value="10">10+ Guests</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="sortFilter" style="font-weight: 500; margin-bottom: 5px; display: block;">Sort By</label>
+                            <select id="sortFilter" class="form-control" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="name-asc">Name (A-Z)</option>
+                                <option value="name-desc">Name (Z-A)</option>
+                                <option value="guests-asc">Guests (Low to High)</option>
+                                <option value="guests-desc">Guests (High to Low)</option>
+                                <option value="location-asc">Location (A-Z)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label style="font-weight: 500; margin-bottom: 5px; display: block;">&nbsp;</label>
+                            <button type="button" id="clearFilters" class="btn btn-secondary" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-sm-12">
+           <div class="propertylist_table">
+                 <table class="table" id="propertiesTable">
+                    <thead>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td scope="col">Property<br> Code</td>
+                            <td scope="col">Property<br> Name</td>
+                            <td scope="col">Type of<br> Property</td>
+                            <td scope="col">Location</td>
+                            <td scope="col">Guests<br> (upto)</td>
+                            <td scope="col">Owned<br> by</td>
+                            <td scope="col">&nbsp;</td>
+                            <!--<td scope="col">&nbsp;</td>-->
+                        </tr>
+                    </thead>
+                    <tbody id="propertiesTableBody">
+                        <% properties.forEach((property,index) => { %>
+                            <tr data-property='<%= JSON.stringify(property) %>'>
+                                <td><img src="<%= property.display_image || '' %>" class="thumb" onerror="this.style.display='none'"></td>
+                                <td scope="col"><span class="text"><%= property.channel_id %><br> Slug: <%= property.slug %><br>Disply Order: <%= property.display_order %></span></td>
+                                <td scope="col">
+                                    <span class="text">
+                                        <%= property.listing_name %><br>
+                                        <%= property.internal_name %><br>
+                                        <a href="<%= frontendBaseUrl %>/property-details/<%= property.slug %>" ><%= frontendBaseUrl %>/stay-description/<%= property.slug %></a>
+                                    </span>
+                                </td>
+                                <td scope="col"><span class="text"><%= property.property_type %></span></td>
+                                <td scope="col"><span class="text">
+                                    <%= property.address_line_1 %><br><%= property.address_line_2 %><br>
+                                    <%= property.city %>,<%= property.state %>
+                                </span></td>
+                                <td scope="col"><span class="text"><%-property.guests%></span></td>
+                                <td scope="col"><span class="text"><%-property.hosts%></span></td>
+                                <!--<td scope="col"><a href="/api/properties/edit/<%= property.id %>"><button type="button" class="transparant">View & Edit</button></a></td>-->
+                                <!--<td scope="col"><a href="/api/properties/edit/<%= property.id %>">
+                                    <button type="button" class="transparant">
+                                        <span style="display: inline-block; margin: 0.05em; border-radius: 0.25em; padding: .25em 0.5em"><i class="fa-solid fa-edit fa-fw" title="View & Edit"></i></span>
+                                    </button>
+                                </a></td>-->
+                                <td scope="col">
+                                    <div>
+                                        <span style="color: #008281; display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/edit/<%= property.id %>"><i class="fa-solid fa-edit fa-fw" title="View and Edit"></i></a></span>
+                                        <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/admin/statements/<%= property.id %>"><i class="fa-solid fa-calendar fa-fw" title="Calendar"></i></a></span>
+                                        <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/listings/<%= property.id %>"><i class="fa-solid fa-list fa-fw" title="Listings"></i></a></span>
+                                        <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/admin/statements/<%= property.id %>"><i class="fa-solid fa-file-invoice-dollar fa-fw" title="Monthly Statements"></i></a></span>
+                                        <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="#"><i class="fa-solid fa-ranking-star fa-fw" title="Reviews"></i></a></span>
+                                        <span style="display: inline-block; margin: 0.05em; border: 1px solid #dc3545; border-radius: 0.25em; padding: .25em 0.5em; cursor: pointer;" data-property-id="<%= property.id %>" data-property-name="<%= property.listing_name %>" class="delete-property-btn" title="Delete Property"><i class="fa-solid fa-trash fa-fw" style="color: #dc3545;"></i></span>
+                                    </div>
+                                    <!--<a href="/api/properties/listings/<%= property.id %>"><button type="button" class="transparant">Listings</button></a><br><br>
+                                    <a href="/api/properties/listings/<%= property.id %>"><button type="button" class="transparant">Reviews</button></a><br><br>
+                                    <a href="/admin/statements/<%= property.id %>"><button type="button" class="transparant">Statements</button></a>-->
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                </div>
+                
+                <!-- Pagination Controls -->
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-sm-6">
+                        <div class="pagination-info" style="padding: 10px 0; color: #6c757d;">
+                            <span id="paginationInfo">Showing 1-8 of <span id="totalProperties"><%= properties.length %></span> properties</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <nav aria-label="Property pagination" style="text-align: right;">
+                            <ul class="pagination" id="paginationControls" style="margin: 0; display: inline-flex;">
+                                <!-- Pagination buttons will be generated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Global variables for pagination and filtering
+let allProperties = [];
+let filteredProperties = [];
+let currentPage = 1;
+const propertiesPerPage = 8;
+const frontendBaseUrl = <%- JSON.stringify(frontendBaseUrl || '') %>;
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Store all properties data
+    const propertyRows = document.querySelectorAll('#propertiesTableBody tr[data-property]');
+    allProperties = Array.from(propertyRows).map(row => {
+        const propertyData = JSON.parse(row.getAttribute('data-property'));
+        // Extract guest count from the guests HTML content
+        const guestsText = row.querySelector('td:nth-child(6) .text').textContent;
+        const guestMatch = guestsText.match(/Guests: (\d+)/);
+        propertyData.guestCount = guestMatch ? parseInt(guestMatch[1]) : 0;
+        return propertyData;
+    });
+    
+    filteredProperties = [...allProperties];
+    
+    // Initialize pagination
+    updatePagination();
+    displayProperties();
+    
+    // Add event listeners for filters
+    document.getElementById('searchFilter').addEventListener('input', applyFilters);
+    document.getElementById('typeFilter').addEventListener('change', applyFilters);
+    document.getElementById('locationFilter').addEventListener('change', applyFilters);
+    document.getElementById('guestsFilter').addEventListener('change', applyFilters);
+    document.getElementById('sortFilter').addEventListener('change', applyFilters);
+    document.getElementById('clearFilters').addEventListener('click', clearFilters);
+    
+    // Add CSS for pagination
+    const style = document.createElement('style');
+    style.textContent = `
+        .fa-trash:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+        .pagination {
+            list-style: none;
+            padding: 0;
+        }
+        .pagination li {
+            display: inline-block;
+            margin: 0 2px;
+        }
+        .pagination a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            border: 1px solid #dee2e6;
+            color: #007bff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .pagination a:hover {
+            background-color: #e9ecef;
+        }
+        .pagination .active a {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .pagination .disabled a {
+            color: #6c757d;
+            cursor: not-allowed;
+            background-color: #fff;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Add event delegation for delete buttons
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.delete-property-btn')) {
+            const deleteBtn = event.target.closest('.delete-property-btn');
+            const propertyId = deleteBtn.getAttribute('data-property-id');
+            const propertyName = deleteBtn.getAttribute('data-property-name');
+            deleteProperty(propertyId, propertyName);
+        }
+    });
+});
+
+// Filter and search functionality
+function applyFilters() {
+    const searchTerm = document.getElementById('searchFilter').value.toLowerCase();
+    const typeFilter = document.getElementById('typeFilter').value;
+    const locationFilter = document.getElementById('locationFilter').value;
+    const guestsFilter = document.getElementById('guestsFilter').value;
+    const sortFilter = document.getElementById('sortFilter').value;
+    
+    filteredProperties = allProperties.filter(property => {
+        // Search filter
+        const matchesSearch = !searchTerm || 
+            property.listing_name.toLowerCase().includes(searchTerm) ||
+            property.internal_name.toLowerCase().includes(searchTerm) ||
+            property.slug.toLowerCase().includes(searchTerm) ||
+            property.city.toLowerCase().includes(searchTerm) ||
+            property.state.toLowerCase().includes(searchTerm) ||
+            property.address_line_1.toLowerCase().includes(searchTerm);
+        
+        // Type filter
+        const matchesType = !typeFilter || property.property_type === typeFilter;
+        
+        // Location filter
+        const matchesLocation = !locationFilter || 
+            property.city.toLowerCase().includes(locationFilter.toLowerCase()) ||
+            property.state.toLowerCase().includes(locationFilter.toLowerCase());
+        
+        // Guests filter
+        const matchesGuests = !guestsFilter || property.guestCount >= parseInt(guestsFilter);
+        
+        return matchesSearch && matchesType && matchesLocation && matchesGuests;
+    });
+    
+    // Apply sorting
+    applySorting(sortFilter);
+    
+    // Reset to first page
+    currentPage = 1;
+    
+    // Update display
+    updatePagination();
+    displayProperties();
+}
+
+// Apply sorting
+function applySorting(sortFilter) {
+    switch(sortFilter) {
+        case 'name-asc':
+            filteredProperties.sort((a, b) => a.listing_name.localeCompare(b.listing_name));
+            break;
+        case 'name-desc':
+            filteredProperties.sort((a, b) => b.listing_name.localeCompare(a.listing_name));
+            break;
+        case 'guests-asc':
+            filteredProperties.sort((a, b) => a.guestCount - b.guestCount);
+            break;
+        case 'guests-desc':
+            filteredProperties.sort((a, b) => b.guestCount - a.guestCount);
+            break;
+        case 'location-asc':
+            filteredProperties.sort((a, b) => a.city.localeCompare(b.city));
+            break;
+        default:
+            // Keep original order
+            break;
+    }
+}
+
+// Clear all filters
+function clearFilters() {
+    document.getElementById('searchFilter').value = '';
+    document.getElementById('typeFilter').value = '';
+    document.getElementById('locationFilter').value = '';
+    document.getElementById('guestsFilter').value = '';
+    document.getElementById('sortFilter').value = 'name-asc';
+    
+    filteredProperties = [...allProperties];
+    currentPage = 1;
+    
+    updatePagination();
+    displayProperties();
+}
+
+// Update pagination controls without inline onclick handlers
+function updatePagination() {
+    const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+    const paginationControls = document.getElementById('paginationControls');
+    const paginationInfo = document.getElementById('paginationInfo');
+
+    // Update pagination info
+    const startItem = (currentPage - 1) * propertiesPerPage + 1;
+    const endItem = Math.min(currentPage * propertiesPerPage, filteredProperties.length);
+    paginationInfo.innerHTML = `Showing ${startItem}-${endItem} of <span id="totalProperties">${filteredProperties.length}</span> properties`;
+
+    // Clear existing pagination
+    paginationControls.innerHTML = '';
+
+    if (totalPages <= 1) return;
+
+    // Helper to create page link element
+    const createPageLink = (page, text, disabled = false, active = false) => {
+        const li = document.createElement('li');
+        if (disabled) li.className = 'disabled';
+        if (active) li.className = 'active';
+        li.innerHTML = `<a href="#" data-page="${page}">${text}</a>`;
+        return li;
+    };
+
+    // Previous button
+    paginationControls.appendChild(createPageLink(currentPage - 1, '&laquo; Previous', currentPage === 1));
+
+    // Page numbers with ellipsis handling
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+
+    if (startPage > 1) {
+        paginationControls.appendChild(createPageLink(1, '1'));
+        if (startPage > 2) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.innerHTML = '<span>...</span>';
+            paginationControls.appendChild(ellipsisLi);
+        }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        paginationControls.appendChild(createPageLink(i, i, false, i === currentPage));
+    }
+
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsisLi = document.createElement('li');
+            ellipsisLi.innerHTML = '<span>...</span>';
+            paginationControls.appendChild(ellipsisLi);
+        }
+        paginationControls.appendChild(createPageLink(totalPages, totalPages));
+    }
+
+    // Next button
+    paginationControls.appendChild(createPageLink(currentPage + 1, 'Next &raquo;', currentPage === totalPages));
+}
+
+// Event delegation for pagination clicks
+document.addEventListener('click', function(event) {
+    const target = event.target;
+    if (target.tagName === 'A' && target.dataset.page) {
+        event.preventDefault();
+        const page = Number(target.dataset.page);
+        changePage(page);
+    }
+});
+
+// Change page
+function changePage(page) {
+    const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
+    if (page < 1 || page > totalPages) return;
+    
+    currentPage = page;
+    displayProperties();
+    updatePagination();
+}
+
+// Display properties for current page
+function displayProperties() {
+    const tbody = document.getElementById('propertiesTableBody');
+    const startIndex = (currentPage - 1) * propertiesPerPage;
+    const endIndex = startIndex + propertiesPerPage;
+    const propertiesToShow = filteredProperties.slice(startIndex, endIndex);
+    
+    tbody.innerHTML = '';
+    
+    propertiesToShow.forEach(property => {
+        const row = createPropertyRow(property);
+        tbody.appendChild(row);
+    });
+}
+
+// Create property row HTML
+function createPropertyRow(property) {
+    const row = document.createElement('tr');
+    row.setAttribute('data-property', JSON.stringify(property));
+    
+    // Extract guest count from property data
+    const guestCount = property.guestCount || 0;
+    const extraGuests = property.number_of_extra_guests || 0;
+    
+    row.innerHTML = `
+        <td><img src="${property.display_image || ''}" class="thumb" onerror="this.style.display='none'"></td>
+        <td scope="col"><span class="text">${property.channel_id}<br> Slug: ${property.slug}<br>Display Order: ${property.display_order}</span></td>
+        <td scope="col">
+            <span class="text">
+                ${property.listing_name}<br>
+                ${property.internal_name}<br>
+                <a href="${frontendBaseUrl}/property-details/${property.slug}">${frontendBaseUrl}/property-details/${property.slug}</a>
+            </span>
+        </td>
+        <td scope="col"><span class="text">${property.property_type}</span></td>
+        <td scope="col"><span class="text">
+            ${property.address_line_1}<br>${property.address_line_2}<br>
+            ${property.city}, ${property.state}
+        </span></td>
+        <td scope="col"><span class="text">Guests: ${guestCount}<br> Extra: ${extraGuests}</span></td>
+        <td scope="col"><span class="text">${property.hosts || ''}</span></td>
+        <td scope="col">
+            <div>
+                <span style="color: #008281; display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/edit/${property.id}"><i class="fa-solid fa-edit fa-fw" title="View and Edit"></i></a></span>
+                <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/admin/statements/${property.id}"><i class="fa-solid fa-calendar fa-fw" title="Calendar"></i></a></span>
+                <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/listings/${property.id}"><i class="fa-solid fa-list fa-fw" title="Listings"></i></a></span>
+                <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/admin/statements/${property.id}"><i class="fa-solid fa-file-invoice-dollar fa-fw" title="Monthly Statements"></i></a></span>
+                <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="#"><i class="fa-solid fa-ranking-star fa-fw" title="Reviews"></i></a></span>
+                <span style="display: inline-block; margin: 0.05em; border: 1px solid #dc3545; border-radius: 0.25em; padding: .25em 0.5em; cursor: pointer;" data-property-id="${property.id}" data-property-name="${property.listing_name}" class="delete-property-btn" title="Delete Property"><i class="fa-solid fa-trash fa-fw" style="color: #dc3545;"></i></span>
+            </div>
+        </td>
+    `;
+    
+    return row;
+}
+
+// Delete property function
+function deleteProperty(propertyId, propertyName) {
+    console.log('=== Delete Property Request ===');
+    console.log('Property ID:', propertyId);
+    console.log('Property Name:', propertyName);
+    
+    // Show confirmation dialog
+    if (!confirm(`Are you sure you want to delete the property "${propertyName}"?\n\nThis action cannot be undone and will permanently remove:\n- The property listing\n- All associated images and media\n- All amenities and collections\n- All host associations\n\nClick OK to proceed with deletion.`)) {
+        console.log('Delete operation cancelled by user');
+        return;
+    }
+    
+    console.log('User confirmed deletion, proceeding...');
+    
+    // Find the delete button that was clicked
+    const deleteButton = document.querySelector(`[data-property-id="${propertyId}"]`);
+    if (deleteButton) {
+        deleteButton.style.opacity = '0.5';
+        deleteButton.style.cursor = 'not-allowed';
+    }
+    
+    // Send delete request
+    fetch('/api/properties/delete-property', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            propertyId: propertyId
+        })
+    })
+    .then(response => {
+        console.log('Delete response received:', response);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Delete response data:', data);
+        
+        if (data.success) {
+            console.log('Property deleted successfully');
+            alert(`Property "${propertyName}" has been deleted successfully.`);
+            
+            // Remove from all arrays
+            allProperties = allProperties.filter(p => p.id != propertyId);
+            filteredProperties = filteredProperties.filter(p => p.id != propertyId);
+            
+            // Update display
+            updatePagination();
+            displayProperties();
+        } else {
+            console.log('Delete failed:', data.error);
+            alert(`Failed to delete property: ${data.error}`);
+            
+            // Re-enable the delete button
+            if (deleteButton) {
+                deleteButton.style.opacity = '1';
+                deleteButton.style.cursor = 'pointer';
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Delete request failed:', error);
+        alert(`Error deleting property: ${error.message}`);
+        
+        // Re-enable the delete button
+        if (deleteButton) {
+            deleteButton.style.opacity = '1';
+            deleteButton.style.cursor = 'pointer';
+        }
+    });
+}
+</script>
+
+</html>

@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="propertylist_table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Name</td>
+                        <td scope="col">Email</td>
+                        <td scope="col">Phone</td>
+                        <td scope="col">Booking</td>
+                        <td scope="col">Stay Dates</td>
+                        <td scope="col">Property</td>
+                        <td scope="col">Concierge</td>
+                        <td scope="col">Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% guests.forEach((guest,index) => { %>
+                        <tr>
+                            <td scope="col"><span class="text"><a href="/admin/guests/edit/<%=guest.booking_id%>"><%=guest.name%></a></span></td>
+                            <td scope="col"><span class="text"><%=guest.email%></span></td>
+                            <td scope="col"><span class="text"><%=guest.phone%></span></td>
+                            <td scope="col"><span class="text"><%=guest.booking%></span></td>
+                            <td scope="col"><span class="text"><%=guest.stay%></span></td>
+                            <td scope="col"><span class="text"><%=guest.property%></span></td>
+                            <td scope="col"><span class="text">&nbsp;</span></td>
+                            <td scope="col"><span class="text"><%=guest.status%></span></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

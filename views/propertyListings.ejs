@@ -1,0 +1,31 @@
+<%- include("layout/header",{ title: 'OTA Listings'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>OTA Listing</h1></div>
+    </div>
+    <div class="formcontainer">
+        <h1 class="propertyheadingblue"><%= property.listing_name %></h1>
+        <hr> 
+        <form id="serviceRequestAdd" method="POST" enctype="multipart/form-data" action="/admin/listings/save">
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label for="property_id">AirBnB</label>
+                    <input type="text" id="title" name="airbnb" class="form-control"/>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label for="property_id">MakeMyTrip</label>
+                    <input type="text" id="title" name="mmt_listing" class="form-control"/>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label for="property_id">Booking.com</label>
+                    <input type="text" id="title" name="booking" class="form-control"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include("layout/footer") %>

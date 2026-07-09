@@ -1,0 +1,272 @@
+<%- include("../layout/header",{ title: `Settings`}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Settings</h1></div>
+    </div>
+    <div class="formcontainer">
+        <%if(flash && flash != ''){%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                 <%=flash%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <%}%>
+        <h1 class="propertyheadingblue">Website Discount</h1>
+        <hr>
+         <form id="discountForm" method="POST" enctype="multipart/form-data">enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <label>Discount:</label>
+                    <input type="number" step="any" name="new_discount" id="new_discount" required min="0" max="50"/>
+                     <button class="greenbutton" id="discount-save-button" type="button">Save</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Current Website Discount</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="propertylist_table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col">Current Discount</td>
+                                <td scope="col"><%=discount%>%</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+         <br>
+        <br>
+        <h1 class="propertyheadingblue">Homepage Hero Property</h1>
+        <hr>
+         <form id="heroPropertyForm" method="POST" enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label>Select Hero Property:</label>
+                    <select name="hero_property_id" id="hero_property_id" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; background-color: white;">
+                        <option value="">-- Choose Property --</option>
+                        <% if (properties && properties.length > 0) { %>
+                            <% properties.forEach(prop => { %>
+                                <option value="<%= prop.id %>" <%= String(prop.id) === String(heroPropertyId) ? 'selected' : '' %>>
+                                    <%= prop.listing_name %> (<%= prop.internal_name || '' %>)
+                                </option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                     <button class="greenbutton" id="hero-property-save-button" type="button" style="margin-top: 10px;">Save</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Master Key URL</h1>
+        <hr>
+        <form id="masterKeyUrlForm" method="POST" enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label>Master Key URL:</label>
+                    <input type="text" name="master_key_url" id="master_key_url" placeholder="https://example.com/api/key" value="<%= masterKeyUrl || '' %>"/>
+                    <button class="greenbutton" id="master-key-save-button" type="button">Save</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Current Master Key URL</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="propertylist_table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col">Current URL</td>
+                                <td scope="col" id="current-master-key-url"><%= masterKeyUrl || '-' %></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Investor App URL</h1>
+        <hr>
+        <form id="investorAppUrlForm" method="POST" enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label>Investor App URL:</label>
+                    <input type="text" name="investor_app_url" id="investor_app_url" placeholder="https://example.com/investor" value="<%= investorAppUrl || '' %>"/>
+                    <button class="greenbutton" id="investor-app-save-button" type="button">Save</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Current Investor App URL</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="propertylist_table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col">Current URL</td>
+                                <td scope="col" id="current-investor-app-url"><%= investorAppUrl || '-' %></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discountButton = document.getElementById('discount-save-button');
+        const discountForm = document.getElementById('discountForm');
+        const masterKeyButton = document.getElementById('master-key-save-button');
+        const masterKeyForm = document.getElementById('masterKeyUrlForm');
+        const investorAppButton = document.getElementById('investor-app-save-button');
+        const investorAppForm = document.getElementById('investorAppUrlForm');
+        const heroPropertyButton = document.getElementById('hero-property-save-button');
+        const heroPropertyForm = document.getElementById('heroPropertyForm');
+        //const property_id = document.getElementById('property_id');
+
+        heroPropertyButton.addEventListener('click', async () => {
+            if (!heroPropertyForm.checkValidity()) {
+                heroPropertyForm.reportValidity();
+                return;
+            }
+            try {
+                heroPropertyButton.disabled = true;
+                const formData = new FormData(heroPropertyForm);
+                const response = await fetch('/admin/updateHeroProperty', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const failed = await response.json();
+                    heroPropertyButton.disabled = false;
+                    throw new Error(failed.error || 'Failed to update Hero Property');
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = `/admin/settings/${result.flash}`;
+                } else {
+                    alert(result.error);
+                    heroPropertyButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error saving Hero Property:', error);
+                alert(error.message || 'Failed to update Hero Property');
+                heroPropertyButton.disabled = false;
+            }
+        });
+
+       discountButton.addEventListener('click', async () => {
+            if (!discountForm.checkValidity()) {
+                discountForm.reportValidity();
+                return;
+            }
+            try {
+                discountButton.disabled = true;
+                const formData = new FormData(discountForm);
+                // Send formData to backend
+                const response = await fetch('/admin/updateDiscount', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log(response);
+                console.log("Status: "+response.success);
+                if (!response.ok) {
+                    console.log('Failed to update Discount:', response.json());
+                    discountButton.disabled = false;
+                    throw new Error('Failed to update Discount');
+                }
+
+                const result = await response.json();
+                if(result.success){
+                    window.location.href = `/admin/settings/${result.flash}`;
+                }else{
+                    alert(result.error);
+                    discountButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error saving statement:', error);
+                alert('Failed to upload Statement');
+                discountButton.disabled = false;
+            }
+        });
+
+        masterKeyButton.addEventListener('click', async () => {
+            if (!masterKeyForm.checkValidity()) {
+                masterKeyForm.reportValidity();
+                return;
+            }
+            try {
+                masterKeyButton.disabled = true;
+                const formData = new FormData(masterKeyForm);
+                const response = await fetch('/admin/updateMasterKeyUrl', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const failed = await response.json();
+                    masterKeyButton.disabled = false;
+                    throw new Error(failed.error || 'Failed to update Master Key URL');
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = `/admin/settings/${result.flash}`;
+                } else {
+                    alert(result.error);
+                    masterKeyButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error saving master key URL:', error);
+                alert(error.message || 'Failed to update Master Key URL');
+                masterKeyButton.disabled = false;
+            }
+        });
+
+        investorAppButton.addEventListener('click', async () => {
+            if (!investorAppForm.checkValidity()) {
+                investorAppForm.reportValidity();
+                return;
+            }
+            try {
+                investorAppButton.disabled = true;
+                const formData = new FormData(investorAppForm);
+                const response = await fetch('/admin/updateInvestorAppUrl', {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const failed = await response.json();
+                    investorAppButton.disabled = false;
+                    throw new Error(failed.error || 'Failed to update Investor App URL');
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = `/admin/settings/${result.flash}`;
+                } else {
+                    alert(result.error);
+                    investorAppButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error saving investor app URL:', error);
+                alert(error.message || 'Failed to update Investor App URL');
+                investorAppButton.disabled = false;
+            }
+        });
+    });
+</script>
+<%- include("../layout/footer") %>

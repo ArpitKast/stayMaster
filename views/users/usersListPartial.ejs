@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="propertylist_table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Name</td>
+                        <td scope="col">Email</td>
+                        <td scope="col">Phone</td>
+                        <td scope="col">Date of Birth</td>
+                        <td scope="col">Gender</td>
+                        <td scope="col">Address</td>
+                        <td scope="col">Active</td>
+                        <td scope="col">&nbsp;</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach((user,index) => { %>
+                        <tr>
+                            <td scope="col"><span class="text"><a href="/admin/user/edit/<%=user.id%>"><%=user.name%></a></span></td>
+                            <td scope="col"><span class="text"><%=user.email%></span></td>
+                            <td scope="col"><span class="text"><%=user.phone%></span></td>
+                            <td scope="col"><span class="text"><%=user.dob%></span></td>
+                            <td scope="col"><span class="text"><%=user.gender%></span></td>
+                            <td scope="col">
+                                <span class="text">
+                                    <% if(user.address_line_1){ %>
+                                        <%=user.address_line_1%><br>
+                                    <% } %>
+                                    <% if(user.address_line_2){ %>
+                                        <%=user.address_line_2%><br>
+                                    <% } %>
+                                    <%=user.city%> <%=user.state%> <%=user.selectedcountry%>
+                                </span>
+                            </td>
+                            <td scope="col"><span class="text">
+                                <% if(user.active == 1){ %>
+                                    YES
+                                <% }else{ %>
+                                    NO
+                                <%}%>
+                            </span></td>
+                            <td scope="col">
+                                <a href="/admin/changePassword/<%=user.id%>"><button type="button" class="transparant">Change Password</button></a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

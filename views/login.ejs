@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Login</title>
+        <link rel="stylesheet" href="/api/public/styles.css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="/api/public/bootstrap-select.min.css">
+		<script src="/api/public/bootstrap-select.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+	</head>
+    <body>
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid" style="display: unset;">
+					<div class="row">
+						<div class="col-sm-6">
+							<a class="navbar-brand" href="/admin"><img src="/api/public/Img/logo.png" alt="">&nbsp;<img src="/api/public/Img/staymaster.png" alt=""></a>
+							<span>Staymaster <img src="/api/public/Img/Maskgroup.png" alt=""></span>
+						</div>
+					</div>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <div class="row flex-nowrap">
+                    <div class="col py-3">
+                        <br/><br/><br/>
+                        <%if(flash && flash != ''){%>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                 <%=flash%>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <%}%>
+                        <form id="loginForm" action="/admin/handleLogin" method="POST">
+                            <div class="bookingdetails">
+                                <div class="row">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4"><h1>Login to Staymaster Admin</h1></div>
+                                    <div class="col-sm-4"></div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4">
+                                        <div class="bookingdetail2">
+                                            <p>Please Login</p>
+                                            <hr>
+                                            <table>
+                                                <tr>
+                                                    <td scope="col"><span class="titlehead">Enter Email :&nbsp;&nbsp;&nbsp;</span></td>
+                                                    <td scope="col">
+                                                        <input type="text" id="email" name="email" value="x@y.com" placeholder="Email" required>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td scope="col"><span class="titlehead">Enter Password : &nbsp;&nbsp;&nbsp;</span></td>
+                                                    <td scope="col">
+                                                        <input type="password" id="password" name="password" value="abcd1234" placeholder="Password" required> 
+                                                    </td>
+                                                </tr>
+                                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                                <tr><td>&nbsp;</td><td scope="col">
+                                                    <div class="col-sm-12">
+                                                        <button type="submit" name="login" class="greenbutton" id="upload-button">Login</button>&nbsp;&nbsp;
+                                                        <a href="#"><button type="button" class="greybutton">Cancel</button></a>
+                                                    </div>
+                                                </td></tr>
+                                                <tr><td><a href="/admin/forgotPassword">Forgot Password</a></td><td>&nbsp;</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4"></div>
+                                </div>
+                            </div>
+                        </form>
+                        <br/><br/><br/><br/><br/><br/><br/><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

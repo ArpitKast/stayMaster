@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="propertylist_table">
+             <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Property<br> No.</td>
+                        <td scope="col">Updated<br> on</td>
+                        <td scope="col">Description</td>
+                        <td scope="col">Host</td>
+                        <td scope="col">Handled<br>by</td>
+                        <td scope="col">Amount</td>
+                        <td scope="col">Status</td>
+                        <!--<td scope="col">&nbsp;</td>-->
+                        <td scope="col">&nbsp;</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tasks.forEach((sr,index) => { %>
+                    <tr>
+                        <td scope="col"><span class="text"><%=sr.property %></span></td>
+                        <td scope="col"><span class="text"><%=sr.updated_at%></span></td>
+                        <td scope="col"><span class="text"><%=sr.description%></span></td>
+                        <td scope="col"><span class="text"><%=sr.host%></span></td>
+                        <td scope="col"><span class="text"><%=sr.service_incharge%><br><%=sr.phone%></span></td>
+                        <td scope="col"><span class="text">Rs. <%=sr.amount%></span></td>
+                        <td scope="col"><span class="text"><%=sr.status%></span></td>
+                        <!--<td scope="col">
+                            <button type="button" class="btn btn-outline-primary btn-sm">Approve</button>
+                            <button type="button" class="btn btn-outline-danger btn-sm">Reject</button>
+                            <button type="button" class="btn btn-outline-success btn-sm">Complete</button>
+                        </td>-->
+                        <td scope="col"><a href="/admin/service/edit/<%=sr.id%>"><button type="button" class="transparant">View Details</button></a></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

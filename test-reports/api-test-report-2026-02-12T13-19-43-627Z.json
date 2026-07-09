@@ -1,0 +1,974 @@
+{
+  "total": 38,
+  "passed": 0,
+  "failed": 38,
+  "skipped": 0,
+  "errors": [
+    {
+      "endpoint": "Generate Guest OTP",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Login with OTP",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Login",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Generate Host OTP",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Host Login with OTP",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get User Profile",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Update User Profile",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get My Trips",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Property Settings",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Property Settings With Users",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Properties List",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Check Availability",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Home Availability",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Availability And Details",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Calendar Availability",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Calendar Availability Improved",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Booking Details",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Generate Order ID (RazorPay)",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Host Enquiry",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Host Calculator Settings",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Host Properties",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Host Performance",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Host Earnings By Month",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get All Blogs",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Blog Categories",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Single Blog",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get All Collections",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Single Collection",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get All Destinations",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Single Destination",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Form Settings",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Get Settings",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Dashboard",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Me",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Revenues",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Bookings",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Guests",
+      "error": "connect ECONNREFUSED ::1:8080"
+    },
+    {
+      "endpoint": "Admin Services",
+      "error": "connect ECONNREFUSED ::1:8080"
+    }
+  ],
+  "details": [
+    {
+      "name": "Generate Guest OTP",
+      "method": "POST",
+      "path": "/api/ext/generateOTP",
+      "category": "auth",
+      "frontendComponents": [
+        "LoginComponent",
+        "ConfirmBookingComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 37,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Login with OTP",
+      "method": "POST",
+      "path": "/api/ext/loginWithOTP",
+      "category": "auth",
+      "frontendComponents": [
+        "LoginComponent",
+        "ConfirmBookingComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 8,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Login",
+      "method": "POST",
+      "path": "/api/users/login",
+      "category": "auth",
+      "frontendComponents": [
+        "AdminLoginComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Generate Host OTP",
+      "method": "POST",
+      "path": "/api/ext/generateHostOTP",
+      "category": "auth",
+      "frontendComponents": [
+        "HostComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Host Login with OTP",
+      "method": "POST",
+      "path": "/api/hosts/loginWithOTP",
+      "category": "auth",
+      "frontendComponents": [
+        "HostLoginComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get User Profile",
+      "method": "POST",
+      "path": "/api/ext/getProfile",
+      "category": "user",
+      "frontendComponents": [
+        "ProfileComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Update User Profile",
+      "method": "POST",
+      "path": "/api/ext/updateProfile",
+      "category": "user",
+      "frontendComponents": [
+        "ProfileComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 4,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get My Trips",
+      "method": "POST",
+      "path": "/api/ext/myTrips",
+      "category": "user",
+      "frontendComponents": [
+        "TripsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Property Settings",
+      "method": "GET",
+      "path": "/api/properties/settings",
+      "category": "property",
+      "frontendComponents": [
+        "StayComponent",
+        "NewHomeComponent",
+        "AllPropertiesComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Property Settings With Users",
+      "method": "GET",
+      "path": "/api/properties/settingsWithUsers",
+      "category": "property",
+      "frontendComponents": [
+        "AdminLoginComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Properties List",
+      "method": "GET",
+      "path": "/api/properties/list",
+      "category": "property",
+      "frontendComponents": [
+        "AdminService"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Check Availability",
+      "method": "POST",
+      "path": "/api/ext/checkAvailability",
+      "category": "booking",
+      "frontendComponents": [
+        "StayComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Home Availability",
+      "method": "POST",
+      "path": "/api/ext/homeAvailability",
+      "category": "booking",
+      "frontendComponents": [
+        "NewHomeComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Availability And Details",
+      "method": "POST",
+      "path": "/api/ext/availabilityAndDetails",
+      "category": "booking",
+      "frontendComponents": [
+        "StayDescriptionComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Calendar Availability",
+      "method": "POST",
+      "path": "/api/ext/calendarAvailability",
+      "category": "booking",
+      "frontendComponents": [
+        "StayDestinationComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 5,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Calendar Availability Improved",
+      "method": "POST",
+      "path": "/api/ext/calendarAvailabilityImproved",
+      "category": "booking",
+      "frontendComponents": [
+        "StayDestinationComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Booking Details",
+      "method": "GET",
+      "path": "/api/ext/myBooking/1",
+      "category": "booking",
+      "frontendComponents": [
+        "ConfirmedBookingComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Generate Order ID (RazorPay)",
+      "method": "POST",
+      "path": "/api/ext/generateOrderId",
+      "category": "booking",
+      "frontendComponents": [
+        "ConfirmBookingComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Host Enquiry",
+      "method": "POST",
+      "path": "/api/ext/hostEnquiry",
+      "category": "host",
+      "frontendComponents": [
+        "HostComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Host Calculator Settings",
+      "method": "POST",
+      "path": "/api/ext/hostCalculatorSettings",
+      "category": "host",
+      "frontendComponents": [
+        "HostComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Host Properties",
+      "method": "POST",
+      "path": "/api/hosts/properties",
+      "category": "host",
+      "frontendComponents": [
+        "HostDashboardComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 4,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Host Performance",
+      "method": "POST",
+      "path": "/api/hosts/performance",
+      "category": "host",
+      "frontendComponents": [
+        "HostDashboardComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Host Earnings By Month",
+      "method": "POST",
+      "path": "/api/hosts/earningsByMonth",
+      "category": "host",
+      "frontendComponents": [
+        "HostDashboardComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get All Blogs",
+      "method": "GET",
+      "path": "/api/blogs",
+      "category": "blog",
+      "frontendComponents": [
+        "BlogsComponent",
+        "BlogDetailComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Blog Categories",
+      "method": "GET",
+      "path": "/api/blogs/categories",
+      "category": "blog",
+      "frontendComponents": [
+        "BlogsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Single Blog",
+      "method": "GET",
+      "path": "/api/blogs/1",
+      "category": "blog",
+      "frontendComponents": [
+        "BlogDetailComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get All Collections",
+      "method": "GET",
+      "path": "/api/collections",
+      "category": "collection",
+      "frontendComponents": [
+        "CollectionsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 3,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Single Collection",
+      "method": "GET",
+      "path": "/api/collections/1",
+      "category": "collection",
+      "frontendComponents": [
+        "CollectionDetailComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get All Destinations",
+      "method": "GET",
+      "path": "/api/destinations",
+      "category": "destination",
+      "frontendComponents": [
+        "AdminService",
+        "AddNewPropertyComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Single Destination",
+      "method": "GET",
+      "path": "/api/destinations/1",
+      "category": "destination",
+      "frontendComponents": [],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Form Settings",
+      "method": "GET",
+      "path": "/api/ext/formSettings",
+      "category": "form",
+      "frontendComponents": [
+        "NewHomeComponent",
+        "HostComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Get Settings",
+      "method": "GET",
+      "path": "/api/settings",
+      "category": "settings",
+      "frontendComponents": [
+        "SettingsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Dashboard",
+      "method": "GET",
+      "path": "/admin/",
+      "category": "admin",
+      "frontendComponents": [
+        "AdminDashboardComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 4,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Me",
+      "method": "GET",
+      "path": "/admin/me",
+      "category": "admin",
+      "frontendComponents": [
+        "AdminDashboardComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 4,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Revenues",
+      "method": "GET",
+      "path": "/admin/revenues",
+      "category": "admin",
+      "frontendComponents": [
+        "RevenueComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 1,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Bookings",
+      "method": "GET",
+      "path": "/admin/bookings",
+      "category": "admin",
+      "frontendComponents": [
+        "BookingsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Guests",
+      "method": "GET",
+      "path": "/admin/guests",
+      "category": "admin",
+      "frontendComponents": [
+        "GuestsComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    },
+    {
+      "name": "Admin Services",
+      "method": "GET",
+      "path": "/admin/services",
+      "category": "admin",
+      "frontendComponents": [
+        "CustomerServiceComponent"
+      ],
+      "status": "error",
+      "responseStatus": null,
+      "responseTime": 2,
+      "error": "connect ECONNREFUSED ::1:8080",
+      "responseStructure": null
+    }
+  ],
+  "frontendImpact": {
+    "LoginComponent": [
+      {
+        "endpoint": "/api/ext/generateOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/loginWithOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "ConfirmBookingComponent": [
+      {
+        "endpoint": "/api/ext/generateOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/loginWithOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/generateOrderId",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "AdminLoginComponent": [
+      {
+        "endpoint": "/api/users/login",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/properties/settingsWithUsers",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "HostComponent": [
+      {
+        "endpoint": "/api/ext/generateHostOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/hostEnquiry",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/hostCalculatorSettings",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/formSettings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "HostLoginComponent": [
+      {
+        "endpoint": "/api/hosts/loginWithOTP",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "ProfileComponent": [
+      {
+        "endpoint": "/api/ext/getProfile",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/updateProfile",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "TripsComponent": [
+      {
+        "endpoint": "/api/ext/myTrips",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "StayComponent": [
+      {
+        "endpoint": "/api/properties/settings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/checkAvailability",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "NewHomeComponent": [
+      {
+        "endpoint": "/api/properties/settings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/homeAvailability",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/formSettings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "AllPropertiesComponent": [
+      {
+        "endpoint": "/api/properties/settings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "AdminService": [
+      {
+        "endpoint": "/api/properties/list",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/destinations",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "StayDescriptionComponent": [
+      {
+        "endpoint": "/api/ext/availabilityAndDetails",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "StayDestinationComponent": [
+      {
+        "endpoint": "/api/ext/calendarAvailability",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/ext/calendarAvailabilityImproved",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "ConfirmedBookingComponent": [
+      {
+        "endpoint": "/api/ext/myBooking/1",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "HostDashboardComponent": [
+      {
+        "endpoint": "/api/hosts/properties",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/hosts/performance",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/hosts/earningsByMonth",
+        "method": "POST",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "BlogsComponent": [
+      {
+        "endpoint": "/api/blogs",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/blogs/categories",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "BlogDetailComponent": [
+      {
+        "endpoint": "/api/blogs",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/api/blogs/1",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "CollectionsComponent": [
+      {
+        "endpoint": "/api/collections",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "CollectionDetailComponent": [
+      {
+        "endpoint": "/api/collections/1",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "AddNewPropertyComponent": [
+      {
+        "endpoint": "/api/destinations",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "SettingsComponent": [
+      {
+        "endpoint": "/api/settings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "AdminDashboardComponent": [
+      {
+        "endpoint": "/admin/",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      },
+      {
+        "endpoint": "/admin/me",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "RevenueComponent": [
+      {
+        "endpoint": "/admin/revenues",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "BookingsComponent": [
+      {
+        "endpoint": "/admin/bookings",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "GuestsComponent": [
+      {
+        "endpoint": "/admin/guests",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ],
+    "CustomerServiceComponent": [
+      {
+        "endpoint": "/admin/services",
+        "method": "GET",
+        "error": "connect ECONNREFUSED ::1:8080"
+      }
+    ]
+  },
+  "timestamp": "2026-02-12T13:19:43.436Z"
+}

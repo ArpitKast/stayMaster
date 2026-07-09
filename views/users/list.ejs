@@ -1,0 +1,47 @@
+<% var entity = 'User';%>
+<%if(type == 'host'){%>
+    <% entity = 'Host'; %>
+<%}else if(type == 'manager'){%>
+    <% entity = 'Property Manager'; %>
+<%}%>
+<%- include("../layout/header",{ title: `${entity} Management`}) %>
+<div class="propertylist">
+    <div class="row">
+        <div class="col-sm-6"><h1><%=entity%>s Management</h1></div>
+        <!--<div class="col-sm-6" style="text-align: right;">
+            <div class="input-group bookingsearch">
+                <div class="form-outline" data-mdb-input-init>
+                  <input type="search" id="form1" class="form-control" />
+                </div>
+                      <!--<button type="button" class="btn btn-primary" data-mdb-ripple-init>
+            <i class="fas fa-search"></i> --
+                </button>
+            </div>
+            <label class="form-label" for="form1"><button type="button" class="greenbutton"> + Search</button></label>
+              <img class="borderimg" src="/api/public/Img/refresh.png" alt="">
+              <img class="borderimg"src="/api/public/Img/download.png" alt="">
+        </div>-->
+    </div>
+    <div class="row">
+        <div class="col-sm-6">&nbsp;</div>
+        <div class="col-sm-6" style="text-align: right;">
+            <a href="/admin/user/add/<%=type%>">
+                <button type="button" class="greenbutton"> + Add <%=entity%></button>
+            </a>
+        </div>
+    </div>
+    <%if(flash && flash != ''){%>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+         <%=flash%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <%if(type == 'staff'){%>
+        <%- include("usersListPartial") %>
+<%}else if(type == 'manager'){%>
+        <%- include("managersListPartial") %>
+    <%}else{%>
+        <%- include("hostsListPartial") %>
+    <%}%>
+</div>
+<%- include("../layout/footer") %>

@@ -1,0 +1,56 @@
+<%- include("../layout/header",{ title: 'Properties & Inventory'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-6"><h1>Ezee Channel IDs</h1></div>
+    </div>
+    <div class="formcontainer">
+        <div class="propertylist_table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Sr.No</td>
+                        <td scope="col">DB_ID</td>
+                        <td scope="col">ID</td>
+                        <td scope="col">Name</td>
+                        <td scope="col">#</td>
+                        <td scope="col">Rooms</td>
+                        <td scope="col">&nbsp;</td>
+                   </tr>
+                </thead>
+                <tbody>
+                    <% rooms.forEach((room,index) => { %>
+                        <% var colour = '#C00000;';%>
+                        <% var no_of_rooms = 0;%>
+                        <% if(room.Rooms){ %>
+                            <% colour = '#000000;';%>
+                            <% no_of_rooms = room.Rooms.length;%>
+                            <% if(room.Rooms.length > 1){ %> 
+                                <% colour = '#18864B;';%>
+                            <% } %>
+                        <% } %>
+                    <tr>
+                        <td scope="col"><span class="text"><%=(index+1)%></span></td>
+                        <td scope="col"><span class="text"><%=room.property_id%></span></td>
+                        <td scope="col"><span class="text" style="color:<%=colour%>"><%= room.ID %></span></td>
+                        <td scope="col"><span class="text" style="color:<%=colour%>"><%= room.channel_id %></span></td>
+                        <td scope="col"><span class="text" style="color:<%=colour%>"><%= room.Name %></span></td>
+                        <% if(room.Rooms){ %>
+                            <td scope="col"><span class="text" style="color:<%=colour%>"><%=room.Rooms.length%></span></td>
+                            <td scope="col">
+                                <% room.Rooms.forEach(r => { %>
+                                    <span class="text" style="color:<%=colour%> font-weight:bold;"><%= r.RoomName %></span>
+                                    <span class="text" style="color:<%=colour%> font-weight:small;"><%= r.RoomID %></span><br>
+                                <% }); %>
+                            </td>
+                        <% }else { %>
+                            <td scope="col"><span class="text" style="color:<%=colour%>">0</span></td>
+                        <% } %>
+                        
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include("../layout/footer") %>

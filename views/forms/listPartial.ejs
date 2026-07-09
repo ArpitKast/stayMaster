@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="propertylist_table">
+             <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Date</td>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col">Name</td>
+                        <% } %>
+                        <td scope="col">Email</td>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col">Phone</td>
+                        <% } %>
+                        <% if(type != 'contact_us' && type != 'newsletter'){ %>
+                        <td scope="col">Property Type</td>
+                        <% } %>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col">comment</td>
+                        <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% forms.forEach((sr,index) => { %>
+                    <tr>
+                        <td scope="col"><span class="text"><%=sr.created_at %></span></td>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col"><span class="text"><%=sr.name%></span></td>
+                        <% } %>
+                        <td scope="col"><span class="text"><%=sr.email%></span></td>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col"><span class="text"><%=sr.phone%></span></td>
+                        <% } %>
+                        <% if(type != 'contact_us' && type != 'newsletter'){ %>
+                        <td scope="col"><span class="text"><%=sr.property_type%></span></td>
+                        <% } %>
+                        <% if(type != 'newsletter'){ %>
+                        <td scope="col"><span class="text"><%=sr.comment%></span></td>
+                        <% } %>
+                        <!--<td scope="col"><a href="/admin/service/edit/<%=sr.id%>"><button type="button" class="transparant">View Details</button></a></td>-->
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

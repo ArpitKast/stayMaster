@@ -1,0 +1,76 @@
+<%- include("../layout/header",{ title: 'bookinglist'}) %>
+
+<div class="propertylist">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Bookings</h1>
+            <span class="small-text">Showing bookings for this and previous month only</span>
+        </div>
+    </div>
+    <div class="bookingtabs">
+      <div class="tab-content pt-5" id="tab-content">
+        <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="propertylist_table">
+                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col">Booking No.</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">Stay Dates</td>
+                                    <td scope="col">Status</td>
+                                    <td scope="col">Property</td>
+                                    <td scope="col">Gross Price<br>per night</td>
+                                    <td scope="col">Booking Amount</td>
+                                    <td scope="col">GST Amount</td>
+                                    <td scope="col">OTA Commision</td>
+                                    <td scope="col">TDS/TCS</td>
+                                    <td scope="col">Net Booking<br>Amount</td>
+                                    <td scope="col">Total Earnings</td>
+                                    <td scope="col">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.forEach((booking,index) => { %>
+                                <tr>
+                                    <td scope="col"><span class="text"><%=booking.uniqueId%></span><br> <span><%=booking.source%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.start%> - <%=booking.end%></span><br><%=booking.nights%> Nights</td>
+                                    <td scope="col"><span class="text"><%=booking.currentStatus%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.listing_name%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.price_per_night%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.totalAmountBeforeTax%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.totalTax%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.taCommision%></span></td>
+                                    <% 
+                                    var tds = 0;
+                                    var tcs = 0;
+                                    %>
+                                    <% if(booking.source == 'Airbnb'){ %>
+                                        <% tds = booking.totalAmountBeforeTax * 0.001; %>
+                                    <% } %>
+                                    <% if(booking.source == 'go-mmt'){ %>
+                                        <% tds = booking.totalAmountBeforeTax * 0.005; %>
+                                        <% tcs = booking.totalAmountBeforeTax * 0.001; %>
+                                    <% } %>
+                                    <td scope="col"><span class="text">TDS: <%=tds.toFixed(2)%><br>TCS:<%=tcs.toFixed(2)%></span></td>
+                                    <td scope="col"><span class="text"><%=(booking.net_booking_amount).toFixed(2)%></span></td>
+                                    <td scope="col">
+                                        <span class="text">
+                                        <%=(booking.totalAmountBeforeTax + booking.totalTax - booking.taCommision - tds).toFixed(2)%>
+                                        </span>
+                                    </td>
+                                    <td scope="col"><a href="/admin/bookings/adjust/<%=booking.id%>"><button type="button" class="transparant">Adjust Prices</button></a></td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+      </div>
+    </div>
+</div>
+<%- include("../layout/footer") %>

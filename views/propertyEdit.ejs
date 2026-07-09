@@ -1,0 +1,942 @@
+<%- include("layout/header",{ title: 'Edit Property'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-6"><h1>Edit Property</h1></div>
+        <div class="col-sm-6" style="text-align: right;">
+            <button type="button" class="greenbutton" id="save-button">Save</button>&nbsp;&nbsp;
+            <button type="button" class="transparant" onclick="location.href='/api/properties/listing'">Cancel</button>
+        </div>
+    </div>
+    <form id="edit-property-form" method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="property-id" name="id" value="<%=property.id%>"/>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Property Details</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="slug" class="form-label">Unique Slug</label>
+                        <input type="text" name="slug" id="slug" value="<%= property.slug %>" placeholder="Unique Slug" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="channel_id" class="form-label">Channel Id</label>
+                        <input type="text" name="channel_id" id="channel_id" value="<%= property.channel_id %>" placeholder="Channel Id" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="listing_name" class="form-label">Listing Name</label>
+                        <input type="text" name="listing_name" id="listing_name" value="<%= property.listing_name %>" placeholder="Listing Name" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="display_order" class="form-label">Display Order</label>
+                        <input type="number" name="display_order" id="display_order" value="<%= property.display_order %>" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="internal_name" class="form-label">Internal Name</label>
+                        <input type="text" name="internal_name" id="internal_name" value="<%=property.internal_name%>" placeholder="Internal Name" required>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="destination" class="form-label">Select Destination</label>
+                    <select class="form-control selectpicker" name="destination" id="destination" required>
+                        <option value="">Select Destination</option>
+                        <% results.destinations.forEach(destination => { %>
+                            <% if(destination.id == property.destination) {%>
+                                <option value="<%= destination.id %>" selected><%= destination.name %></option>
+                            <% }else{ %>
+                                <option value="<%= destination.id %>"><%= destination.name %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="hosts" class="form-label">Select Client(s)</label>
+                    <select class="form-control selectpicker" data-live-search="true" name="hosts" id="hosts" multiple required>
+                        <option value="">Select Client</option>
+                        <% results.hosts.forEach(host => { %>
+                            <% if(property.hosts.includes(host.id)){%>
+                                <option value="<%= host.id %>" selected><%= host.name %></option>
+                            <% }else{ %>
+                                <option value="<%= host.id %>"><%= host.name %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="">Staymaster Select</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="staymaster_select" id="yes" value="1">
+                            <label class="form-check-label" for="yes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="staymaster_select" id="no" value="0" checked>
+                            <label class="form-check-label" for="no">No</label>
+                        </div>
+                    </div>
+                </div>                                
+                <div class="form-group col-md-3">
+                    <div class="mb-3">
+                        <label for="">Masterpiece</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="masterpiece_select" id="masterpiece_yes" value="1">
+                            <label class="form-check-label" for="masterpiece_yes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="masterpiece_select" id="masterpiece_no" value="0" checked>
+                            <label class="form-check-label" for="masterpiece_no">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" name="address_line_1" value="<%= property.address_line_1 %>" placeholder="Address Line 1">
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" name="address_line_2" value="<%= property.address_line_2 %>" placeholder="Address Line 2">
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="city" id="city" value="<%= property.city %>" placeholder="City" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="state" id="state" value="<%= property.state %>" placeholder="State" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control selectpicker" name="country" id="country" required>
+                        <option value="">Select Country</option>
+                        <% results.countries.forEach(country => { %>
+                            <% if(country.id == property.country) {%>
+                                <option value="<%= country.id %>" selected><%= country.display %></option>
+                            <% }else{ %>
+                                <option value="<%= country.id %>"><%= country.display %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" class="form-control" name="postcode" id="postcode" value="<%= property.postcode %>" placeholder="Pin Code" required>
+                </div>
+            </div>
+            <br><br>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="property_type" id="property_type" required>
+                        <option value="">Type of property</option>
+                        <% results.property_types.forEach(property_type => { %>
+                            <% if(property_type.id == property.property_type) {%>
+                                <option value="<%= property_type.id %>" selected><%= property_type.display %></option>
+                            <% }else{ %>
+                                <option value="<%= property_type.id %>"><%= property_type.display %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="form-check">
+                        <label class="form-check-label" for="featured_property"> &nbsp;Featured Property
+                        <% if(property.featured_property == 1){%>
+                            <input class="form-check-input checkbox" type="checkbox" name="featured_property" id="featured_property" checked></label>
+                        <% }else{ %>
+                            <input class="form-check-input checkbox" type="checkbox" name="featured_property" id="featured_property"></label>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="form-check">
+                        <label class="form-check-label" for="for_events"> &nbsp;For Events
+                        <% if(property.for_events == 1){%>
+                            <input class="form-check-input checkbox" type="checkbox" name="for_events" id="for_events" checked></label>
+                        <% }else{ %>
+                            <input class="form-check-input checkbox" type="checkbox" name="for_events" id="for_events"></label>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="form-check">
+                        <label class="form-check-label" for="for_corporate_offsite"> &nbsp;For Corporate Offsite
+                        <% if(property.for_corporate_offsite == 1){%>
+                            <input class="form-check-input checkbox" type="checkbox" name="for_corporate_offsite" id="for_corporate_offsite" checked></label>
+                        <% }else{ %>
+                            <input class="form-check-input checkbox" type="checkbox" name="for_corporate_offsite" id="for_corporate_offsite"></label>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="security_deposit_percentage" id="security_deposit_percentage" value="<%= property.security_deposit_percentage %>" placeholder="Security Deposit" required>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="number_of_bedrooms" id="number_of_bedrooms" value="<%= property.number_of_bedrooms %>" placeholder="No. of bedrooms" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="number_of_bathrooms" id="number_of_bathrooms" value="<%= property.number_of_bathrooms %>" placeholder="No. of bathrooms" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="number_of_guests" id="number_of_guests" value="<%= property.number_of_guests %>" placeholder="No. of guests" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="number_of_extra_guests" id="number_of_extra_guests" value="<%= property.number_of_extra_guests %>" placeholder="No. of extra guests" required>
+                </div>
+            </div>
+            <br><br>
+            <h1 class="propertyheadingblue">Property Category <span style="font-size:12px">(Select upto 5 categories)</span></h1>
+            <hr>
+            <div class="row form-row">
+                <% results.collections.forEach(collection => { %>
+                    <div class="form-group col-md-3">
+                        <div class="form-check form-check-inline">
+                            <% if(property.collections.includes(collection.id)){%>
+                                <input class="form-check-input checkbox"  type="checkbox" name="property_collections" value="<%= collection.id %>" checked><%= collection.name %>
+                            <% }else{ %>
+                                <input class="form-check-input checkbox"  type="checkbox" name="property_collections" value="<%= collection.id %>"><%= collection.name %>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Property Detailed Descriptions</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Summary</label>
+                        <textarea name="description_summary" rows="4" placeholder=""><%= property.description_summary %></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Bedrooms and Bathrooms</label>
+                        <textarea name="description_bedrooms_and_bath" rows="4" placeholder=""><%= property.description_bedrooms_and_bath %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Living and Dining</label>
+                        <textarea name="description_living_and_dining" rows="4" placeholder=""><%= property.description_living_and_dining %></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Kitchen Space</label>
+                        <textarea name="description_kitchen_space" rows="4" placeholder=""><%= property.description_kitchen_space %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Pool</label>
+                        <textarea name="description_pool" rows="4" placeholder=""><%= property.description_pool %></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Unique Highlights</label>
+                        <textarea name="description_unique_highlights" rows="4" placeholder=""><%= property.description_unique_highlights %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label">Hospitality Service</label>
+                        <textarea name="description_hospitality_service" rows="4" placeholder=""><%= property.description_hospitality_service %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Amenities</h1>
+            <hr>
+            <% var amenityWithDisc;%>
+            <% Object.keys(results.amenities).forEach(category => { %>
+                <p><%= category %></p>
+                <div class="row form-row">
+                <% results.amenities[category].forEach(amenity => { %>
+                    <div class="form-group col-md-3">
+                        <div class="form-check form-check-inline">
+                            <% if(property.amenities.includes(amenity.id)){%>
+                                <input class="form-check-input checkbox" type="checkbox" name="amenities" value="<%= amenity.id %>" checked>
+                            <% }else{ %>
+                                <input class="form-check-input checkbox" type="checkbox" name="amenities" value="<%= amenity.id %>">
+                            <% }; %>
+                            <label class="form-check-label" for="inlineCheckbox1"><%= amenity.name %></label>
+                            <% amenityWithDisc = property.amenitiesWithDescriptions.find(awd => awd.amenity_id == amenity.id); %>
+                            <% if(amenityWithDisc){ %>
+                                <input type="text" name="<%= amenity.id %>_description" value="<%=amenityWithDisc['description']%>" placeholder="">
+                            <% }else{ %>
+                                <input type="text" name="<%= amenity.id %>_description" value="" placeholder="">
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+                </div>
+                <br>
+            <% }); %>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Location & Neighbourhood</h1>
+            <hr>
+            <p>Pin Property Location</p>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="google_latitude" value="<%=property.google_latitude%>" placeholder="Google Latitude" required>
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="google_longitude" value="<%=property.google_longitude%>" placeholder="Google Longitude" required>
+                </div>
+                <!--<div class="form-group col-md-9">
+                   <div><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18906.129712753736!2d6.722624160288201!3d60.12672284414915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x463e997b1b6fc09d%3A0x6ee05405ec78a692!2sJ%C4%99zyk%20trola!5e0!3m2!1spl!2spl!4v1672239918130!5m2!1spl!2spl" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                </div>-->
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="textAreaExample">Location Details</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <textarea class="form-control" name="location_details" rows="4" placeholder=""><%=property.location_details%></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="textAreaExample">Places Around</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <textarea class="form-control" name="places_around" rows="4" placeholder=""><%=property.places_around%></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Meals</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="col-md-3"> 
+                    <label for="" style="padding-right:40px">Meals Available</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="meals_available" id="yes" value="1">
+                        <label class="form-check-label" for="yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="meals_available" id="no" value="0" checked>
+                        <label class="form-check-label" for="no">No</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div data-mdb-input-init class="form-outline">
+                        <label class="form-label" for="" style="padding-right:10px">Breakfast Fee</label>
+                        <input type="text" name="breakfast_fee" style="width: 150px;" value="0" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-label" for="">Meals Description</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <textarea class="form-control" name="meals_text" rows="4" placeholder=""></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Essential Info</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="" style="padding-right:10px">Check In Time</label>
+                    <input type="text" name="check_in" style="width: 200px;" value="<%=property.check_in%>" placeholder="0" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="" style="padding-right:10px">Check Out Time</label>
+                    <input type="text" name="check_out" style="width: 200px;" value="<%=property.check_out%>" placeholder="0" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-label" for="" style="padding-right:10px">Other Details</label>
+                    <input type="text" name="other_details" style="width: 200px;" value="<%=property.other_details%>" placeholder="0">
+                </div>
+            </div>
+            <h1 class="propertyheadingblue">House Rules and Policies</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label class="form-label" for="" style="padding-right:10px">House Rules and Policies</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <textarea class="form-control" name="house_rules" rows="4" placeholder="House Rules and Policies"><%=property.house_rules%></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">User Details</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="" style="padding-right:10px">Reservation Executive</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <select class="form-control" name="reservation_executive" id="" required>
+                            <option value="">Select Reservation Executive</option>
+                            <% results.staffs.forEach(staff => { %>
+                                <% if(staff.id == property.reservation_executive) {%>
+                                    <option value="<%= staff.id %>" selected><%= staff.name %></option>
+                                <% }else{ %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="" style="padding-right:10px">Revenue Manager</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <select class="form-control" name="revenue_manager" id="" required>
+                            <option value="">Select Revenue Manager</option>
+                            <% results.staffs.forEach(staff => { %>
+                                <% if(staff.id == property.revenue_manager) {%>
+                                    <option value="<%= staff.id %>" selected><%= staff.name %></option>
+                                <% }else{ %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="" style="padding-right:10px">Hospitalty Manager</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <select class="form-control" name="hospitality_manager" id="" required>
+                            <option value="">Select Hospitalty Manager</option>
+                            <% results.staffs.forEach(staff => { %>
+                                <% if(staff.id == property.hospitality_manager) {%>
+                                    <option value="<%= staff.id %>" selected><%= staff.name %></option>
+                                <% }else{ %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="" style="padding-right:10px">General Manager</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <select class="form-control" name="general_manager" id="" required>
+                            <option value="">Select General Manager</option>
+                            <% results.staffs.forEach(staff => { %>
+                                <% if(staff.id == property.general_manager) {%>
+                                    <option value="<%= staff.id %>" selected><%= staff.name %></option>
+                                <% }else{ %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="" style="padding-right:10px">Property Manager (User Link)</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <select class="form-control" name="property_manager_user_id">
+                            <option value="">Select Property Manager</option>
+                            <% results.managers.forEach(mgr => { %>
+                                <% if(mgr.id == property.property_manager_user_id) {%>
+                                    <option value="<%= mgr.id %>" selected><%= mgr.name %></option>
+                                <% }else{ %>
+                                    <option value="<%= mgr.id %>"><%= mgr.name %></option>
+                                <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="property_manager_name" style="padding-right:10px">Property Manager Name</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <input type="text" class="form-control" name="property_manager_name" id="property_manager_name" value="<%= property.property_manager_name || '' %>" placeholder="Manager Name">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="property_manager_phone" style="padding-right:10px">Property Manager Phone</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <input type="text" class="form-control" name="property_manager_phone" id="property_manager_phone" value="<%= property.property_manager_phone || '' %>" placeholder="Manager Phone">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-label" for="property_manager_email" style="padding-right:10px">Property Manager Email</label>
+                    <div data-mdb-input-init class="form-outline">
+                        <input type="email" class="form-control" name="property_manager_email" id="property_manager_email" value="<%= property.property_manager_email || '' %>" placeholder="Manager Email">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Display Picture</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <label>Display Picture <span class="error" id="display-picture-error">This field is required.</span></label>
+                    <img id="current-display-picture" class="non-editable-image" photoid="<%=property.display_image_id%>" src="<%= property.display_image %>" alt="Current Display Picture">
+                    <div class="dropzone" id="display-picture-dropzone"><h4>Display Picture</h4></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Bedroom Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="bedroom-dropzone" data-category="271"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Bathroom Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="bathroom-dropzone" data-category="7"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Living & Dining Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="living-dropzone" data-category="8"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Kitchen & Pantry Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="kitchen-dropzone" data-category="9"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Pool Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="pool-dropzone" data-category="10"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Garden or Outdoor Areas Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="garden-dropzone" data-category="11"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Shared Spaces Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="shared-dropzone" data-category="12"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer">
+            <h1 class="propertyheadingblue">Fascade & Exterior Pictures</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-10">
+                    <div class="dropzone" id="fascade-dropzone" data-category="13"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveButton = document.getElementById('save-button');
+        const editPropertyForm = document.getElementById('edit-property-form');
+        const currentDisplayPicture = document.getElementById('current-display-picture');
+        const displayPictureDropzone = document.getElementById('display-picture-dropzone');
+        const propertyId = document.getElementById('property-id').value;
+        const pendingDeletes = [];
+
+        // Sync Masterpiece Radio and Checkbox
+        const masterpieceRadios = document.querySelectorAll('input[name="masterpiece_select"]');
+        const collectionCheckboxes = document.querySelectorAll('input[name="property_collections"]');
+        let masterpieceCheckbox = null;
+        
+        collectionCheckboxes.forEach(cb => {
+            if (cb.parentNode.textContent.trim().toLowerCase() === 'masterpiece' ||
+                (cb.nextSibling && cb.nextSibling.textContent && cb.nextSibling.textContent.trim().toLowerCase() === 'masterpiece')) {
+                masterpieceCheckbox = cb;
+            }
+        });
+
+        if (masterpieceCheckbox) {
+            masterpieceRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    masterpieceCheckbox.checked = (e.target.value === '1');
+                });
+            });
+
+            masterpieceCheckbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    document.getElementById('masterpiece_yes').checked = true;
+                } else {
+                    document.getElementById('masterpiece_no').checked = true;
+                }
+            });
+            
+            // Initial Sync
+            if (masterpieceCheckbox.checked) {
+                document.getElementById('masterpiece_yes').checked = true;
+            } else {
+                document.getElementById('masterpiece_no').checked = true;
+            }
+        }
+
+        
+        saveButton.addEventListener('click', async () => {
+            if (!editPropertyForm.checkValidity()) {
+                editPropertyForm.reportValidity();
+                return;
+            }
+            try {
+                saveButton.disabled = true;
+                saveButton.textContent = 'Saving...';
+
+                // Delete images that were removed by the user
+                for (const id of pendingDeletes) {
+                    await deleteImage(id);
+                }
+                pendingDeletes.length = 0;
+
+                const propertyPictures = document.querySelectorAll('.dropzone[data-category]');
+
+                // Upload any new images (staged locally, not yet saved) sequentially
+                for (const dropzone of propertyPictures) {
+                    const category_id = dropzone.getAttribute('data-category');
+                    if (category_id != null) {
+                        const images = dropzone.querySelectorAll('img:not(.delete-icon)');
+                        for (const img of images) {
+                            if (img.file && !img.dataset.mediaId) {
+                                const newId = await uploadImageToDatabase(img.file, 'category', category_id);
+                                if (newId != null) img.dataset.mediaId = newId;
+                                img.file = null;
+                            }
+                        }
+                    }
+                }
+
+                const formData = new FormData(editPropertyForm);
+
+                // Add property pictures to formData
+                propertyPictures.forEach(dropzone => {
+                    const category_id = dropzone.getAttribute('data-category');
+                    if(category_id != null){
+                        const images = dropzone.querySelectorAll('img:not(.delete-icon)');
+                        images.forEach((img) => {
+                            const mediaId = parseInt(img.dataset.mediaId, 10);
+                            if (!isNaN(mediaId)) {
+                                formData.append(`photos_${category_id}`, mediaId);
+                                formData.append(`category_ids_${category_id}`, category_id);
+                            }
+                        });
+                    }
+                });
+
+                // Send formData to backend
+                const response = await fetch('/api/properties/save', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.log('Failed to save property:', errorData);
+                    throw new Error(errorData.error || 'Failed to save property');
+                }
+
+                const result = await response.json();
+                console.log('Property saved successfully:', result);
+                alert('Property saved successfully');
+                window.location.href = '/api/properties/listing';
+            } catch (error) {
+                console.error('Error saving property:', error);
+                alert('Failed to save property');
+            } finally {
+                saveButton.disabled = false;
+                saveButton.textContent = 'Save';
+            }
+        });
+
+        function handleDisplayPicture(file) {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = async () => {
+                    // Update the current display picture visually first
+                    currentDisplayPicture.src = reader.result;
+                    currentDisplayPicture.style.display = 'block';
+
+                    // Replace display picture in S3 and update database
+                    await replaceImage(currentDisplayPicture.getAttribute('photoid'), file);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        displayPictureDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#e0e0e0';
+        });
+
+        displayPictureDropzone.addEventListener('dragleave', () => {
+            displayPictureDropzone.style.backgroundColor = '#fff';
+        });
+
+        displayPictureDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#fff';
+
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 1) {
+                alert('Only one display picture is allowed.');
+            } else {
+                handleDisplayPicture(files[0]);
+            }
+        });
+
+        displayPictureDropzone.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                handleDisplayPicture(file);
+            };
+            input.click();
+        });
+    
+        const dropzones = document.querySelectorAll('.dropzone:not(#display-picture-dropzone)');
+        const categories = <%- JSON.stringify(property.mediasById) %>;
+        dropzones.forEach(dropzone => {
+            const categoryId = dropzone.getAttribute('data-category');
+            const photos = categories[categoryId];
+            if(photos){
+                photos.forEach(imgSrc => {
+                    const imgContainer = createImageContainer(imgSrc['filename'], categoryId,imgSrc['media_id']);
+                    dropzone.appendChild(imgContainer);
+                });
+            }
+
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#e0e0e0';
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.style.backgroundColor = '#fff';
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#fff';
+
+                const files = Array.from(e.dataTransfer.files);
+                handleFiles(files, dropzone, categoryId);
+            });
+
+            dropzone.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.onchange = (e) => {
+                    const files = Array.from(e.target.files);
+                    handleFiles(files, dropzone, categoryId);
+                };
+                input.click();
+            });
+        });
+    
+        function handleFiles(files, dropzone, categoryId) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const imgContainer = createImageContainer(reader.result, categoryId, null, file);
+                        dropzone.appendChild(imgContainer);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function createImageContainer(src, categoryId, id=null, file=null) {
+            const imgContainer = document.createElement('div');
+            imgContainer.style.position = 'relative';
+            imgContainer.style.display = 'inline-block';
+            imgContainer.draggable = true;
+
+            const img = document.createElement('img');
+            img.src = src;
+            if (id) img.dataset.mediaId = id;
+            if (file) img.file = file;
+            imgContainer.appendChild(img);
+
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = '/api/public/delete_icon.jpg'; // Provide URL for delete icon
+            deleteIcon.classList.add('delete-icon');
+            imgContainer.appendChild(deleteIcon);
+
+            deleteIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (id) {
+                    // Stage the delete — will be sent to backend on Save
+                    pendingDeletes.push(id);
+                }
+                imgContainer.remove();
+            });
+
+            // Enable drag-and-drop reordering
+            imgContainer.addEventListener('dragstart', (e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', null);
+                imgContainer.classList.add('dragging');
+            });
+
+            imgContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const draggingElement = document.querySelector('.dragging');
+                if (draggingElement !== imgContainer) {
+                    const bounding = imgContainer.getBoundingClientRect();
+                    const offset = bounding.y + (bounding.height / 2);
+                    if (e.clientY - offset > 0) {
+                        imgContainer.style['border-bottom'] = '2px solid blue';
+                        imgContainer.style['border-top'] = '';
+                    } else {
+                        imgContainer.style['border-top'] = '2px solid blue';
+                        imgContainer.style['border-bottom'] = '';
+                    }
+                }
+            });
+
+            imgContainer.addEventListener('dragleave', () => {
+                imgContainer.style['border-bottom'] = '';
+                imgContainer.style['border-top'] = '';
+            });
+
+            imgContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const draggingElement = document.querySelector('.dragging');
+                if (draggingElement !== imgContainer) {
+                    const bounding = imgContainer.getBoundingClientRect();
+                    const offset = bounding.y + (bounding.height / 2);
+                    if (e.clientY - offset > 0) {
+                        imgContainer.style['border-bottom'] = '';
+                        imgContainer.insertAdjacentElement('afterend', draggingElement);
+                    } else {
+                        imgContainer.style['border-top'] = '';
+                        imgContainer.insertAdjacentElement('beforebegin', draggingElement);
+                    }
+                }
+            });
+
+            imgContainer.addEventListener('dragend', () => {
+                imgContainer.classList.remove('dragging');
+                imgContainer.style['border-bottom'] = '';
+                imgContainer.style['border-top'] = '';
+            });
+
+            return imgContainer;
+        }
+
+        async function deleteImage(id) {
+            await fetch(`/api/properties/delete-image`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id:id }),
+            });
+        }
+
+        async function replaceImage(id,file){
+            try {
+                const formData = new FormData(editPropertyForm);
+                formData.append('photoId', id);
+                formData.append('file', file);
+                const response = await fetch(`/api/properties/replace-image`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        body: formData,
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to replace display image');
+                }
+                const result = await response.json();
+                if (result.data && result.data.replaced) {
+                    currentDisplayPicture.setAttribute('photoid', result.data.replaced);
+                }
+            } catch (err) {
+                console.error("Error replacing image:", err);
+                alert("Failed to upload/replace display image.");
+            }
+        }
+
+        async function uploadImageToDatabase(file, type, categoryId = null) {
+            console.log(`Uploading ${type} image to category: ${categoryId}`);
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('propertyId', propertyId);
+            formData.append('categoryId', categoryId);
+            const response = await fetch(`/api/properties/upload-image`, {
+                method: 'POST',
+                credentials: 'include',
+                body: formData,
+            });
+            if (!response.ok) {
+                console.log('Failed to upload photo:', await response.json());
+                throw new Error('Failed to upload photo');
+            }
+            const result = await response.json();
+            return result.newId;
+        }
+
+        editPropertyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Save property details to the database
+            const formData = new FormData(editPropertyForm);
+
+            // Example API call to save property details
+            // await fetch(`/api/properties/update`, {
+            //     method: 'POST',
+            //     body: formData,
+            // });
+
+            alert('Property details updated successfully.');
+        });
+    });
+</script>
+<%- include("layout/footer") %>

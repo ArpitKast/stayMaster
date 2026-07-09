@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Property Creation</title>
+</head>
+<body>
+    <h1>Test Property Creation</h1>
+    
+    <form id="test-form">
+        <div>
+            <label>Slug: <input type="text" name="slug" value="test_property_123" required></label>
+        </div>
+        <div>
+            <label>Display Order: <input type="number" name="display_order" value="999" required></label>
+        </div>
+        <div>
+            <label>Channel ID: <input type="text" name="channel_id" value="4058300000000000139" required></label>
+        </div>
+        <div>
+            <label>Listing Name: <input type="text" name="listing_name" value="Test Property" required></label>
+        </div>
+        <div>
+            <label>Internal Name: <input type="text" name="internal_name" value="Test Property" required></label>
+        </div>
+        <div>
+            <label>Destination: <select name="destination" required>
+                <option value="1">Goa</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Hosts: <select name="hosts" required>
+                <option value="6">Deepak Tandon</option>
+            </select></label>
+        </div>
+        <div>
+            <label>City: <input type="text" name="city" value="Test City" required></label>
+        </div>
+        <div>
+            <label>State: <input type="text" name="state" value="Test State" required></label>
+        </div>
+        <div>
+            <label>Country: <select name="country" required>
+                <option value="14">India</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Postcode: <input type="text" name="postcode" value="12345" required></label>
+        </div>
+        <div>
+            <label>Property Type: <select name="property_type" required>
+                <option value="1">Villa</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Bedrooms: <input type="text" name="number_of_bedrooms" value="2" required></label>
+        </div>
+        <div>
+            <label>Bathrooms: <input type="text" name="number_of_bathrooms" value="2" required></label>
+        </div>
+        <div>
+            <label>Guests: <input type="text" name="number_of_guests" value="4" required></label>
+        </div>
+        <div>
+            <label>Check In: <input type="text" name="check_in" value="15:00:00" required></label>
+        </div>
+        <div>
+            <label>Check Out: <input type="text" name="check_out" value="11:00:00" required></label>
+        </div>
+        <div>
+            <label>Security Deposit: <input type="text" name="security_deposit_percentage" value="1000" required></label>
+        </div>
+        <div>
+            <label>Reservation Executive: <select name="reservation_executive" required>
+                <option value="6">Deepak Tandon</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Revenue Manager: <select name="revenue_manager" required>
+                <option value="6">Deepak Tandon</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Hospitality Manager: <select name="hospitality_manager" required>
+                <option value="6">Deepak Tandon</option>
+            </select></label>
+        </div>
+        <div>
+            <label>General Manager: <select name="general_manager" required>
+                <option value="6">Deepak Tandon</option>
+            </select></label>
+        </div>
+        <div>
+            <label>Display Image: <input type="file" id="display-image" accept="image/*" required></label>
+        </div>
+        <div>
+            <button type="button" id="test-button">Test Property Creation</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('test-button').addEventListener('click', async () => {
+            console.log('=== Test Button Clicked ===');
+            
+            const form = document.getElementById('test-form');
+            const formData = new FormData(form);
+            
+            // Add the file manually
+            const fileInput = document.getElementById('display-image');
+            if (fileInput.files[0]) {
+                formData.append('display_image', fileInput.files[0]);
+            }
+            
+            console.log('Form data entries:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}:`, value);
+            }
+            
+            try {
+                const response = await fetch('/api/properties/x', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Success:', result);
+                    alert('Property created successfully!');
+                } else {
+                    const error = await response.json();
+                    console.log('Error:', error);
+                    alert('Error: ' + error.error);
+                }
+            } catch (error) {
+                console.log('Request failed:', error.message);
+                alert('Request failed: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

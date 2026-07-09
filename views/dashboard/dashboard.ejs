@@ -1,0 +1,398 @@
+<%- include("../layout/header",{ title: 'Dashboard'}) %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="bookingtabs dashboard">
+  	<ul class="nav nav-pills" role="tablist">
+		<li class="nav-item" role="presentation">
+			<a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true" style="margin-left:0;">Today’s Overview</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Revenue</a>
+		</li>
+		<!--<li class="nav-item" role="presentation">
+			<a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Booking Engine Statistics</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Booking Statistics</a>
+		</li>-->
+    </ul>
+    <hr style="color:#CFCFCF;">
+    <div class="tab-content pt-5" id="tab-content">
+      	<div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+          	<div class="row">
+              	<div class="col-sm-12">
+                	<div class="text-center">
+                  		<div class="row">
+							<div class="col-sm-5">
+								<div class="row row-cols-3 dashboard_grid">
+									<div class="col"><div class="grid"><span class="grid_rate"><span class="grid_rs">Rs</span> <%=nbvTotal%></span><br><span class="grid_value">Net Booking Value</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%=checkouts%></span><br><span class="grid_value">Checkouts</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%=nights%></span><br><span class="grid_value">Nights</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%=occupancy%>%</span><br><span class="grid_value">Occupancy</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><span class="grid_rs">Rs</span> <%=adr%></span><br><span class="grid_value">ADR</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%=los%> Nights</span><br><span class="grid_value">Avg. LOS</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%=leadTime%></span><br><span class="grid_value">Booking Lead Time</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate"><%-guests%></span><br><span class="grid_value">Guests</span></div></div>
+									<div class="col"><div class="grid"><span class="grid_rate">1</span><br><span class="grid_value">Tasks</span></div></div>
+								</div>
+								<div class="row"><div class="dashboard_bestseller"><span>Best Seller</span></div></div>
+								<div class="row row-cols-2 dashboard_grid">
+									<div class="col"><div class="grid grid1"><span class="grid_value">Destination</span><br><span class="grid_rate_bestseller">Bhimtal</span></div></div>
+									<div class="col"><div class="grid grid1"><span class="grid_value">Room Type</span><br><span class="grid_rate_bestseller">Tropical Oasis by Staymaster</span></div></div>
+									<div class="col"><div class="grid grid1"><span class="grid_value">Rate Type</span><br><span class="grid_rate_bestseller">EP</span></div></div>
+								</div>
+							</div>
+                    		<div class="col-sm-7">
+								<div class="dashboard_table">
+									<ul class="nav nav-pills" role="tablist">
+										<li class="nav-item" role="presentation">
+											<a class="nav-link active" id="simple-tab-5" data-bs-toggle="tab" href="#simple-tabpanel-5" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true" style="margin-left:0;">Daily Booking Tracker</a>
+										</li>
+										<li class="nav-item" role="presentation">
+											<a class="nav-link" id="simple-tab-6" data-bs-toggle="tab" href="#simple-tabpanel-6" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Arrivals</a>
+										</li>
+										<li class="nav-item" role="presentation">
+											<a class="nav-link" id="simple-tab-7" data-bs-toggle="tab" href="#simple-tabpanel-7" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Departures</a>
+										</li>
+										<li class="nav-item" role="presentation">
+											<a class="nav-link" id="simple-tab-8" data-bs-toggle="tab" href="#simple-tabpanel-8" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Cancellation</a>
+										</li>
+									</ul>
+									<!--<br>-->
+									<div class="tab-content pt-5" id="tab-content">
+										<div class="tab-pane active" id="simple-tabpanel-5" role="tabpanel" aria-labelledby="simple-tab-5">
+											<%- include("rightTabPartial",{ stats: stats})%>
+										</div>
+										<div class="tab-pane" id="simple-tabpanel-6" role="tabpanel" aria-labelledby="simple-tab-6">
+											<%- include("rightTabPartial",{ stats: arrivals})%>
+										</div>
+										<div class="tab-pane" id="simple-tabpanel-7" role="tabpanel" aria-labelledby="simple-tab-7">
+											<%- include("rightTabPartial",{ stats: departures})%>
+										</div>
+										<div class="tab-pane" id="simple-tabpanel-8" role="tabpanel" aria-labelledby="simple-tab-8">
+											<%- include("rightTabPartial",{ stats: cancelled})%>
+										</div>
+									</div>
+								</div>
+                    		</div>
+                		</div>
+            		</div>
+       			</div>
+    		</div>
+        </div>
+		<div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+			<form id="dashboardForm" method="POST">
+			<input type="hidden" name="weekStart" id="week-start" value="<%=revenues?.weekStart%>"/>
+			<input type="hidden" name="monthStart" id="month-start" value="<%=revenues?.monthStart%>"/>
+			<input type="hidden" name="yearStart" id="year-start" value="<%=revenues?.yearStart%>"/>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Monthly Revenue Comparison</p>
+						<table>
+							<tr>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="prev-month">&lt;</button></span></td>
+								<td scope="col"><span class="titletext" id="month-display">&nbsp;<%=revenues.monthDisplay%>&nbsp;</span></td>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="next-month">&gt;</button></span></td>
+							</tr>
+							<tr><td scope="col" colspan="3"><canvas id="monthlyChart" width="600" height="400"></canvas></td></tr>
+						</table>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Weekly Revenue Comparison</p>
+						<table>
+							<tr>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="prev-week">&lt;</button></span></td>
+								<td scope="col"><span class="titletext" id="week-display">&nbsp;<%=revenues.weekDisplay%>&nbsp;</span></td>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="next-week">&gt;</button></span></td>
+							</tr>
+							<tr><td scope="col" colspan="3"><canvas id="weeklyChart" width="300" height="200"></canvas></td></tr>
+						</table>
+						
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Yearly Revenue Comparison</p>
+						<table>
+							<tr>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="prev-year">&lt;</button></span></td>
+								<td scope="col"><span class="titletext" id="week-display">&nbsp;<%=revenues.yearDisplay%>&nbsp;</span></td>
+								<td scope="col"><span class="titlehead"><button type="button" class="btn btn-light btn-sm" id="next-year">&gt;</button></span></td>
+							</tr>
+							<tr><td scope="col" colspan="3"><canvas id="annualChart" width="300" height="200"></canvas></td></tr>
+						</table>
+					</div>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Room Type Comparison</p>
+						<canvas id="propertyPie" width="400" height="400"></canvas>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Channel Comparison</p>
+						<canvas id="channelPie" width="400" height="400"></canvas>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="chartbox">
+						<p>Property Type Comparison</p>
+						<canvas id="typePie" width="400" height="400"></canvas>
+					</div>
+				</div>
+			</div> 
+			</form>
+			<!--<div class="row">
+				<div class="col-sm-4"><img style="width:100%;" src="/api/public/Img/dashboard/1.jpeg" alt=""></div>
+				<div class="col-sm-4"><img style="width:100%;" src="/api/public/Img/dashboard/2.jpeg" alt=""></div>
+				<div class="col-sm-4"><img style="width:100%;" src="/api/public/Img/dashboard/3.jpeg" alt=""></div>
+			</div><br>
+			<div class="row">
+				<div class="col-sm-4"><img style="width:100%;" src="/api/public/Img/dashboard/4.jpeg" alt=""></div>
+				<div class="col-sm-4"><img style="width:100%;" src="/api/public/Img/dashboard/5.jpeg" alt=""></div>
+			</div>-->
+		</div>
+		<div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+			<div class="row">
+				<div class="col-sm-6"><img style="width:100%;" src="/api/public/Img/dashboard/6.jpeg" alt=""></div>
+				<div class="col-sm-6"><img style="width:100%;" src="/api/public/Img/dashboard/7.jpeg" alt=""></div>
+			</div><br>
+			<div class="row">
+				<div class="col-sm-12"><div class="dashboard_table" style="height: 300px;"><p style="padding:10px;">Location Statistics</p></div></div>
+			</div>
+		</div>
+		<div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+			<p style="padding:10px;">Booking Statistics</p>
+			<div class="row">
+				<div class="col-sm-6"><img style="width:100%;" src="/api/public/Img/dashboard/6.jpeg" alt=""></div>
+				<div class="col-sm-6"><img style="width:100%;" src="/api/public/Img/dashboard/7.jpeg" alt=""></div>
+			</div><br>
+			<div class="row">
+				<div class="col-sm-12"><div class="dashboard_table" style="height: 300px;"><p style="padding:10px;">Location Statistics</p></div></div>
+			</div>  
+		</div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	const dashboardForm = document.getElementById('dashboardForm');
+	const monthDisplay = document.getElementById('month-display');
+    const weekStart = document.getElementById?.('week-start');
+	const monthStart = document.getElementById('month-start');
+	const yearStart = document.getElementById('year-start');
+	const weekly = document.getElementById('weeklyChart').getContext('2d');
+	const weekChart = makeChart(weekly);
+	const monthly = document.getElementById('monthlyChart').getContext('2d');
+	const monthChart = makeChart(monthly);
+	const yearly = document.getElementById('annualChart').getContext('2d');
+	const yearChart = makeChart(yearly);
+	const propertyPie = document.getElementById('propertyPie').getContext('2d');
+	const propertyChart = makePie(propertyPie);
+	const channelPie = document.getElementById('channelPie').getContext('2d');
+	const channelChart = makePie(channelPie);
+	const typePie = document.getElementById('typePie').getContext('2d');
+	const typeChart = makePie(typePie);
+
+	initializeCharts();
+		
+	function initializeCharts(){
+		updateChart(weekChart,<%- JSON.stringify(revenues.weeklyData) %>);
+		updateChart(monthChart,<%- JSON.stringify(revenues.monthlyData) %>);
+		updateChart(yearChart,<%- JSON.stringify(revenues.yearlyData) %>);
+		updatePieChart(propertyChart,<%- JSON.stringify(props) %>);
+		updatePieChart(channelChart,<%- JSON.stringify(channels) %>);
+		updatePieChart(typeChart,<%- JSON.stringify(propTypes) %>);
+	}
+
+	document.getElementById('prev-week').addEventListener('click', async() => {
+		const response = await getChartData('week','prev',weekStart?.value);
+		updateChart(weekChart,response);
+		weekStart.value = response?.start;
+		document.getElementById('week-display').innerText = response.display;
+		console.log(response);
+    });
+	document.getElementById('prev-month').addEventListener('click', async() => {
+		const response = await getChartData('month','prev',monthStart.value);
+		updateChart(monthChart,response);
+		monthStart.value = response.start;
+		document.getElementById('month-display').innerText = response.display;
+    });
+	document.getElementById('prev-year').addEventListener('click', async() => {
+		const response = await getChartData('year','prev',yearStart.value);
+		updateChart(yearChart,response);
+		yearStart.value = response.start;
+		document.getElementById('year-display').innerText = response.display;
+    });
+	document.getElementById('next-week').addEventListener('click', async() => {
+		const response = await getChartData('week','next',weekStart?.value);
+		console.log(response);
+		updateChart(weekChart,response);
+		weekStart.value = response?.start;
+		document.getElementById('week-display').innerText = response.display;
+    });
+	document.getElementById('next-month').addEventListener('click', async() => {
+		const response = await getChartData('month','next',monthStart.value);
+		updateChart(monthChart,response);
+		monthStart.value = response.start;
+		document.getElementById('month-display').innerText = response.display;
+    });
+	document.getElementById('next-year').addEventListener('click', async() => {
+		const response = await getChartData('year','next',yearStart.value);
+		updateChart(yearChart,response);
+		yearStart.value = response.start;
+		document.getElementById('year-display').innerText = response.display;
+    });
+
+	function makePie(ctxPie){
+		return new Chart(ctxPie, {
+			type: 'doughnut',
+			data: {
+				labels: [], // Categories
+				datasets: [{
+				data: [], // Values
+				backgroundColor: [
+					/*'rgba(255, 99, 132, 0.7)', // Colors for each category
+					'rgba(54, 162, 235, 0.7)',
+					'rgba(255, 206, 86, 0.7)',*/
+				],
+				borderColor: [
+					/*'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',*/
+				],
+				borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				plugins: {
+				legend: {
+					display: true,
+					position: 'left',
+				},
+				tooltip: {
+					enabled: true,
+				}
+				}
+			}
+		});
+	}
+
+	function makeChart(ctx){
+		return new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: 'Revenue',
+					data: [],
+					borderColor: '#048183',//#048183 4,129,31
+					borderWidth: 1,
+					tension: 0.1,
+					backgroundColor: 'rgba(4,129,131,0.2)', // Fill color  '#9FC0AF'
+      				fill: true,
+				},{
+					label: 'Prev',
+					data: [],
+					borderColor: '#C1B483',
+					borderWidth: 1,
+					tension: 0.1,
+					backgroundColor: 'rgba(225,217,194,0.8)',//
+					fill: true
+				},]
+			},
+			options: {
+				responsive: true,
+				plugins: {
+					legend: {
+						display: false,
+					},
+				},
+				scales: {
+					x: {
+						title: { display: false, text: 'Date' }
+					},
+					y: {
+						title: { display: false, text: 'Revenue' },
+						beginAtZero: true
+					}
+				}
+			}
+    	});
+	}
+
+	function updatePieChart(pieChart,data) {
+		const labels = data.map(item => item.category);
+		const values = data.map(item => item.count);
+
+		const backgroundColors = labels.map(() => generateRandomColor());
+    	const borderColors = labels.map(() => generateRandomBorderColor());
+
+		pieChart.data.labels = labels;
+		pieChart.data.datasets[0].data = values;
+		pieChart.data.datasets[0].backgroundColor = backgroundColors;
+    	pieChart.data.datasets[0].borderColor = borderColors;
+		pieChart.update();
+	}
+
+	async function getChartData(duration,range,startDate){
+		try {
+                const formData = new FormData(dashboardForm);
+				formData.append('duration', duration);
+				formData.append('range', range);
+				formData.append('startDate',startDate);
+                console.log(formData);
+                // Send formData to backend
+                const response = await fetch('/admin/chart', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to save user:', response.json());
+                    throw new Error('Failed to save user');
+                }
+
+                const result = await response.json();
+                if(result.success){
+					return result.data;
+                }else{
+                    alert(result.error);
+                }
+                console.log('User saved successfully:', result);
+            } catch (error) {
+                console.error('Error saving request:', error);
+                alert('Failed to save User');
+            }
+	}
+
+	function updateChart(chart,data){
+		const labels = data.current.map(item => item.date);
+        const revenues = data.current.map(item => item.revenue);
+        const previousRevenues = data.previous.map(item => item.revenue);
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = revenues;
+		chart.data.datasets[1].data = previousRevenues;
+        chart.update();
+	}
+});
+function generateRandomColor() {
+	const r = Math.floor(Math.random() * 256); // Red (0-255)
+	const g = Math.floor(Math.random() * 256); // Green (0-255)
+	const b = Math.floor(Math.random() * 256); // Blue (0-255)
+	return `rgba(${r}, ${g}, ${b}, 0.7)`; // Random color with transparency
+}
+
+function generateRandomBorderColor() {
+	const r = Math.floor(Math.random() * 256); // Red (0-255)
+	const g = Math.floor(Math.random() * 256); // Green (0-255)
+	const b = Math.floor(Math.random() * 256); // Blue (0-255)
+	return `rgba(${r}, ${g}, ${b}, 1)`; // Random solid color
+}
+</script>
+<%- include("../layout/footer") %>

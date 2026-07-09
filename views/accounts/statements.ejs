@@ -1,0 +1,127 @@
+<%- include("../layout/header",{ title: `Monthly Statements`}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Monthly Statements</h1></div>
+    </div>
+    <div class="formcontainer">
+        <h1 class="propertyheadingblue"><%=property.listing_name%></h1>
+        <hr>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="property_id" id="property_id" value="<%=property.id%>"/>
+            <div class="row form-row">
+                <div class="form-group col-md-2">
+                    <label>Month:</label>
+                    <select id="file_month" name="file_month" required>
+                        <option value="">Select Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Year:</label>
+                    <select id="file_year" name="file_year" required>
+                        <option value="">Select Year</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Statement:</label>
+                    <input type="file" name="statement_file" id="statement_file" required/>
+                </div>
+                <div class="form-group col-md-3">
+                    <button class="greenbutton" id="upload-button">Upload Statement</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <br>
+        <h1 class="propertyheadingblue">Available Statements</h1>
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="propertylist_table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td scope="col">Month</td>
+                                <td scope="col">&nbsp;</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% statements.forEach((statement)=>{ %>
+                                <tr>
+                                    <td><%= statement.month %>&nbsp;<%= statement.year %>&nbsp;<%= statement.name %></td>
+                                    <td>
+                                        <div>
+                                            <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/edit/<%= property.id %>"><i class="fa-solid fa-download fa-fw" title="Download"></i></a></span>
+                                            <span style="display: inline-block; margin: 0.05em; border: 1px solid green; border-radius: 0.25em; padding: .25em 0.5em"><a href="/api/properties/listings/<%= property.id %>"><i class="fa-solid fa-trash fa-fw" title="Delete"></i></a></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <%});%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadButton = document.getElementById('upload-button');
+        const uploadForm = document.getElementById('uploadForm');
+        const property_id = document.getElementById('property_id');
+
+        uploadButton.addEventListener('click', async () => {
+            if (!uploadForm.checkValidity()) {
+                uploadForm.reportValidity();
+                return;
+            }
+            try {
+                uploadButton.disabled=true;
+                const formData = new FormData(uploadForm);
+                // Send formData to backend
+                const response = await fetch('/admin/uploadStatement', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log(response);
+                console.log("Status: "+response.success);
+                if (!response.ok) {
+                    console.log('Failed to upload Statement:', response.json());
+                    uploadButton.disabled=false;
+                    throw new Error('Failed to upload Statement');
+                }
+
+                const result = await response.json();
+                console.log("Result Status: "+result.success);
+                if(result.success){
+                    var prop = $("#property_id").val();
+                    window.location.href = `/admin/statements/${prop}/${result.flash}`;
+                }else{
+                    alert(result.error);
+                    uploadButton.disabled=false;
+                }
+            } catch (error) {
+                console.error('Error saving statement:', error);
+                alert('Failed to upload Statement');
+            }
+        });
+    });
+</script>
+<%- include("../layout/footer") %>

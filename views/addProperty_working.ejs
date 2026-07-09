@@ -1,0 +1,508 @@
+<%- include("layout/header",{ title: 'Add Property'}) %>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1 class="propertyheading">Property Details</h1>
+        <div class="col-sm-6"><h1>Property Details</h1></div>
+        <form id="add-property-form" method="POST" enctype="multipart/form-data" class="addproperty">
+            <fieldset>
+                <!--<legend>Property Details</legend>-->
+                <hr>
+                <table width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <table width="100%">
+                                <tr>
+                                    <td><input type="text" name="slug" value="" placeholder="unique_slug" required></td>
+                                    <td>Display Order: <input type="number" name="display_order" value="<%= results.nextOrder %>" placeholder="" required></td>
+                                    <td colspan="4">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="channel_id" value="" placeholder="channel_id" required></td>
+                                    <td><input type="text" name="listing_name" value="" placeholder="Listing Name" required></td>
+                                    <td>
+                                        <select name="hosts" id="hosts" multiple required>
+                                            <option value="">Select Client</option>
+                                            <% results.hosts.forEach(host => { %>
+                                                <option value="<%= host.id %>"><%= host.name %></option>
+                                            <% }); %>
+                                        </select>
+                                    </td>
+                                    <td>Staymaster Select
+                                        <input type="radio" id="yes" name="staymaster_select" value="1" />
+                                        <label for="yes">Yes</label>
+                                        <input type="radio" id="no" name="staymaster_select" value="0" checked />
+                                        <label for="no">No</label>
+                                    </td>
+                                    <td><input type="text" name="internal_name" value="" placeholder="Internal Name" required></td>
+                                    <td>
+                                        <select name="destination" id="destination" required>
+                                            <option value="">Select Location</option>
+                                            <% results.destinations.forEach(destination => { %>
+                                                <option value="<%= destination.id %>"><%= destination.name %></option>
+                                            <% }); %>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <table width="100%">
+                                <tr>
+                                    <td><input type="text" name="address_line_1" value="" placeholder="Address Line 1"></td>
+                                    <td><input type="text" name="address_line_2" value="" placeholder="Address Line 2"></td>
+                                    <td><input type="text" name="city" value="" placeholder="city" required></td>
+                                    <td><input type="text" name="state" value="" placeholder="state" required></td>
+                                    <td>
+                                        <select name="country" id="" required>
+                                            <option value="">Select Country</option>
+                                            <% results.countries.forEach(country => { %>
+                                                <option value="<%= country.id %>"><%= country.display %></option>
+                                            <% }); %>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="postcode" value="" placeholder="postcode" required></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        <select name="property_type" id="" required>
+                                            <option value="">Type of property</option>
+                                            <% results.property_types.forEach(property_type => { %>
+                                                <option value="<%= property_type.id %>"><%= property_type.display %></option>
+                                            <% }); %>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" name="number_of_bedrooms" value="" placeholder="No of bedrooms" required></td>
+                                    <td><input type="text" name="number_of_bathrooms" value="" placeholder="No of bathrooms" required></td>
+                                    <td><input type="text" name="number_of_guests" value="" placeholder="No of guests" required></td>
+                                    <td><input type="text" name="number_of_extra_guests" value="" placeholder="No of extra guests" required></td>
+                                    <td>Featured Property <input type="checkbox" name="featured_property" placeholder="Featured Property" value=""></td>
+                                    <td><input type="text" id="sdp" name="security_deposit_percentage" value="" placeholder="Security Deposit" required></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <table width="100%">
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Property Category(Select upto 5)</legend>
+                            <% results.collections.forEach(collection => { %>
+                                <input type="checkbox" name="property_collections" value="<%= collection.id %>"><%= collection.name %><br>
+                            <% }); %>
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset>
+                            <legend>Property Detailed Descriptions</legend>
+                            <table>
+                                <tr>
+                                    <td><textarea name="description_summary" rows="4" cols="50" placeholder="Summary (Description upto 500 characters)"></textarea></td>
+                                    <td><textarea name="description_bedrooms_and_bath" rows="4" cols="50" placeholder="bedrooms_and_bath (Description upto 500 characters)"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><textarea name="description_living_and_dining" rows="4" cols="50" placeholder="living_and_dining (Description upto 500 characters)"></textarea></td>
+                                    <td><textarea name="description_kitchen_space" rows="4" cols="50" placeholder="kitchen_space (Description upto 500 characters)"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><textarea name="description_pool" rows="4" cols="50" placeholder="Pool (Description upto 500 characters)"></textarea></td>
+                                    <td><textarea name="description_unique_highlights" rows="4" cols="50" placeholder="description_unique_highlights (Description upto 500 characters)"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><textarea name="description_hospitality_service" rows="4" cols="50" placeholder="Hospitality (Description upto 500 characters)"></textarea></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+            </table>
+            <fieldset>
+                <legend>Amenities</legend>
+                <table>
+                    <tr>
+                    <% Object.keys(results.amenities).forEach(category => { %>
+                        <td style="border:1px solid #eeeeee; vertical-align: top;">
+                        <br><%= category %><br>
+                        <% results.amenities[category].forEach(amenity => { %>
+                            <input type="checkbox" name="amenities" value="<%= amenity.id %>"><%= amenity.name %><br>
+                            <input type="text" name="<%= amenity.id %>_description" value="" placeholder="">
+                        <% }); %>
+                        </td>
+                    <% }); %>
+                    </tr>
+                </table>
+            </fieldset>
+            <table><tr><td>&nbsp;</td></tr></table>
+            <fieldset>
+                <legend>Location & Neighbourhood</legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <table>
+                                <tr><td><input type="text" name="google_latitude" value="" placeholder="Google Latitude" required></td></tr>
+                                <tr><td><input type="text" name="google_longitude" value="" placeholder="Google Longitude" required></td></tr>
+                            </table>
+                        </td>
+                        <td>
+                            <textarea name="location_details" rows="4" cols="50" placeholder="Location Details (Description upto 500 characters)"></textarea>
+                        </td>
+                        <td>
+                            <textarea name="places_around" rows="4" cols="50" placeholder="Places Around (Description upto 500 characters)"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <table><tr><td>&nbsp;</td></tr></table>
+            <fieldset>
+                <legend>Meals</legend>
+                <table>
+                    <tr>
+                        <td>
+                            Meals Available: 
+                            <input type="radio" id="yes" name="meals_available" value="1" />
+                            <label for="yes">Yes</label>
+                            <input type="radio" id="no" name="meals_available" value="0" checked />
+                            <label for="no">No</label><br/>
+                            Breakfast Fee: <input type="text" name="breakfast_fee" value="0" placeholder="">
+                        </td>
+                        <td><textarea name="meals_text" rows="4" cols="50" placeholder="Meals Description"></textarea></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </fieldset>
+            <table><tr><td>&nbsp;</td></tr></table>
+            <table>
+                <tr>
+                    <td>
+                        <fieldset>
+                            <legend>Essential Info</legend>
+                            Check In: <input type="text" name="check_in" value="15:00:00" required>
+                            Check Out:<input type="text" name="check_out" value="11:00:00" required>
+                            <input type="text" name="other_details" value="">
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset>
+                            <legend>House Rules & Policies</legend>
+                            <textarea name="house_rules" rows="4" cols="50" placeholder="House Rules"></textarea>
+                        </fieldset>
+                    </td>
+                </tr>
+            </table>
+            <table><tr><td>&nbsp;</td></tr></table>
+            <fieldset>
+                <legend>Users</legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <select name="reservation_executive" id="" required>
+                                <option value="">Select Reservation Executive</option>
+                                <% results.staffs.forEach(staff => { %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="revenue_manager" id="" required>
+                                <option value="">Select Revenue Manager</option>
+                                <% results.staffs.forEach(staff => { %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="hospitality_manager" id="" required>
+                                <option value="">Select Hospitalty Manager</option>
+                                <% results.staffs.forEach(staff => { %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="general_manager" id="" required>
+                                <option value="">Select Hospitalty Manager</option>
+                                <% results.staffs.forEach(staff => { %>
+                                    <option value="<%= staff.id %>"><%= staff.name %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <table><tr><td>&nbsp;</td></tr></table>
+            
+            <div class="form-group">
+                <label>Display Picture <span class="error" id="display-picture-error">This field is required.</span></label>
+                <div class="dropzone" id="display-picture-dropzone"><h4>Display Picture</h4></div>
+            </div>
+            <!--<div class="form-group">
+                <h2>Property Pictures</h2>
+                <div class="dropzone" id="bedroom-dropzone" data-category="271"><h4>Bedroom Photos</h4></div>
+                <div class="dropzone" id="bathroom-dropzone" data-category="7"><h4>Bathroom Photos</h4></div>
+                <div class="dropzone" id="living-dropzone" data-category="8"><h4>Living & Dining Space Photos</h4></div>
+                <div class="dropzone" id="kitchen-dropzone" data-category="9"><h4>Kitchen & Pantry Photos</h4></div>
+                <div class="dropzone" id="pool-dropzone" data-category="10"><h4>Pool Photos</h4></div>
+                <div class="dropzone" id="garden-dropzone" data-category="11"><h4>Garden or Outdoor Areas Photos</h4></div>
+                <div class="dropzone" id="shared-dropzone" data-category="12"><h4>Shared Spaces Photos</h4></div>
+                <div class="dropzone" id="fascade-dropzone" data-category="13"><h4>Fascade & Exterior Photos</h4></div>
+            </div>-->
+            
+            <div class="button-container">
+                <button type="button" class="add-villa-btn" id="upload-button">Add Property</button>
+                <button onclick="location.href='/api/properties/listing'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadButton = document.getElementById('upload-button');
+        const addPropertyForm = document.getElementById('add-property-form');
+        const displayPictureDropzone = document.getElementById('display-picture-dropzone');
+        const displayPictureError = document.getElementById('display-picture-error');
+        let displayPictureFile = null;
+
+        uploadButton.addEventListener('click', async () => {
+            if (!addPropertyForm.checkValidity()) {
+                addPropertyForm.reportValidity();
+                return;
+            }
+            if (!displayPictureFile) {
+                alert("Display picture is mandatory");
+                displayPictureError.style.display = 'block';
+                return;
+            }
+            try {
+                uploadButton.disabled=true;
+                const formData = new FormData(addPropertyForm);
+                const displayPictureFiles = document.getElementById('display-picture-dropzone').querySelectorAll('img:not(.delete-icon)');
+                const propertyPictures = document.querySelectorAll('.dropzone[id$="-dropzone"]');
+                // Add display picture to formData
+                if (displayPictureFiles.length > 0) {
+                    formData.append('display_image', displayPictureFiles[0].file);
+                }
+
+                // Add property pictures to formData
+                propertyPictures.forEach(dropzone => {
+                    const category_id = dropzone.getAttribute('data-category');
+                    const images = dropzone.querySelectorAll('img:not(.delete-icon)');
+                    images.forEach((img, index) => {
+                        formData.append(`photos_${category_id}`, img.file);
+                        formData.append(`category_ids_${category_id}`, category_id);
+                    });
+                });
+
+                // Send formData to backend
+                const response = await fetch('/api/properties/x', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to upload property:', response.json());
+                    uploadButton.disabled=false;
+                    throw new Error('Failed to upload property');
+                }
+
+                const result = await response.json();
+                console.log('Property uploaded successfully:', result);
+                uploadButton.disabled=false;
+                alert('Property uploaded successfully');
+                //window.location.href = '/api/properties/listing';
+            } catch (error) {
+                console.error('Error uploading property:', error);
+                alert('Failed to upload property');
+            }
+        });
+
+        displayPictureDropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#e0e0e0';
+        });
+        
+        displayPictureDropzone.addEventListener('dragleave', () => {
+            displayPictureDropzone.style.backgroundColor = '#fff';
+        });
+        
+        displayPictureDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            displayPictureDropzone.style.backgroundColor = '#fff';
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (files.length > 1) {
+                alert('Only one display picture is allowed.');
+            } else {
+                handleDisplayPicture(files[0]);
+            }
+        });
+        
+        displayPictureDropzone.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                handleDisplayPicture(file);
+            };
+            input.click();
+        });
+
+        function handleDisplayPicture(file) {
+            if (file && file.type.startsWith('image/')) {
+                const existingImg = displayPictureDropzone.querySelector('img:not(.delete-icon)');
+                if (existingImg) {
+                    alert('Only one display picture is allowed.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const img = document.createElement('img');
+                    img.src = reader.result;
+                    img.file = file;
+                    displayPictureDropzone.appendChild(img);
+
+                    const deleteIcon = document.createElement('img');
+                    deleteIcon.src = '/api/public/delete_icon.jpg'; // Provide URL for delete icon
+                    deleteIcon.classList.add('delete-icon');
+                    displayPictureDropzone.appendChild(deleteIcon);
+
+                    deleteIcon.addEventListener('click', () => {
+                        displayPictureDropzone.innerHTML = 'Display picture';
+                        displayPictureFile = null;
+                        displayPictureError.style.display = 'block';
+                    });
+                    displayPictureFile = file;
+                    displayPictureError.style.display = 'none';
+                };
+            }
+        }
+
+        const dropzones = document.querySelectorAll('.dropzone:not(#display-picture-dropzone)');
+        
+        dropzones.forEach(dropzone => {
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#e0e0e0';
+            });
+            
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.style.backgroundColor = '#fff';
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.style.backgroundColor = '#fff';
+                
+                const files = Array.from(e.dataTransfer.files);
+                handleFiles(files, dropzone);
+            });
+            
+            dropzone.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.onchange = (e) => {
+                    const files = Array.from(e.target.files);
+                    handleFiles(files, dropzone);
+                };
+                input.click();
+            });
+        });
+
+        function handleFiles(files, dropzone) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.style.position = 'relative';
+                        imgContainer.style.display = 'inline-block';
+                        imgContainer.draggable = true;
+
+                        const img = document.createElement('img');
+                        img.src = reader.result;
+                        img.file = file;
+                        imgContainer.appendChild(img);
+
+                        const deleteIcon = document.createElement('img');
+                        deleteIcon.src = '/delete_icon.jpg'; // Provide URL for delete icon
+                        deleteIcon.classList.add('delete-icon');
+                        imgContainer.appendChild(deleteIcon);
+
+                        deleteIcon.addEventListener('click', () => {
+                            imgContainer.remove();
+                        });
+                        dropzone.appendChild(imgContainer);
+
+                        // Enable drag-and-drop reordering
+                        imgContainer.addEventListener('dragstart', (e) => {
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.dataTransfer.setData('text/plain', null);
+                            imgContainer.classList.add('dragging');
+                        });
+
+                        imgContainer.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            const draggingElement = document.querySelector('.dragging');
+                            if (draggingElement !== imgContainer) {
+                                const bounding = imgContainer.getBoundingClientRect();
+                                const offset = bounding.y + (bounding.height / 2);
+                                if (e.clientY - offset > 0) {
+                                    imgContainer.style['border-bottom'] = '2px solid blue';
+                                    imgContainer.style['border-top'] = '';
+                                } else {
+                                    imgContainer.style['border-top'] = '2px solid blue';
+                                    imgContainer.style['border-bottom'] = '';
+                                }
+                            }
+                        });
+
+                        imgContainer.addEventListener('dragleave', () => {
+                            imgContainer.style['border-bottom'] = '';
+                            imgContainer.style['border-top'] = '';
+                        });
+
+                        imgContainer.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            const draggingElement = document.querySelector('.dragging');
+                            if (draggingElement !== imgContainer) {
+                                const bounding = imgContainer.getBoundingClientRect();
+                                const offset = bounding.y + (bounding.height / 2);
+                                if (e.clientY - offset > 0) {
+                                    imgContainer.style['border-bottom'] = '';
+                                    imgContainer.insertAdjacentElement('afterend', draggingElement);
+                                } else {
+                                    imgContainer.style['border-top'] = '';
+                                    imgContainer.insertAdjacentElement('beforebegin', draggingElement);
+                                }
+                            }
+                        });
+
+                        imgContainer.addEventListener('dragend', () => {
+                            imgContainer.classList.remove('dragging');
+                            imgContainer.style['border-bottom'] = '';
+                            imgContainer.style['border-top'] = '';
+                        });
+                    };
+                }
+            });
+        }
+    });
+</script>
+<%- include("layout/footer") %>

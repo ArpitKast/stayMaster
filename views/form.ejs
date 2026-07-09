@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!-- Opening HTML Tags-->
+<html>
+        <!-- Opening head Tags-->
+<head> 
+        <!-- Opening head Tags-->
+        <title>Form</title> 
+</head>
+<!-- Opening body Tag -->
+<body>
+        <h1>Hello from the form.ejs</h1>
+        <form action="/api/properties/" method="POST" enctype="multipart/form-data">
+			<!--<label>Image Info: </label>
+			<table style="border: 1px solid;">
+				<tr><td><b>Category</b></td><td><b>Order</b></td><td><b>Name</b></td></tr>
+				<tr>
+					<td><input name="category[]" type="text" value="Pool"/></td>
+					<td><input name="order[]" type="text" value="1"/></td>
+					<td><input name="name[]" type="text" value="Pool image 2"/></td>
+				</tr>
+				<tr>
+					<td><input name="category[]" type="text" value="Outside"></td>
+					<td><input name="order[]" type="text" value="2"></td>
+					<td><input name="name[]" type="text" value="Outside image 2"></td>
+				</tr>
+				<tr>
+					<td><input name="category[]" type="text" value="Balcony"></td>
+					<td><input name="order[]" type="text" value="1"></td>
+					<td><input name="name[]" type="text" value="Balcony image 1"></td>
+				</tr>
+			</table>
+			<br/>-->
+            <!-- Creating the parameter Username as type= "text"-->
+            <label>Name: </label>
+            <input type="text" placeholder="Name" name="name" value="RK"><br><br>
+			<input type="text" placeholder="description" name="description" value="RK Desc"><br><br>
+			<select name="display_order">
+				<option value="0">None</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+			</select>
+			<br><br>
+			<input type="radio" name="active" value="1" selected>Yes</input>
+			<input type="radio" name="active" value="0">No</input>
+			<br><br>
+			<label>display_pic </label>
+			<input name="display_pic" type="file" />
+			<label>meals_menu </label>
+			<input name="meals_menu" type="file" />
+			<br><br>
+			<input name="1_1" type="file" />
+			<input name="2_53" type="file" />
+			<input name="2_3" type="file" />
+			<input name="1_9" type="file" />
+			<input name="2_x" type="file" />
+			<input name="3_abc" type="file" />
+			<input name="1_1" type="file" />
+			<input name="3_39" type="file" />
+			<input name="3_18" type="file" />
+			<input name="4_108" type="file" />
+            <!-- Creating the parameter Email as type= "text"-->
+            <!--<label>Email: </label>
+            <input type="email" placeholder="Email" name="email" value="x@y.com"><br><br>
+            <input type="text" placeholder="Password" name="password" value="RK123"><br><br>
+            <input name="userfile" type="file" />-->
+            <!-- Creating the submit button -->
+			<br><br>
+			<input type="hidden" name="file_info" value='
+			[
+			  {
+				"imageName": "image_1_1.jpg",
+				"title": "Title 1_1",
+				"description": "Description 1_1",
+				"category": 1,
+				"order": 1
+			  },
+			  {
+				"imageName": "image_1_2.jpg",
+				"title": "Title 1_2",
+				"description": "Description 1_2",
+				"category": 1,
+				"order": 2
+			  },
+			  {
+				"imageName": "image_1_3.jpg",
+				"title": "Title 1_3",
+				"description": "Description 1_3",
+				"category": 1,
+				"order": 3
+			  },
+			  {
+				"imageName": "image_1_4.jpg",
+				"title": "Title 1_4",
+				"description": "Description 1_4",
+				"category": 1,
+				"order": 4
+			  },
+			  {
+				"imageName": "image_1_5.jpg",
+				"title": "Title 1_5",
+				"description": "Description 1_5",
+				"category": 1,
+				"order": 5
+			  },
+			  {
+				"imageName": "image_2_1.jpg",
+				"title": "Title 2_1",
+				"description": "Description 2_1",
+				"category": 2,
+				"order": 1
+			  },
+			  {
+				"imageName": "image_2_2.jpg",
+				"title": "Title 2_2",
+				"description": "Description 2_2",
+				"category": 2,
+				"order": 2
+			  },
+			  {
+				"imageName": "image_2_3.jpg",
+				"title": "Title 2_3",
+				"description": "Description 2_3",
+				"category": 2,
+				"order": 3
+			  },
+			  {
+				"imageName": "image_2_4.jpg",
+				"title": "Title 2_4",
+				"description": "Description 2_4",
+				"category": 2,
+				"order": 4
+			  },
+			  {
+				"imageName": "image_2_5.jpg",
+				"title": "Title 2_5",
+				"description": "Description 2_5",
+				"category": 2,
+				"order": 5
+			  },
+			  {
+				"imageName": "image_3_1.jpg",
+				"title": "Title 3_1",
+				"description": "Description 3_1",
+				"category": 3,
+				"order": 1
+			  },
+			  {
+				"imageName": "image_3_2.jpg",
+				"title": "Title 3_2",
+				"description": "Description 3_2",
+				"category": 3,
+				"order": 2
+			  },
+			  {
+				"imageName": "image_3_3.jpg",
+				"title": "Title 3_3",
+				"description": "Description 3_3",
+				"category": 3,
+				"order": 3
+			  },
+			  {
+				"imageName": "image_3_4.jpg",
+				"title": "Title 3_4",
+				"description": "Description 3_4",
+				"category": 3,
+				"order": 4
+			  },
+			  {
+				"imageName": "image_3_5.jpg",
+				"title": "Title 3_5",
+				"description": "Description 3_5",
+				"category": 3,
+				"order": 5
+			  },
+			  {
+				"imageName": "image_4_1.jpg",
+				"title": "Title 4_1",
+				"description": "Description 4_1",
+				"category": 4,
+				"order": 1
+			  },
+			  {
+				"imageName": "image_4_2.jpg",
+				"title": "Title 4_2",
+				"description": "Description 4_2",
+				"category": 4,
+				"order": 2
+			  },
+			  {
+				"imageName": "image_4_3.jpg",
+				"title": "Title 4_3",
+				"description": "Description 4_3",
+				"category": 4,
+				"order": 3
+			  },
+			  {
+				"imageName": "image_4_4.jpg",
+				"title": "Title 4_4",
+				"description": "Description 4_4",
+				"category": 4,
+				"order": 4
+			  },
+			  {
+				"imageName": "image_4_5.jpg",
+				"title": "Title 4_5",
+				"description": "Description 4_5",
+				"category": 4,
+				"order": 5
+			  },
+			  {
+				"imageName": "image_5_1.jpg",
+				"title": "Title 5_1",
+				"description": "Description 5_1",
+				"category": 5,
+				"order": 1
+			  },
+			  {
+				"imageName": "image_5_2.jpg",
+				"title": "Title 5_2",
+				"description": "Description 5_2",
+				"category": 5,
+				"order": 2
+			  },
+			  {
+				"imageName": "image_5_3.jpg",
+				"title": "Title 5_3",
+				"description": "Description 5_3",
+				"category": 5,
+				"order": 3
+			  },
+			  {
+				"imageName": "image_5_4.jpg",
+				"title": "Title 5_4",
+				"description": "Description 5_4",
+				"category": 5,
+				"order": 4
+			}
+			]'
+				/>
+            <input type="submit" value="Submit" name="x"/>
+        </form>
+		<br/>
+		<table border="1" padding="5px">
+			<tr>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_1.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=95070dc738b2f1ecab16ea0ad81bf053db59a13ec3045c77a29c4e818756f2ec&X-Amz-SignedHeaders=host"></td>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_3.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=7f305ee839bd2602e2a4a53f15356c50213111e535ecbbef96ac25cca94102f6&X-Amz-SignedHeaders=host"></td>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_2.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=e8e9fc7bf28a1c2afcfb251d9e44f4a1ad42d65085da1f617a8c5e8a275a2a85&X-Amz-SignedHeaders=host"></td>
+			</tr>
+			<tr>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=431b5650f0da6c433428f159140ca13d49de37f630e71f42a79a25c9dc8980f3&X-Amz-SignedHeaders=host"></td>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=6a5bbe6e1c003ccb966827c241b79a748bc5e6ac71cad3874677897c9867fbd0&X-Amz-SignedHeaders=host"></td>
+				<td><img height="250px" src="https://staymaster.s3.ap-south-1.amazonaws.com/destination/destination_5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2VBA7ZYA2D7C2OX7%2F20240126%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20240126T023350Z&X-Amz-Expires=3600&X-Amz-Signature=6a5bbe6e1c003ccb966827c241b79a748bc5e6ac71cad3874677897c9867fbd0&X-Amz-SignedHeaders=host"></td>
+			</tr>
+		</table>
+		
+</body>

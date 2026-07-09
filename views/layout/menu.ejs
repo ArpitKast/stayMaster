@@ -1,0 +1,146 @@
+<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <!--<a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-5 d-none d-sm-inline">Menu</span>
+        </a>-->
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start gap-2" id="menu">
+            <li class="nav-item">
+                <a href="/admin/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_dashboard.png" alt="Dashboard"> <span
+                        class="ms-1 d-none d-sm-inline">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/api/properties/listing" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property.png" alt="Property Management"> <span
+                        class="ms-1 d-none d-sm-inline">Property Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookingsCalendar/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property1.png" alt="Bookings Calendar"> <span
+                        class="ms-1 d-none d-sm-inline">Bookings Calendar</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/manageBookings/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property.png" alt="Manage Bookings"> <span
+                        class="ms-1 d-none d-sm-inline">Manage Bookings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property.png" alt="Bookings"> <span
+                        class="ms-1 d-none d-sm-inline">Bookings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/liveBookingInfo/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property1.png" alt="Live Booking Information">
+                    <span class="ms-1 d-none d-sm-inline">Live Booking Information</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/statements/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_rates.png" alt="Monthly Statements"> <span
+                        class="ms-1 d-none d-sm-inline">Monthly Statements</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/guests/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_user.png" alt="Guest Management"> <span
+                        class="ms-1 d-none d-sm-inline">Guest Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#leadsSubmenu" class="nav-link align-middle px-0" data-bs-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="leadsSubmenu">
+                    <img class="menu-icon" src="/api/public/Img/Menu_user.png" alt="Leads"> <span
+                        class="ms-1 d-none d-sm-inline">Leads</span>
+                </a>
+                <ul class="collapse list-unstyled ps-4" id="leadsSubmenu">
+                    <li class="nav-item">
+                        <a href="/admin/leads/?source=form" class="nav-link align-middle px-0">
+                            <span class="ms-1 d-none d-sm-inline">Form Leads</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/leads/?source=brochure" class="nav-link align-middle px-0">
+                            <span class="ms-1 d-none d-sm-inline">Brochure Leads</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/forms/" class="nav-link align-middle px-0">
+                            <span class="ms-1 d-none d-sm-inline">Forms</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/services" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/servicerequest.png" alt="Service Request Listing"><span
+                        class="ms-1 d-none d-sm-inline">Service Request Listing</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/settings" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_rates.png" alt="Settings"> <span
+                        class="ms-1 d-none d-sm-inline">Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users/staff" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_rates.png" alt="Manage Users"> <span
+                        class="ms-1 d-none d-sm-inline">Manage Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users/host" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_rates.png" alt="Manage Hosts"> <span
+                        class="ms-1 d-none d-sm-inline">Manage Hosts</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users/manager" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_user.png" alt="Manage Property Managers"> <span
+                        class="ms-1 d-none d-sm-inline">Manage Property Managers</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/admin/channel_ids/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property1.png" alt="Channel IDs"><span
+                        class="ms-1 d-none d-sm-inline">Channel IDs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/banners/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property.png" alt="Banner Management"> <span
+                        class="ms-1 d-none d-sm-inline">Banner Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/brochures/" class="nav-link align-middle px-0">
+                    <img class="menu-icon" src="/api/public/Img/Menu_property.png" alt="Brochure Management"> <span
+                        class="ms-1 d-none d-sm-inline">Brochure Management</span>
+                </a>
+            </li>
+
+            <!--<li class="nav-item">
+                <a href="#" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home Onboarding</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">User Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link align-middle px-0">
+                    <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Settings</span>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</div>

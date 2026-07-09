@@ -1,0 +1,34 @@
+<%- include("layout/header",{ title: 'Ezee Channel IDs'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-6"><h1>Ezee Channel IDs</h1></div>
+    </div>
+    <div class="formcontainer">
+        <div class="propertylist_table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td scope="col">Channel ID</td>
+                        <td scope="col">Name</td>
+                        <td scope="col">Occupancy</td>
+                   </tr>
+                </thead>
+                <tbody>
+                    <% results.forEach(result => { %>
+                    <tr>
+                        <td scope="col"><span class="text"><%= result.roomtypeunkid %></span></td>
+                        <td scope="col"><span class="text"><%= result.roomtype %><br><%= result.shortcode %></span></td>
+                        <td scope="col">
+                            <span class="text">
+                                Base adults: <%= result.base_adult_occupancy %> &nbsp;&nbsp;&nbsp;&nbsp;Base child: <%= result.base_child_occupancy %><br>
+                                Max adults: <%= result.base_adult_occupancy %>&nbsp;&nbsp;&nbsp;&nbsp;Max child: <%= result.base_child_occupancy %>
+                            </span>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include("layout/footer") %>

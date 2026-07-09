@@ -1,0 +1,37 @@
+<%- include("../layout/header",{ title: 'Form Submissions'}) %>
+<div class="servicelist propertylist">
+    <div class="row">
+        <div class="col-sm-6"><h1>Form Submissions</h1></div>
+    </div>
+</div>
+<div class="bookingtabs">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Contact Us</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Get In Touch</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Host Page Form</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">Newsletter</a>
+        </li>
+    </ul>
+    <div class="tab-content pt-5" id="tab-content">
+        <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+            <%- include("listPartial",{ forms: contact_us,type:'contact_us'}) %>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+            <%- include("listPartial",{ forms: get_in_touch, type:'get_in_touch'}) %>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+            <%- include("listPartial",{ forms: host_page_form,type:'host_page_form'}) %>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+            <%- include("listPartial",{ forms: newsletter,type:'newsletter'}) %>
+        </div>
+    </div>
+</div>
+<%- include("../layout/footer") %>

@@ -1,0 +1,191 @@
+<%- include("../layout/header",{ title: 'bookinglist'}) %>
+
+<div class="propertylist">
+    <div class="row">
+        <div class="col-sm-6"><h1>Bookings</h1></div>
+        <!--<div class="col-sm-6" style="text-align: right;">
+            <div class="input-group bookingsearch">
+                <div class="form-outline" data-mdb-input-init>
+                  <input type="search" id="form1" class="form-control" />
+                </div>
+                      <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+            <i class="fas fa-search"></i> --
+                </button>
+            </div>
+            <label class="form-label" for="form1"><button type="button" class="greenbutton"> + Search</button></label>
+              <img class="borderimg" src="/api/public/Img/refresh.png" alt="">
+              <img class="borderimg"src="/api/public/Img/download.png" alt="">
+        </div>-->
+    </div>
+    <div class="bookingtabs">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Recent</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Upcoming</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Ongoing</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="simple-tab-3" data-bs-toggle="tab" href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Past</a>
+          </li>
+      </ul>
+      <div class="tab-content pt-5" id="tab-content">
+        <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="propertylist_table">
+                         <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col">Booking No.</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">Stay Dates</td>
+                                    <td scope="col">Type</td>
+                                    <td scope="col">Property</td>
+                                    <td scope="col">Rooms</td>
+                                    <td scope="col">Total Charges</td>
+                                    <td scope="col">Total Payment</td>
+                                    <td scope="col">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.recent.forEach((booking,index) => { %>
+                                <tr>
+                                    <td scope="col"><span class="text"><%=booking.uniqueId%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.start%> - <%=booking.end%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.property_type%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.listing_name%></span></td>
+                                    <td scope="col"><span class="text">3</span></td>
+                                    <td scope="col"><span class="text"><%=booking.totalAmountAfterTax%></span></td>
+                                    <td scope="col"><span class="text"><%=booking.totalPayment%></span></td>
+                                    <td scope="col"><a href="/admin/bookings/edit/<%=booking.id%>"><button type="button" class="transparant">View Details</button></a></td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="propertylist_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col">Booking No.</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">Stay Dates</td>
+                                    <td scope="col">Type</td>
+                                    <td scope="col">Property</td>
+                                    <td scope="col">Rooms</td>
+                                    <td scope="col">Total Charges</td>
+                                    <td scope="col">Total Payment</td>
+                                    <td scope="col">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.upcoming.forEach((booking,index) => { %>
+                                    <tr>
+                                        <td scope="col"><span class="text"><%=booking.uniqueId%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.start%> - <%=booking.end%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.property_type%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.listing_name%></span></td>
+                                        <td scope="col"><span class="text">3</span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalAmountAfterTax%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalPayment%></span></td>
+                                        <td scope="col"><a href="/admin/bookings/edit/<%=booking.id%>"><button type="button" class="transparant">View Details</button></a></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="propertylist_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col">Booking No.</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">Stay Dates</td>
+                                    <td scope="col">Type</td>
+                                    <td scope="col">Property</td>
+                                    <td scope="col">Rooms</td>
+                                    <td scope="col">Total Charges</td>
+                                    <td scope="col">Total Payment</td>
+                                    <td scope="col">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.ongoing.forEach((booking,index) => { %>
+                                    <tr>
+                                        <td scope="col"><span class="text"><%=booking.uniqueId%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.start%> - <%=booking.end%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.property_type%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.listing_name%></span></td>
+                                        <td scope="col"><span class="text">3</span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalAmountAfterTax%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalPayment%></span></td>
+                                        <td scope="col"><a href="/admin/bookings/edit/<%=booking.id%>"><button type="button" class="transparant">View Details</button></a></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+            <div class="row">
+                <div class="col-sm-12">
+                   <div class="propertylist_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col">Booking No.</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">Stay Dates</td>
+                                    <td scope="col">Type</td>
+                                    <td scope="col">Property</td>
+                                    <td scope="col">Rooms</td>
+                                    <td scope="col">Total Charges</td>
+                                    <td scope="col">Total Payment</td>
+                                    <td scope="col">&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% bookings.past.forEach((booking,index) => { %>
+                                    <tr>
+                                        <td scope="col"><span class="text"><%=booking.uniqueId%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.firstname%> <%=booking.lastname%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.start%> - <%=booking.end%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.property_type%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.listing_name%></span></td>
+                                        <td scope="col"><span class="text">3</span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalAmountAfterTax%></span></td>
+                                        <td scope="col"><span class="text"><%=booking.totalPayment%></span></td>
+                                        <td scope="col"><a href="/admin/bookings/edit/<%=booking.id%>"><button type="button" class="transparant">View Details</button></a></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+<%- include("../layout/footer") %>

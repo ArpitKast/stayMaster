@@ -1,0 +1,176 @@
+<%- include("../layout/header",{ title: 'Add Banner'}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Add New Banner</h1></div>
+    </div>
+    <div class="formcontainer">
+        <form id="bannerAddForm" method="POST" enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label>Title</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Banner Title">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Order</label>
+                    <input type="number" class="form-control" name="order" id="order" value="0" placeholder="Display Order">
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label>Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Banner Description"></textarea>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <label>Link (Optional)</label>
+                    <input type="url" class="form-control" name="link" id="link" placeholder="https://example.com">
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-6">
+                    <label>Banner Image <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control" name="image" id="image" accept="image/*" required>
+                    <small class="form-text text-muted">Recommended size: 1920x600px or similar aspect ratio</small>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Status</label>
+                    <select class="form-control" name="active" id="active">
+                        <option value="true" selected>Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-12">
+                    <div id="imagePreview" style="margin-top: 10px;"></div>
+                </div>
+            </div>
+            <br>
+            <div class="row headingsection">
+                <div class="col-sm-12">
+                    <button type="button" class="greenbutton" id="submitButton">Create Banner</button>&nbsp;&nbsp;
+                    <a href="/admin/banners/"><button type="button" class="transparant">Cancel</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Compress image client-side before upload to avoid server size limits
+function compressImage(file, maxWidth, quality) {
+    maxWidth = maxWidth || 1920;
+    quality = quality || 0.85;
+    return new Promise(function(resolve) {
+        var img = new Image();
+        var url = URL.createObjectURL(file);
+        img.onload = function() {
+            URL.revokeObjectURL(url);
+            var canvas = document.createElement('canvas');
+            var width = img.width;
+            var height = img.height;
+            if (width > maxWidth) {
+                height = Math.round(height * maxWidth / width);
+                width = maxWidth;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            canvas.toBlob(function(blob) {
+                resolve(blob);
+            }, 'image/jpeg', quality);
+        };
+        img.src = url;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const submitButton = document.getElementById('submitButton');
+    const bannerForm = document.getElementById('bannerAddForm');
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+
+    // Image preview
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 300px; border: 1px solid #ddd; border-radius: 4px;">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.innerHTML = '';
+        }
+    });
+
+    submitButton.addEventListener('click', async function() {
+        if (!bannerForm.checkValidity()) {
+            bannerForm.reportValidity();
+            return;
+        }
+
+        if (!imageInput.files || imageInput.files.length === 0) {
+            alert('Please select a banner image');
+            return;
+        }
+
+        try {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Uploading...';
+
+            // Compress image before upload (reduces size from MB to ~200-400KB)
+            const originalFile = imageInput.files[0];
+            const compressedBlob = await compressImage(originalFile);
+            const fileName = originalFile.name.replace(/\.[^.]+$/, '.jpg');
+
+            const formData = new FormData(bannerForm);
+            formData.set('image', compressedBlob, fileName);
+
+            const response = await fetch('/admin/banner/create', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Handle 413 before trying to parse JSON (server returns HTML for 413, not JSON)
+            if (response.status === 413) {
+                alert('Image file is too large. Please use an image under 10MB.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Create Banner';
+                return;
+            }
+
+            // Always try to parse JSON response
+            let result;
+            try {
+                result = await response.json();
+            } catch (jsonError) {
+                console.error('Failed to parse JSON response:', jsonError);
+                alert('Failed to create banner. Server returned an invalid response.');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Create Banner';
+                return;
+            }
+
+            // Check the success field in the response
+            if (result && result.success === true) {
+                window.location.href = `/admin/banners/${result.flash || 'Banner created successfully'}`;
+            } else {
+                const errorMsg = result?.error || result?.message || 'Failed to create banner';
+                alert(errorMsg);
+                submitButton.disabled = false;
+                submitButton.textContent = 'Create Banner';
+            }
+        } catch (error) {
+            console.error('Network or other error:', error);
+            alert('Error: ' + (error.message || 'Failed to create banner. Please check your connection and try again.'));
+            submitButton.disabled = false;
+            submitButton.textContent = 'Create Banner';
+        }
+    });
+});
+
+</script>
+
+<%- include("../layout/footer") %>

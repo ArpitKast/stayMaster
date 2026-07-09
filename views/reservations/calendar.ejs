@@ -1,0 +1,205 @@
+<%- include("../layout/header",{ title: `Reservations Calendar`}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Reservations Calendar</h1></div>
+    </div>
+    <div class="formcontainer">
+        <h1 class="propertyheadingblue">Personal Details</h1>
+        <hr>
+        <select id="propertySelect">
+            <option value="">Select a Property</option>
+            <% properties.forEach(property => { %>
+                <option value="<%= property.id %>"><%= property.listing_name %></option>
+            <% }) %>
+        </select>
+        
+        <div id="datepicker" disabled></div>
+    </div>
+    <br/>
+    <div class="formcontainer">
+        <div id="addBlockForm" style="display: none;">
+            <label>Start Date:</label>
+            <input type="text" id="startDate" readonly>
+        
+            <label>End Date:</label>
+            <input type="text" id="endDate" readonly>
+        
+            <label>Block Type:</label>
+            <select id="blockType">
+                <option value="">Select Block Type</option>
+                <option value="Owner block">Owner Block</option>
+                <option value="Maintainance Block">Maintainance Block</option>
+            </select>
+        
+            <button id="addBlockButton">Add Block</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        let unavailableRanges = [];
+        let selectedProperty = null;
+        let selectedStart = null;
+        let selectedEnd = null;
+
+        function fetchUnavailableRanges(year, month) {
+            console.log("Fetching unavailable ranges for property ID:", selectedProperty);
+            if (!selectedProperty) return;
+
+            $.get('/admin/propertyCalendar/', { year, month: month + 1, propertyId: selectedProperty }, function (data) {
+                unavailableRanges = data.unavailableRanges || [];
+                console.log("Unavailable ranges:", unavailableRanges);
+                $("#datepicker").datepicker("refresh");
+            });
+        }
+
+        // Function to disable unavailable dates
+        function disableDates(date) {
+            let formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+            let className = "";
+            let blockId = null; 
+            let available = true;
+
+            unavailableRanges.forEach(range => {
+                if (formattedDate >= range.start && formattedDate <= range.end) {
+                    blockId = range.id;
+                    if(range.currentStatus === "Block"){
+                        if(range.status === "Maintainance Block"){
+                            className = "maintenance-date";
+                        }else{
+                            className = "owners-date";
+                        }
+                    }else{
+                        className = "reserved-date";
+                        available = false;
+                    }
+                    if (formattedDate === range.start) className += " start-range";
+                    if (formattedDate === range.end) className += " end-range";
+                }
+            });
+            return [available, className,blockId];
+        }
+
+        // Initialize Datepicker
+        $("#datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            numberOfMonths: 2,
+            minDate: 0,
+            //beforeShowDay: disableDates,
+            beforeShowDay: function (date) {
+                let formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                if (selectedStart && selectedEnd && formattedDate >= selectedStart && formattedDate <= selectedEnd) {
+                    if(formattedDate === selectedStart){
+                        return [true, "ui-datepicker-highlight-range highlight-range-start"];
+                    }
+                    if(formattedDate === selectedEnd){
+                        return [true, "ui-datepicker-highlight-range highlight-range-end"];    
+                    }
+                    return [true, "ui-datepicker-highlight-range"];
+                }
+                let result = disableDates(date);
+                return [result[0], result[1]];
+            },
+            onSelect: function (dateText, inst) {
+                //let selectedDate = new Date(dateText);
+                let selectedDate = $.datepicker.formatDate('yy-mm-dd', new Date(dateText));
+                let block = unavailableRanges.find(range => selectedDate >= range.start && selectedDate <= range.end);
+
+                if (block) {
+                    selectedStart = null;
+                    selectedEnd = null;
+                    if (confirm(`Do you want to remove this ${block.status} ?`)) {
+                        removeBlock(block.id);
+                    }
+                }else{
+                    if (!selectedStart) {
+                        selectedStart = selectedDate;
+                        $("#startDate").val(dateText);
+                    } else if (!selectedEnd && selectedDate > selectedStart) {
+                        selectedEnd = selectedDate;
+                        $("#endDate").val(dateText);
+
+                        let daysDiff = (selectedEnd - selectedStart) / (1000 * 3600 * 24);
+                        if (daysDiff < 1) {
+                            alert("Please select a minimum range of 2 days!");
+                            selectedStart = null;
+                            selectedEnd = null;
+                            $("#startDate, #endDate").val('');
+                            return;
+                        }
+                        $("#addBlockForm").show();
+                    } else {
+                        selectedStart = selectedDate;
+                        selectedEnd = null;
+                        $("#startDate").val(dateText);
+                        $("#endDate").val('');
+                    }
+                }
+                $("#datepicker").datepicker("refresh"); // Refresh to apply styling
+            },
+            onChangeMonthYear: function (year, month) {
+                fetchUnavailableRanges(year, month);
+            }
+        }).prop("disabled", true);
+
+        function removeBlock(blockId) {
+            if (!blockId) return;
+            alert("blockId: " + blockId);
+            $.post('/admin/unblock', { block_id: blockId }, function (response) {
+                alert("Block removed successfully!");
+                let today = new Date();
+                fetchUnavailableRanges(today.getFullYear(), today.getMonth());
+            }).fail(function () {
+                alert("Failed to remove block!");
+            });
+        }
+
+        $("#addBlockButton").click(function () {
+            let start = $("#startDate").val();
+            let end = $("#endDate").val();
+            let type = $("#blockType").val();
+
+            if (!start || !end) {
+                alert("Please select a date range!");
+                return;
+            }
+
+            if (!type) {
+                alert("Please select a block type!");
+                return;
+            }
+
+            $.post('/admin/block', {
+                property_id: selectedProperty,
+                start,
+                end,
+                blockType:type,
+                reason:type
+            }, function (response) {
+                alert("Block added successfully!");
+                $("#addBlockForm").hide();
+                let today = new Date();
+                fetchUnavailableRanges(today.getFullYear(), today.getMonth());
+
+                // Reset selection
+                selectedStart = null;
+                selectedEnd = null;
+                $("#startDate, #endDate").val('');
+            }).fail(function () {
+                alert("Failed to add block!");
+            });
+        });
+
+        // Handle property selection
+        $("#propertySelect").change(function () {
+            selectedProperty = $(this).val();
+            $("#datepicker").prop("disabled", !selectedProperty); // Enable datepicker if a property is selected
+
+            if (selectedProperty) {
+                let today = new Date();
+                fetchUnavailableRanges(today.getFullYear(), today.getMonth());
+            }
+        });
+    });
+</script>
+<%- include("../layout/footer") %>

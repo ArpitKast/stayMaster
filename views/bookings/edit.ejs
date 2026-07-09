@@ -1,0 +1,268 @@
+<%- include("../layout/header",{ title: 'bookingdetails'}) %>
+
+<div class="bookingdetails">
+    <div class="row">
+        <div class="col-sm-6"><h1>Booking Details</h1></div>
+        <div class="col-sm-6" style="text-align: right;"><img src="/api/public/Img/close.png" alt=""></div>
+    </div>
+    <hr>
+    <div class="row bookingdetail1">
+        <div class="col-sm-4">
+            <table>
+                <tr>
+                    <td scope="col"><span class="titlehead">Name :</span></td>
+                    <td scope="col"><span class="titletext"><%=user.firstname%> <%=user.lastname%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Mobile: </span></td>
+                    <td scope="col"><span class="titletext"><%=user.phone%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Email: </span></td>
+                    <td scope="col"><span class="titletext"><%=user.email%></span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-4">
+            <table>
+                <tr>
+                    <td scope="col"><span class="titlehead">Res Date:</span></td>
+                    <td scope="col"><span class="titletext"><%=booking.formated_reservation_date%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Arrival: </span></td>
+                    <td scope="col"><span class="titletext"><%=booking.formated_start_date%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Departure: </span></td>
+                    <td scope="col"><span class="titletext"><%=booking.formated_end_date%></span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-4">
+            <table>
+                <tr>
+                    <td scope="col"><span class="titlehead">Booking No:</span></td>
+                    <td scope="col"><span class="titletext">#<%=booking.uniqueId%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Booking Status: </span></td>
+                    <td scope="col"><span class="titletext"><%=booking.currentStatus%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Payment: </span></td>
+                    <td scope="col"><span class="titletext"><%=booking.paymentMethod%></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="bookingdetail2">
+                <p>Guest Information</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Name :</span></td>
+                        <td scope="col"><span class="titletext"><%=user.firstname%> <%=user.lastname%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Mobile: </span></td>
+                        <td scope="col"><span class="titletext"><%=user.phone%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Email: </span></td>
+                        <td scope="col"><span class="titletext"><%=user.email%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Guests:</span></td>
+                        <td scope="col">
+                            <span class="titletext">
+                                <%=rental.adult%> Adults
+                                <%if(rental.child > 0){%>
+                                    <%=rental.child%> Children
+                                <%}%>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Arrival:</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.formated_start_date%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Departure:</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.formated_end_date%></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="bookingdetail2">
+                <p>Other Information</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Nights:</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.nights%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Stay Type: </span></td>
+                        <td scope="col"><span class="titletext">Family Stay</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Amenities: </span></td>
+                        <td scope="col"><span class="titletext">
+                            <% for(let i=0; i<amenities.length; i++){ %>
+                                <%=amenities[i].name%>,
+                                <% if(i == 2){ %>
+                                    ...
+                                    <% break; %>
+                                <%}%>
+                            <%};%>
+                        </span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Rate Type:</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.packageName%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Reservation Type:</span></td>
+                        <td scope="col"><span class="titletext"><%=booking.source%></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 ">
+            <div class="bookingdetail2">
+                <p>Credit Card Info</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Credit Card No. :</span></td>
+                        <td scope="col"><span class="titletext">1234 5678 1234</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Card Type: </span></td>
+                        <td scope="col"><span class="titletext">Mastermind</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Expiry Date: </span></td>
+                        <td scope="col"><span class="titletext">12/26</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Card Holder’s Name:</span></td>
+                        <td scope="col"><span class="titletext">Saurabh Pahuja</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Activation Date:</span></td>
+                        <td scope="col"><span class="titletext">12/22</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="bookingdetail2">
+                <p>Property Information</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Property No:</span></td>
+                        <td scope="col"><span class="titletext"><%=property.id%> <%=property.channel_id%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Property Name: </span></td>
+                        <td scope="col"><span class="titletext"><%=property.listing_name%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Destination: </span></td>
+                        <td scope="col"><span class="titletext"><%=destination%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Type:</span></td>
+                        <td scope="col"><span class="titletext"><%=property_type%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Rooms:</span></td>
+                        <td scope="col"><span class="titletext"><%=property.number_of_bedrooms%></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="bookingdetail2">
+                <p>Identity Information</p>
+                <hr>
+                <table>
+                <% if(registration){ %>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Identity Type:</span></td>
+                        <td scope="col"><span class="titletext"><%=registration.identityType%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Identity No.: </span></td>
+                        <td scope="col"><span class="titletext"><%=registration.registrationNo%></span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Expiry Date: </span></td>
+                        <td scope="col"><span class="titletext"><%=registration.expiryDate%></span></td>
+                    </tr>  
+                <% }else{ %>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Identity Type:</span></td>
+                        <td scope="col"><span class="titletext">&nbsp;</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Identity No.: </span></td>
+                        <td scope="col"><span class="titletext">&nbsp;</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Expiry Date: </span></td>
+                        <td scope="col"><span class="titletext">&nbsp;</span></td>
+                    </tr>
+                <% } %>
+                <tr>
+                    <td scope="col"><span class="titlehead">Nationality:</span></td>
+                    <td scope="col"><span class="titletext"><%=user.nationality%></span></td>
+                </tr>
+                <tr>
+                    <td scope="col"><span class="titlehead">Date Of Birth:</span></td>
+                    <td scope="col"><span class="titletext"><%=user.date_of_birth%></span></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="bookingdetail2">
+                <p>Credit Card Info</p>
+                <hr>
+                <table>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Credit Card No. :</span></td>
+                        <td scope="col"><span class="titletext">1234 5678 1234</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Card Type: </span></td>
+                        <td scope="col"><span class="titletext">Mastermind</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Expiry Date: </span></td>
+                        <td scope="col"><span class="titletext">12/26</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Card Holder’s Name:</span></td>
+                        <td scope="col"><span class="titletext">Saurabh Pahuja</span></td>
+                    </tr>
+                    <tr>
+                        <td scope="col"><span class="titlehead">Activation Date:</span></td>
+                        <td scope="col"><span class="titletext">12/22</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../layout/footer") %>			

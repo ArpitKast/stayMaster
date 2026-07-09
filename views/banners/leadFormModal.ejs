@@ -1,0 +1,71 @@
+<div class="modal fade" id="leadFormImageModal" tabindex="-1" aria-labelledby="leadFormImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadFormImageModalLabel">Lead Form Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <% if (leadFormImageUrl) { %>
+                    <img src="<%= leadFormImageUrl %>" alt="Lead form" id="leadFormImagePreview" style="max-width: 100%; max-height: 420px; width: auto; height: auto; object-fit: contain; border-radius: 8px; border: 1px solid #e2e2e2;">
+                    <span id="leadFormImagePlaceholder" style="display: none;">No image uploaded.</span>
+                <% } else { %>
+                    <img src="" alt="Lead form" id="leadFormImagePreview" style="display: none; max-width: 100%; max-height: 420px; width: auto; height: auto; object-fit: contain; border-radius: 8px; border: 1px solid #e2e2e2;">
+                    <span id="leadFormImagePlaceholder">No image uploaded.</span>
+                <% } %>
+            </div>
+            <div class="modal-footer">
+                <input type="file" id="leadFormImageInput" accept="image/*" class="form-control" style="max-width: 240px;">
+                <button type="button" class="transparant" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const leadImageInput = document.getElementById('leadFormImageInput');
+        const leadImage = document.getElementById('leadFormImagePreview');
+        const leadImagePlaceholder = document.getElementById('leadFormImagePlaceholder');
+        const updateLeadImage = (url) => {
+            if (!leadImage) return;
+            if (url) {
+                leadImage.src = url;
+                leadImage.style.display = 'block';
+                if (leadImagePlaceholder) {
+                    leadImagePlaceholder.style.display = 'none';
+                }
+            } else {
+                leadImage.src = '';
+                leadImage.style.display = 'none';
+                if (leadImagePlaceholder) {
+                    leadImagePlaceholder.style.display = 'block';
+                }
+            }
+        };
+
+        if (leadImageInput) {
+            leadImageInput.addEventListener('change', async () => {
+                if (!leadImageInput.files || !leadImageInput.files.length) return;
+                const formData = new FormData();
+                formData.append('image', leadImageInput.files[0]);
+                try {
+                    const response = await fetch('/admin/leads/form-image', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to upload image');
+                    }
+                    const result = await response.json();
+                    updateLeadImage(result && result.url ? result.url : '');
+                } catch (error) {
+                    console.error('Lead form image upload failed', error);
+                    alert('Failed to upload lead form image');
+                } finally {
+                    leadImageInput.value = '';
+                }
+            });
+        }
+    })();
+</script>

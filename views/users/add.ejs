@@ -1,0 +1,194 @@
+<% var entity = 'User';%>
+<%if(type == 'host'){%>
+    <% entity = 'Host'; %>
+<%}else if(type == 'manager'){%>
+    <% entity = 'Property Manager'; %>
+<%}%>
+<%- include("../layout/header",{ title: `Add ${entity}`}) %>
+<div class="propertyadd">
+    <div class="row headingsection">
+        <div class="col-sm-12"><h1>Add New <%=entity%></h1></div>
+    </div>
+    <div class="formcontainer">
+        <h1 class="propertyheadingblue">Personal Details</h1>
+        <hr> 
+        <form id="useradd" method="POST" enctype="multipart/form-data">
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <label for="">Firstname</label>
+                    <input type="text" name="firstname" value="" placeholder="Firstname" required>     
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="">Lastname</label>
+                    <input type="text" name="lastname" value="" placeholder="Lastname" required>     
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-2">
+                    <div class="mb-2">
+                        <label for="">Gender</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="yes" value="Male">
+                            <label class="form-check-label" for="yes">M</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="no" value="Female">
+                            <label class="form-check-label" for="no">F</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="">Birthday</label>
+                    <input type="text" name="date_of_birth" value="" class="datepicker" placeholder="">     
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="">Date of Joining</label>
+                    <input type="text" name="date_of_joining" value="" class="datepicker" placeholder="">     
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <label for="">Email</label>
+                    <input type="email" name="email" id="email" value="" placeholder="Email" required>     
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="">Phone</label>
+                    <input type="text" name="phone" id="phone" value="" placeholder="Phone No" required>
+                    <small id="phoneHelp" class="form-text text-muted">ISD Code and Phone number</small> 
+                </div>
+            </div><br>
+            <h1 class="propertyheadingblue">Address</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <input type="text" name="address_line_1" value="" placeholder="Address Line 1">     
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" name="address_line_2" value="" placeholder="Address Line 2">     
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="form-group col-md-3">
+                    <input type="text" name="city" value="" placeholder="City">     
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" name="state" value="" placeholder="State">     
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control selectpicker" name="country" id="country" required>
+                        <option value="">Select Country</option>
+                        <% results.countries.forEach(country => { %>
+                            <% if(country.id == defaultCountry){%>
+                            <option value="<%= country.id %>" selected><%= country.display %></option>
+                            <% }else{%>
+                            <option value="<%= country.id %>"><%= country.display %></option>
+                            <% }%>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <h1 class="propertyheadingblue">Initial Password</h1>
+            <hr>
+            <div class="row form-row">
+                <div class="form-group col-md-4">
+                    <input type="password" name="password" value="" placeholder="Password" minlength="6" required>     
+                </div>
+            </div>
+            <% if(type == 'host'){%>
+                <br>
+                <h1 class="propertyheadingblue">Properties</h1>
+                <hr>
+                <div class="row form-row">
+                    <div class="form-group col-md-6">
+                        <select class="form-control selectpicker" name="properties" id="properties" multiple>
+                            <option value="">Select Properties</option>
+                            <% allProperties.forEach(prop => { %>
+                                <option value="<%= prop.id %>"><%= prop.listing_name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            <%}%>
+            <input type="hidden" name="type" id="user-type" value="<%=type%>"/>
+            <div class="row headingsection">
+                <div class="col-sm-12">
+                    <button type="button" class="greenbutton" id="upload-button">Ceate <%=entity%></button>&nbsp;&nbsp;
+                    <a href="/admin/users/<%=type%>"><button type="submit" class="transparant">Discard</button></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/api/public/users.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uploadButton = document.getElementById('upload-button');
+        const addUserForm = document.getElementById('useradd');
+        const emailField = document.getElementById('email');
+        const phoneField = document.getElementById('phone');
+        const userType = document.getElementById('user-type').value;
+
+        emailField.addEventListener('blur', async() => {
+            var exists = await checkUnique('email',emailField,userType);
+            if(exists){
+                emailField.value = "";
+                alert("Email already exists");
+            }
+        });
+        phoneField.addEventListener('blur', async() => {
+            var exists = await checkUnique('phone',phoneField,userType);
+            if(exists){
+                phoneField.value = "";
+                alert("Phone already exists");
+            }
+        });
+        $( function() {
+            $( ".datepicker" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd M yy',
+                yearRange: "c-100:today",
+                maxDate: "today"
+            });
+        });
+
+        uploadButton.addEventListener('click', async () => {
+            if (!addUserForm.checkValidity()) {
+                addUserForm.reportValidity();
+                return;
+            }
+            try {
+                uploadButton.disabled=true;
+                const formData = new FormData(addUserForm);
+                console.log(formData);
+                // Send formData to backend
+                const response = await fetch('/admin/user/create', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to save Service request:', response.json());
+                    uploadButton.disabled=false;
+                    throw new Error('Failed to upload Service request');
+                }
+
+                const result = await response.json();
+                if(result.success){
+                    window.location.href = `/admin/users/${userType}/${result.flash}`;
+                }else{
+                    alert(result.error);
+                    uploadButton.disabled=false;
+                }
+                /*console.log('User created successfully:', result);
+                uploadButton.disabled=false;
+                alert('User created successfully');*/
+            } catch (error) {
+                console.error('Error saving request:', error);
+                alert('Failed to create User');
+            }
+        });
+    });
+</script>
+<%- include("../layout/footer") %>

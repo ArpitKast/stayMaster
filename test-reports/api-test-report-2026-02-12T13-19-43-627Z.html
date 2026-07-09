@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test Report - TheStayMaster</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .summary { display: flex; gap: 20px; margin: 20px 0; }
+        .stat { padding: 20px; border-radius: 8px; text-align: center; flex: 1; }
+        .stat.total { background: #e3f2fd; }
+        .stat.passed { background: #e8f5e9; }
+        .stat.failed { background: #ffebee; }
+        .stat h2 { margin: 0; font-size: 36px; }
+        .stat p { margin: 5px 0 0; color: #666; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: bold; }
+        .passed { color: #28a745; }
+        .failed { color: #dc3545; }
+        .impact { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .impact h3 { margin-top: 0; color: #856404; }
+        .component { background: #ffeeba; padding: 10px; margin: 10px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 API Test Report</h1>
+        <p>Generated: 2026-02-12T13:19:43.436Z</p>
+
+        <div class="summary">
+            <div class="stat total">
+                <h2>38</h2>
+                <p>Total Tests</p>
+            </div>
+            <div class="stat passed">
+                <h2>0</h2>
+                <p>Passed (0.0%)</p>
+            </div>
+            <div class="stat failed">
+                <h2>38</h2>
+                <p>Failed</p>
+            </div>
+        </div>
+
+        <h2>Test Results</h2>
+        <table>
+            <tr>
+                <th>Endpoint</th>
+                <th>Method</th>
+                <th>Path</th>
+                <th>Status</th>
+                <th>Response</th>
+                <th>Time</th>
+            </tr>
+            
+            <tr>
+                <td>Generate Guest OTP</td>
+                <td>POST</td>
+                <td>/api/ext/generateOTP</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>37ms</td>
+            </tr>
+            
+            <tr>
+                <td>Login with OTP</td>
+                <td>POST</td>
+                <td>/api/ext/loginWithOTP</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>8ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Login</td>
+                <td>POST</td>
+                <td>/api/users/login</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Generate Host OTP</td>
+                <td>POST</td>
+                <td>/api/ext/generateHostOTP</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Host Login with OTP</td>
+                <td>POST</td>
+                <td>/api/hosts/loginWithOTP</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get User Profile</td>
+                <td>POST</td>
+                <td>/api/ext/getProfile</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Update User Profile</td>
+                <td>POST</td>
+                <td>/api/ext/updateProfile</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>4ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get My Trips</td>
+                <td>POST</td>
+                <td>/api/ext/myTrips</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Property Settings</td>
+                <td>GET</td>
+                <td>/api/properties/settings</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Property Settings With Users</td>
+                <td>GET</td>
+                <td>/api/properties/settingsWithUsers</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Properties List</td>
+                <td>GET</td>
+                <td>/api/properties/list</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Check Availability</td>
+                <td>POST</td>
+                <td>/api/ext/checkAvailability</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Home Availability</td>
+                <td>POST</td>
+                <td>/api/ext/homeAvailability</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Availability And Details</td>
+                <td>POST</td>
+                <td>/api/ext/availabilityAndDetails</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Calendar Availability</td>
+                <td>POST</td>
+                <td>/api/ext/calendarAvailability</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>5ms</td>
+            </tr>
+            
+            <tr>
+                <td>Calendar Availability Improved</td>
+                <td>POST</td>
+                <td>/api/ext/calendarAvailabilityImproved</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Booking Details</td>
+                <td>GET</td>
+                <td>/api/ext/myBooking/1</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Generate Order ID (RazorPay)</td>
+                <td>POST</td>
+                <td>/api/ext/generateOrderId</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Host Enquiry</td>
+                <td>POST</td>
+                <td>/api/ext/hostEnquiry</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Host Calculator Settings</td>
+                <td>POST</td>
+                <td>/api/ext/hostCalculatorSettings</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Host Properties</td>
+                <td>POST</td>
+                <td>/api/hosts/properties</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>4ms</td>
+            </tr>
+            
+            <tr>
+                <td>Host Performance</td>
+                <td>POST</td>
+                <td>/api/hosts/performance</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Host Earnings By Month</td>
+                <td>POST</td>
+                <td>/api/hosts/earningsByMonth</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get All Blogs</td>
+                <td>GET</td>
+                <td>/api/blogs</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Blog Categories</td>
+                <td>GET</td>
+                <td>/api/blogs/categories</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Single Blog</td>
+                <td>GET</td>
+                <td>/api/blogs/1</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get All Collections</td>
+                <td>GET</td>
+                <td>/api/collections</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>3ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Single Collection</td>
+                <td>GET</td>
+                <td>/api/collections/1</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get All Destinations</td>
+                <td>GET</td>
+                <td>/api/destinations</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Single Destination</td>
+                <td>GET</td>
+                <td>/api/destinations/1</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Form Settings</td>
+                <td>GET</td>
+                <td>/api/ext/formSettings</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Get Settings</td>
+                <td>GET</td>
+                <td>/api/settings</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Dashboard</td>
+                <td>GET</td>
+                <td>/admin/</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>4ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Me</td>
+                <td>GET</td>
+                <td>/admin/me</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>4ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Revenues</td>
+                <td>GET</td>
+                <td>/admin/revenues</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>1ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Bookings</td>
+                <td>GET</td>
+                <td>/admin/bookings</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Guests</td>
+                <td>GET</td>
+                <td>/admin/guests</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+            <tr>
+                <td>Admin Services</td>
+                <td>GET</td>
+                <td>/admin/services</td>
+                <td class="error">ERROR</td>
+                <td>N/A</td>
+                <td>2ms</td>
+            </tr>
+            
+        </table>
+
+        
+        <div class="impact">
+            <h3>⚠️ Frontend Components Requiring Updates</h3>
+            
+            <div class="component">
+                <strong>LoginComponent</strong>
+                <ul>
+                    <li>POST /api/ext/generateOTP: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/loginWithOTP: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>ConfirmBookingComponent</strong>
+                <ul>
+                    <li>POST /api/ext/generateOTP: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/loginWithOTP: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/generateOrderId: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>AdminLoginComponent</strong>
+                <ul>
+                    <li>POST /api/users/login: connect ECONNREFUSED ::1:8080</li><li>GET /api/properties/settingsWithUsers: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>HostComponent</strong>
+                <ul>
+                    <li>POST /api/ext/generateHostOTP: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/hostEnquiry: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/hostCalculatorSettings: connect ECONNREFUSED ::1:8080</li><li>GET /api/ext/formSettings: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>HostLoginComponent</strong>
+                <ul>
+                    <li>POST /api/hosts/loginWithOTP: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>ProfileComponent</strong>
+                <ul>
+                    <li>POST /api/ext/getProfile: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/updateProfile: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>TripsComponent</strong>
+                <ul>
+                    <li>POST /api/ext/myTrips: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>StayComponent</strong>
+                <ul>
+                    <li>GET /api/properties/settings: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/checkAvailability: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>NewHomeComponent</strong>
+                <ul>
+                    <li>GET /api/properties/settings: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/homeAvailability: connect ECONNREFUSED ::1:8080</li><li>GET /api/ext/formSettings: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>AllPropertiesComponent</strong>
+                <ul>
+                    <li>GET /api/properties/settings: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>AdminService</strong>
+                <ul>
+                    <li>GET /api/properties/list: connect ECONNREFUSED ::1:8080</li><li>GET /api/destinations: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>StayDescriptionComponent</strong>
+                <ul>
+                    <li>POST /api/ext/availabilityAndDetails: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>StayDestinationComponent</strong>
+                <ul>
+                    <li>POST /api/ext/calendarAvailability: connect ECONNREFUSED ::1:8080</li><li>POST /api/ext/calendarAvailabilityImproved: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>ConfirmedBookingComponent</strong>
+                <ul>
+                    <li>GET /api/ext/myBooking/1: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>HostDashboardComponent</strong>
+                <ul>
+                    <li>POST /api/hosts/properties: connect ECONNREFUSED ::1:8080</li><li>POST /api/hosts/performance: connect ECONNREFUSED ::1:8080</li><li>POST /api/hosts/earningsByMonth: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>BlogsComponent</strong>
+                <ul>
+                    <li>GET /api/blogs: connect ECONNREFUSED ::1:8080</li><li>GET /api/blogs/categories: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>BlogDetailComponent</strong>
+                <ul>
+                    <li>GET /api/blogs: connect ECONNREFUSED ::1:8080</li><li>GET /api/blogs/1: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>CollectionsComponent</strong>
+                <ul>
+                    <li>GET /api/collections: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>CollectionDetailComponent</strong>
+                <ul>
+                    <li>GET /api/collections/1: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>AddNewPropertyComponent</strong>
+                <ul>
+                    <li>GET /api/destinations: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>SettingsComponent</strong>
+                <ul>
+                    <li>GET /api/settings: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>AdminDashboardComponent</strong>
+                <ul>
+                    <li>GET /admin/: connect ECONNREFUSED ::1:8080</li><li>GET /admin/me: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>RevenueComponent</strong>
+                <ul>
+                    <li>GET /admin/revenues: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>BookingsComponent</strong>
+                <ul>
+                    <li>GET /admin/bookings: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>GuestsComponent</strong>
+                <ul>
+                    <li>GET /admin/guests: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+            <div class="component">
+                <strong>CustomerServiceComponent</strong>
+                <ul>
+                    <li>GET /admin/services: connect ECONNREFUSED ::1:8080</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+
+        
+        <h2>Error Details</h2>
+        <table>
+            <tr><th>Endpoint</th><th>Error</th></tr>
+            
+            <tr><td>Generate Guest OTP</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Login with OTP</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Login</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Generate Host OTP</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Host Login with OTP</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get User Profile</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Update User Profile</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get My Trips</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Property Settings</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Property Settings With Users</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Properties List</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Check Availability</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Home Availability</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Availability And Details</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Calendar Availability</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Calendar Availability Improved</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Booking Details</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Generate Order ID (RazorPay)</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Host Enquiry</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Host Calculator Settings</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Host Properties</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Host Performance</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Host Earnings By Month</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get All Blogs</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Blog Categories</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Single Blog</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get All Collections</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Single Collection</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get All Destinations</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Single Destination</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Form Settings</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Get Settings</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Dashboard</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Me</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Revenues</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Bookings</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Guests</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+            <tr><td>Admin Services</td><td>connect ECONNREFUSED ::1:8080</td></tr>
+            
+        </table>
+        
+    </div>
+</body>
+</html>
