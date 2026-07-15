@@ -34,8 +34,16 @@ app.use(helmet({
 // Gzip/Brotli compression — reduces JSON payload size 60-80%
 app.use(compression({ threshold: 1024 }));
 
+// Extra allowed origins from env (comma-separated), e.g. your Vercel frontend URL:
+// CORS_EXTRA_ORIGINS=https://your-frontend.vercel.app,https://another.vercel.app
+const extraOrigins = (process.env.CORS_EXTRA_ORIGINS || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(cors({
   origin: [
+    ...extraOrigins,
     'http://localhost:5173',
     'http://localhost:5174',
     'https://thestaymaster.com',
