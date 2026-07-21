@@ -34,41 +34,62 @@ app.use(helmet({
 // Gzip/Brotli compression — reduces JSON payload size 60-80%
 app.use(compression({ threshold: 1024 }));
 
-// Extra allowed origins from env (comma-separated), e.g. your Vercel frontend URL:
-// CORS_EXTRA_ORIGINS=https://your-frontend.vercel.app,https://another.vercel.app
+// Extra allowed origins from env (comma-separated). Supports `*` wildcards, e.g.
+// CORS_EXTRA_ORIGINS=https://your-frontend.vercel.app,https://*.vercel.app
 const extraOrigins = (process.env.CORS_EXTRA_ORIGINS || '')
   .split(',')
   .map((o) => o.trim())
   .filter(Boolean);
 
+const staticOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://thestaymaster.com',
+  'https://checkin.thestaymaster.com',
+  'https://bms.thestaymaster.com',
+  'https://tsm.squatics.com',
+  'https://staymaster-website.vercel.app',
+  'https://masterkey.staymaster.in',
+  'https://investors.staymaster.in',
+  'http://127.0.0.1:5500',
+  'https://tsmprecheckin.startupinnovative.in',
+  'https://tsmbackend.startupinnovative.in',
+  'https://mediumseagreen-shrew-722722.hostingersite.com',
+  'https://olive-ferret-207490.hostingersite.com',
+  'https://tsmprecheckin.startupinnovative.in',
+  'https://tsmfrontend.startupinnovative.in',
+  'https://staymaster.in',
+  'https://guest.staymaster.in',
+  'https://srv1401463.hstgr.cloud',
+  'http://localhost:4200',
+  'http://localhost:8081',
+  'http://10.0.2.2:8080',
+  'http://10.0.3.2:8080',
+  'http://127.0.0.1:8080'
+];
+
+// Split env origins into exact matches and wildcard patterns (compiled to RegExp)
+const exactOrigins = new Set([
+  ...staticOrigins,
+  ...extraOrigins.filter((o) => !o.includes('*'))
+]);
+const wildcardPatterns = extraOrigins
+  .filter((o) => o.includes('*'))
+  .map((o) => new RegExp('^' + o.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$'));
+
+const isOriginAllowed = (origin) => {
+  if (exactOrigins.has(origin)) return true;
+  return wildcardPatterns.some((re) => re.test(origin));
+};
+
 app.use(cors({
-  origin: [
-    ...extraOrigins,
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'https://thestaymaster.com',
-    'https://checkin.thestaymaster.com',
-    'https://bms.thestaymaster.com',
-    'https://tsm.squatics.com',
-    'https://staymaster-website.vercel.app',
-    'https://masterkey.staymaster.in',
-    'https://investors.staymaster.in',
-    'http://127.0.0.1:5500',
-    'https://tsmprecheckin.startupinnovative.in',
-    'https://tsmbackend.startupinnovative.in',
-    'https://mediumseagreen-shrew-722722.hostingersite.com',
-    'https://olive-ferret-207490.hostingersite.com',
-    'https://tsmprecheckin.startupinnovative.in',
-    'https://tsmfrontend.startupinnovative.in',
-    'https://staymaster.in',
-    'https://guest.staymaster.in',
-    'https://srv1401463.hstgr.cloud',
-    'http://localhost:4200',
-    'http://localhost:8081',
-    'http://10.0.2.2:8080',
-    'http://10.0.3.2:8080',
-    'http://127.0.0.1:8080'
-  ],
+  origin: (origin, callback) => {
+    // Allow non-browser clients (curl, server-to-server) with no Origin header
+    if (!origin || isOriginAllowed(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Origin not allowed by CORS: ${origin}`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-secure-id', 'x-guest-token', 'guesttoken'],
