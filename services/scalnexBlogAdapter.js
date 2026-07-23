@@ -229,9 +229,19 @@ function mapScalnexArticlePayload(payload) {
   const doc = article._doc || {};
   const tags = Array.isArray(doc.tags) ? doc.tags : [];
 
-  const { content: columnContent, featured_image_url, qa_section } = buildContentFromColumns(
+  const { content: columnContent, featured_image_url: columnImageUrl, qa_section } = buildContentFromColumns(
     article.columns
   );
+
+  // Prefer an image block from columns; otherwise fall back to a featured image on _doc.
+  const featured_image_url =
+    columnImageUrl ||
+    doc.featured_image ||
+    doc.featuredImage ||
+    doc.image ||
+    doc.coverImage ||
+    doc.thumbnail ||
+    null;
 
   const introText = doc.introText ? String(doc.introText).trim() : '';
   const contentParts = [];

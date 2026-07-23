@@ -36,12 +36,19 @@ async function ingestScalnexBlog(payload) {
   let featured_image = null;
 
   if (mapped.featured_image_url) {
-    featured_image = await uploadBlogImageFromUrlToS3(mapped.featured_image_url);
+    // Copy into our own S3 bucket when configured; otherwise store the original
+    // external URL directly so images still work without AWS credentials.
+    if (process.env.AWS_BUCKET) {
+      featured_image = await uploadBlogImageFromUrlToS3(mapped.featured_image_url);
+    }
     if (!featured_image) {
-      log.warn('Featured image upload failed; saving blog without image', {
-        image_url: mapped.featured_image_url,
-        external_id: mapped.external_id,
-      });
+      if (process.env.AWS_BUCKET) {
+        log.warn('Featured image S3 upload failed; storing original URL instead', {
+          image_url: mapped.featured_image_url,
+          external_id: mapped.external_id,
+        });
+      }
+      featured_image = mapped.featured_image_url;
     }
   }
 

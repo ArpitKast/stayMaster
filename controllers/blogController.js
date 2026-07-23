@@ -77,6 +77,12 @@ const decorateFeaturedImages = async (rows) => {
   if (!Array.isArray(rows) || rows.length === 0) return rows;
   await Promise.all(
     rows.map(async (row) => {
+      // Externally-hosted images (e.g. ingested via webhook without S3) are stored
+      // as full URLs — serve them directly instead of presigning through S3.
+      if (row.featured_image && /^https?:\/\//i.test(row.featured_image)) {
+        row.featured_image_key = null;
+        return;
+      }
       const key = extractS3Key(row.featured_image);
       row.featured_image_key = key;
       if (key) {
@@ -314,10 +320,15 @@ const getBlog = asyncHandler(async (req, res) => {
       return Response.error(res, "ERROR", "Blog not found", 404);
     }
 
-    const key = extractS3Key(blog.featured_image);
-    blog.featured_image_key = key;
-    if (key) {
-      blog.featured_image = await resolveBlogImageUrl(key);
+    // Externally-hosted images (stored as full URLs) are served directly.
+    if (blog.featured_image && /^https?:\/\//i.test(blog.featured_image)) {
+      blog.featured_image_key = null;
+    } else {
+      const key = extractS3Key(blog.featured_image);
+      blog.featured_image_key = key;
+      if (key) {
+        blog.featured_image = await resolveBlogImageUrl(key);
+      }
     }
 
     if (blog.content) {
