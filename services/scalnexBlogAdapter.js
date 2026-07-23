@@ -87,7 +87,8 @@ function buildListingExcerpt(htmlOrText) {
 
 /**
  * Extract FAQ pairs from Scalnex FAQ HTML markup.
- * @returns {Array<{question: string, answer: string}>}
+ * `answer`/`answerHtml` preserve the `.faq-answer` inner markup (links, formatting).
+ * @returns {Array<{question: string, answer: string, answerHtml: string}>}
  */
 function extractFaqItems(html) {
   if (!html || typeof html !== 'string') {
@@ -116,7 +117,7 @@ function extractFaqItems(html) {
     const answer = answerMatch ? answerMatch[1].trim() : '';
 
     if (question) {
-      items.push({ question, answer });
+      items.push({ question, answer, answerHtml: answer });
     }
   }
 
@@ -175,10 +176,13 @@ function buildContentFromColumns(columns) {
     if (type === 'faq') {
       const html = stripCodeFences(raw);
       if (html) {
-        htmlParts.push(html);
         const extracted = extractFaqItems(html);
         if (extracted.length > 0) {
+          // Q&A pairs render in the dedicated FAQ accordion (qa_section); keeping
+          // the raw markup in the body too would duplicate it as unstyled text.
           faqItems.push(...extracted);
+        } else {
+          htmlParts.push(html);
         }
       }
       continue;

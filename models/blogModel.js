@@ -6,6 +6,35 @@ class BlogModel extends BaseModel {
     super('blogs');
   }
 
+  /**
+   * Resolves a blog by its public slug (external_id) or by numeric id.
+   * Numeric identifiers are tried as a primary-key lookup first; otherwise
+   * (or if that misses) we fall back to matching external_id.
+   */
+  async getBySlugOrId(identifier) {
+    if (identifier === undefined || identifier === null) {
+      return null;
+    }
+
+    const raw = String(identifier).trim();
+    if (!raw) {
+      return null;
+    }
+
+    if (/^\d+$/.test(raw)) {
+      const byId = await this.getById(raw);
+      if (byId) {
+        return byId;
+      }
+    }
+
+    const [rows] = await pool.query(
+      'SELECT * FROM blogs WHERE external_id = ? ORDER BY id DESC LIMIT 1',
+      [raw]
+    );
+    return rows[0] || null;
+  }
+
   async getAdjacentBlogs(id, { activeOnly = false } = {}) {
     const blogId = parseInt(id, 10);
     if (Number.isNaN(blogId)) {
@@ -15,7 +44,7 @@ class BlogModel extends BaseModel {
     const activeClause = activeOnly ? ' AND active = 1' : '';
 
     const prevSql = `
-      SELECT id
+      SELECT id, external_id
       FROM blogs
       WHERE id < ?${activeClause}
       ORDER BY id DESC
@@ -23,7 +52,7 @@ class BlogModel extends BaseModel {
     `;
 
     const nextSql = `
-      SELECT id
+      SELECT id, external_id
       FROM blogs
       WHERE id > ?${activeClause}
       ORDER BY id ASC
@@ -52,7 +81,7 @@ class BlogModel extends BaseModel {
     }
 
     const sql = `
-      SELECT b.id, b.title, b.category, b.featured_image, b.created_at
+      SELECT b.id, b.external_id, b.title, b.category, b.featured_image, b.created_at
       FROM blogs b
       WHERE b.active = 1 AND b.id <> ?
       ORDER BY b.created_at DESC
@@ -106,9 +135,9 @@ class BlogModel extends BaseModel {
 
   async getAllForList(options = {}) {
     const listColumns =
-      'b.id, b.title, b.category, b.written_by, b.active, b.created_at, b.featured_image, b.meta_tags, b.keywords, b.listing_excerpt, bc.slug as category_slug';
+      'b.id, b.external_id, b.title, b.category, b.written_by, b.active, b.created_at, b.featured_image, b.meta_tags, b.keywords, b.listing_excerpt, bc.slug as category_slug';
     const legacyColumns =
-      'b.id, b.title, b.category, b.written_by, b.active, b.created_at, b.featured_image, b.meta_tags, b.keywords, bc.slug as category_slug';
+      'b.id, b.external_id, b.title, b.category, b.written_by, b.active, b.created_at, b.featured_image, b.meta_tags, b.keywords, bc.slug as category_slug';
 
     const { sql, params } = this._buildListQuery(listColumns, options);
 

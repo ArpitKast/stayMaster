@@ -307,11 +307,8 @@ const getBlog = asyncHandler(async (req, res) => {
     const isManager = isManagerBlogRequest(req);
     const rawId = req.params.id;
 
-    const [blog, { prevBlog, nextBlog }, recentSummaries] = await Promise.all([
-      BlogModel.getById(rawId),
-      BlogModel.getAdjacentBlogs(rawId, { activeOnly: !isManager }),
-      BlogModel.getRecentSummaries(rawId, 6),
-    ]);
+    // Accepts either the public slug (external_id) or a numeric id.
+    const blog = await BlogModel.getBySlugOrId(rawId);
 
     if (!blog) {
       return Response.error(res, "ERROR", "Blog not found", 404);
@@ -319,6 +316,11 @@ const getBlog = asyncHandler(async (req, res) => {
     if (!isManager && !blog.active) {
       return Response.error(res, "ERROR", "Blog not found", 404);
     }
+
+    const [{ prevBlog, nextBlog }, recentSummaries] = await Promise.all([
+      BlogModel.getAdjacentBlogs(blog.id, { activeOnly: !isManager }),
+      BlogModel.getRecentSummaries(blog.id, 6),
+    ]);
 
     // Externally-hosted images (stored as full URLs) are served directly.
     if (blog.featured_image && /^https?:\/\//i.test(blog.featured_image)) {
@@ -342,6 +344,8 @@ const getBlog = asyncHandler(async (req, res) => {
       ...blog,
       prev_blog_id: prevBlog?.id || null,
       next_blog_id: nextBlog?.id || null,
+      prev_blog_slug: prevBlog ? (prevBlog.external_id || prevBlog.id) : null,
+      next_blog_slug: nextBlog ? (nextBlog.external_id || nextBlog.id) : null,
       recent_blogs: recentForResponse,
     };
 
