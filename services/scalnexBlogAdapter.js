@@ -124,20 +124,55 @@ function extractFaqItems(html) {
   return items;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function renderImageBlock(url) {
-  const safe = String(url).trim();
+  const safe = escapeHtml(String(url).trim());
   if (!safe) {
     return '';
   }
   return `<figure class="blog-image"><img src="${safe}" alt="" loading="lazy" /></figure>`;
 }
 
-function renderCtaButton(label) {
+/**
+ * Resolve a destination URL for a ctaButton block. Prefers a URL provided on
+ * the block, then SCALNEX_CTA_DEFAULT_URL, then a sensible default.
+ */
+function resolveCtaUrl(block) {
+  const candidate =
+    block?.url ||
+    block?.href ||
+    block?.link ||
+    block?.ctaUrl ||
+    block?.buttonUrl ||
+    block?.targetUrl ||
+    block?.redirectUrl ||
+    process.env.SCALNEX_CTA_DEFAULT_URL ||
+    '/stay-all';
+  return String(candidate).trim();
+}
+
+function renderCtaButton(label, url) {
   const text = String(label).trim();
   if (!text) {
     return '';
   }
-  return `<p class="cta-button-wrap"><span class="cta-button">${text}</span></p>`;
+  const href = escapeHtml(url && url.trim() ? url.trim() : '#');
+  const buttonStyle =
+    'display:inline-block;background-color:#008281;color:#ffffff;padding:12px 28px;' +
+    'border-radius:9999px;font-weight:600;text-decoration:none;letter-spacing:0.02em;';
+  return (
+    `<p class="cta-button-wrap" style="text-align:center;margin:2rem 0;">` +
+    `<a class="cta-button" href="${href}" style="${buttonStyle}">${escapeHtml(text)}</a>` +
+    `</p>`
+  );
 }
 
 /**
@@ -189,7 +224,7 @@ function buildContentFromColumns(columns) {
     }
 
     if (type === 'ctabutton') {
-      const btn = renderCtaButton(stripCodeFences(raw));
+      const btn = renderCtaButton(stripCodeFences(raw), resolveCtaUrl(block));
       if (btn) {
         htmlParts.push(btn);
       }

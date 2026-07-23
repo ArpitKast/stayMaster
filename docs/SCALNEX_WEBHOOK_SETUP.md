@@ -53,15 +53,15 @@ Also accepted: `webhook-security-key`, `x-scalnex-secret`.
 | `_doc.primaryKeyword` + `secondaryKeywords` | `keywords` |
 | `_doc.subURL` | `external_id` (dedupe) |
 | First `image` column (lowest `sectionPriority`) | `featured_image` (downloaded to S3) |
-| `faq` columns | `qa_section` (extracted Q&A) + FAQ HTML in content |
+| `faq` columns | `qa_section` (extracted Q&A → FAQ accordion + FAQ schema) |
 
 ### Content rendering
 
 - Columns sorted by `sectionPriority` ascending
 - `image` — first image = cover; rest = inline `<img>` in content
 - `text`, `html`, `code`, `table`, `quote`, `testimonial` — HTML appended (code fences stripped)
-- `faq` — HTML appended + Q&A extracted into `qa_section`
-- `ctaButton` — rendered as CTA block in content
+- `faq` — Q&A extracted into `qa_section` (rendered as an accordion + `FAQPage` JSON-LD schema on the blog page). Raw HTML is only appended to content if no Q&A pairs are found.
+- `ctaButton` — rendered as a styled link button in content. Destination comes from a URL on the block (`url`/`href`/`link`/`ctaUrl`/…), else `SCALNEX_CTA_DEFAULT_URL`, else `/stay-all`.
 
 ## Setup
 
